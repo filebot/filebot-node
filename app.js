@@ -4,7 +4,7 @@ var http = require('http')
 var url = require('url')
 var querystring = require('querystring')
 var child_process = require('child_process')
-fs = require('fs')
+var fs = require('fs')
 
 // CONFIGURATION AND GLOBAL VARIABLES
 
@@ -74,6 +74,16 @@ function spawnChildProcess(command, arguments) {
 
 // ROUTES
 
+
+function version(requestParameters) {
+    var process = child_process.spawnSync(getCommand(), ['-version'])
+    if (process.status == 0) {
+        return process.stdout.toString('UTF-8').trim()
+    } else {
+        throw new Error('Failed to call ' + getCommand())
+    }
+}
+
 function execute(requestParameters) {
     var options = querystring.parse(requestParameters.query)
     var pd = spawnChildProcess(getCommand(), getCommandArguments(options))
@@ -116,6 +126,10 @@ function handleRequest(requestParameters) {
         return getLogContent(requestPath.match(/\/logs\/(\w+)/)[1])
     }
 
+    if ('/version' == requestPath) {
+        return version(requestParameters)
+    }
+
     return null
 }
 
@@ -150,4 +164,4 @@ http.createServer(function (req, res) {
 }).listen(PORT, HOST);
 
 
-console.log('FileBot Node Server running at http://' + HOST + ':' + PORT + '/version');
+console.log('FileBot Node Server running at http://' + HOST + ':' + PORT + '/');
