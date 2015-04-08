@@ -8,29 +8,50 @@ fs = require('fs')
 
 var PORT = 5452
 
-var runningProcesses = {}
+var runningProcesses = []
 
 function getLogFile(n) {
     return './log/' + n + '.log'
 }
 
-function spawnChildProcess(options) {
-    var t_start = Date.now()
-    var logFileName = getLogFile(t_start)
+function getCommand() {
+    return 'filebot'
+}
 
-    var process = child_process.spawn('filebot',
-        ['-script', 'dev:sysenv', '--output', options.output],
-        {stdio: ['ignore', fs.openSync(logFileName, 'a'), fs.openSync(logFileName, 'a')]}
+function getCommandArguments(options) {
+    var args = ['-script', 'dev:sysenv'] // TEST
+
+    var keys = Object.keys(options)
+    for (var i = 0, length = keys.length; i < length; i++) {
+        var k = keys[i]
+        args.push(k)
+        args.push(options[k])
+    }
+
+
+    return args
+}
+
+function spawnChildProcess(command, arguments) {
+    var id = Date.now()
+    var pd = {pid: null, t: id, log: getLogFile(id), exitCode: null, duration: null, command: command, arguments: arguments}
+
+    var process = child_process.spawn(
+        command,
+        arguments,
+        {stdio: ['ignore', fs.openSync(pd.log, 'a'), fs.openSync(pd.log, 'a')]}
     )
+    pd.pid = process.pid
 
-    runningProcesses[t_start] = {pid: process.pid, t: t_start, log: logFileName, exitCode: null, options: options}
-
+    console.log('Task started: ' + JSON.stringify(pd))
     process.on('close', function (code) {
-        runningProcesses[t_start].pid = null
-        runningProcesses[t_start].exitCode = code
+        pd.pid = null
+        pd.exitCode = code
+        pd.duration = Date.now() - pd.t
+        console.log('Task complete: ' + JSON.stringify(pd))
     })
 
-    return t_start
+    return pd
 }
 
 http.createServer(function (req, res) {
@@ -38,9 +59,9 @@ http.createServer(function (req, res) {
 
     if ('/filebot/execute' == requestParameters.pathname) {
         var options = querystring.parse(requestParameters.query)
-        spawnChildProcess(options)
+        var pd = spawnChildProcess(getCommand(), getCommandArguments(options))
 
-        var result = {status: 'OK', runningProcesses: runningProcesses}
+        var result = {status: 'OK', process: pd}
 
         res.writeHead(200, {'Content-Type': 'text/json'});
         res.end(JSON.stringify(result))
