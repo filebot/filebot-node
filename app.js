@@ -128,6 +128,7 @@ function handleRequest(request, response) {
         var id = requestPath.match(logPathPattern)[1]
         var readStream = fs.createReadStream(getLogFile(id))
         readStream.on('open', function () {
+            response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'})
             readStream.pipe(response)
         })
         readStream.on('error', function (error) {
