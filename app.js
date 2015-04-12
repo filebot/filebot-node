@@ -5,6 +5,7 @@ var url = require('url')
 var querystring = require('querystring')
 var child_process = require('child_process')
 var fs = require('fs')
+var path = require('path')
 
 // CONFIGURATION AND GLOBAL VARIABLES
 
@@ -19,7 +20,7 @@ var LOG_FOLDER = './log'
 
 
 function getLogFile(id) {
-    return LOG_FOLDER + '/' + id + '.log'
+    return path.join(LOG_FOLDER, id + '.log')
 }
 
 function getCommand() {
@@ -35,7 +36,6 @@ function getCommandArguments(options) {
         args.push(k)
         args.push(options[k])
     }
-
 
     return args
 }
@@ -103,11 +103,8 @@ function listLogs(requestParameters) {
     })
 }
 
-function getLogContent(id) {
-    return fs.readFileSync(getLogFile(id), 'UTF-8')
-}
-
-function handleRequest(requestParameters) {
+function handleRequest(request, response) {
+    var requestParameters = url.parse(request.url)
     var requestPath = requestParameters.pathname
 
     if ('/execute' == requestPath) {
@@ -122,15 +119,25 @@ function handleRequest(requestParameters) {
         return listLogs(requestParameters)
     }
 
-    if (/\/logs\/\w+/.test(requestPath)) {
-        return getLogContent(requestPath.match(/\/logs\/(\w+)/)[1])
-    }
-
     if ('/version' == requestPath) {
         return version(requestParameters)
     }
 
-    return null
+    var logPathPattern = /^\/logs\/(\d+)$/
+    if (logPathPattern.test(requestPath)) {
+        var id = requestPath.match(logPathPattern)[1]
+        var readStream = fs.createReadStream(getLogFile(id))
+        readStream.on('open', function () {
+            readStream.pipe(response)
+        })
+        readStream.on('error', function (error) {
+            response.writeHead(404, {'Content-Type': 'text/json'})
+            response.end(JSON.stringify(error))
+        })
+        return true
+    }
+
+    return false
 }
 
 
@@ -140,17 +147,21 @@ function handleRequest(requestParameters) {
 process.title = 'filebot-nos'
 
 
-http.createServer(function (req, res) {
-    var requestParameters = url.parse(req.url)
+http.createServer(function (request, response) {
     var result = null
     var status = 200
 
     try {
         // try to process request
-        result = handleRequest(requestParameters)
+        result = handleRequest(request, response)
+
+        // check if response has already been taken care of
+        if (result === true) {
+            return;
+        }
 
         // or report failure otherwise
-        if (result == null) {
+        if (result === false) {
             result = {status: 'ERROR', error: 'ILLEGAL REQUEST'}
             status = 400
         }
@@ -159,8 +170,8 @@ http.createServer(function (req, res) {
         status = 500
     }
 
-    res.writeHead(status, {'Content-Type': 'text/json'})
-    res.end(JSON.stringify(result))
+    response.writeHead(status, {'Content-Type': 'text/json'})
+    response.end(JSON.stringify(result))
 }).listen(PORT, HOST);
 
 
