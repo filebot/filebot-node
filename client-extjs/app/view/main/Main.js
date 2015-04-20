@@ -9,11 +9,12 @@ Ext.define('FileBot.view.main.Main', {
     extend: 'Ext.container.Container',
     requires: [
         'FileBot.view.main.MainController',
-        'FileBot.view.main.MainModel'
+        'FileBot.view.main.MainModel',
+        'FileBot.view.task.Task'
     ],
 
     xtype: 'app-main',
-    
+
     controller: 'main',
     viewModel: {
         type: 'main'
@@ -25,32 +26,19 @@ Ext.define('FileBot.view.main.Main', {
 
     items: [
         {
-            region: 'north',
-            xtype: 'component',
-            cls: 'appBanner',
-            padding: 10,
-            height: 40,
-            html: 'My Company - My Company Motto'
-        },
-        {
-        xtype: 'panel',
-        bind: {
-            title: '{name}'
-        },
-        region: 'west',
-        html: '<ul><li>This area is commonly used for navigation, for example, using a "tree" component.</li></ul>',
-        width: 250,
-        split: true,
-        tbar: [{
-            text: 'Button',
-            handler: 'onClickButton'
+            region: 'center',
+            xtype: 'tabpanel',
+            items: [{
+                title: 'Tasks',
+                xtype: 'section-task'
+            },
+            {
+                title: 'Logs',
+                html: '<h2>Content appropriate for the current navigation.</h2>'
+            },
+            {
+                title: 'Settings',
+                html: '<h2>Content appropriate for the current navigation.</h2>'
+            }]
         }]
-    },{
-        region: 'center',
-        xtype: 'tabpanel',
-        items:[{
-            title: 'Tab 1',
-            html: '<h2>Content appropriate for the current navigation.</h2>'
-        }]
-    }]
 });
