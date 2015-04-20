@@ -1,4 +1,14 @@
+// CONFIGURATION AND GLOBAL VARIABLES
+
+var PORT = 5452
+var HOST = '127.0.0.1'
+
+var ACTIVE_TASKS = []
+var LOG_FOLDER = './log'
+
+
 // INCLUDES
+
 
 var http = require('http')
 var url = require('url')
@@ -7,13 +17,9 @@ var child_process = require('child_process')
 var fs = require('fs')
 var path = require('path')
 
-// CONFIGURATION AND GLOBAL VARIABLES
 
-var PORT = 5452
-var HOST = '127.0.0.1'
-
-var ACTIVE_TASKS = []
-var LOG_FOLDER = './log'
+var RESPONSE_HEADERS_JSON = {'Content-Type': 'text/json', 'Access-Control-Allow-Origin': '*'}
+var RESPONSE_HEADERS_TEXT = {'Content-Type': 'text/plain; charset=utf-8', 'Access-Control-Allow-Origin': '*'}
 
 
 // HELPER FUNCTIONS
@@ -128,11 +134,11 @@ function handleRequest(request, response) {
         var id = requestPath.match(logPathPattern)[1]
         var readStream = fs.createReadStream(getLogFile(id))
         readStream.on('open', function () {
-            response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'})
+            response.writeHead(200, RESPONSE_HEADERS_TEXT)
             readStream.pipe(response)
         })
         readStream.on('error', function (error) {
-            response.writeHead(404, {'Content-Type': 'text/json'})
+            response.writeHead(404, RESPONSE_HEADERS_JSON)
             response.end(JSON.stringify(error))
         })
         return true
@@ -149,6 +155,10 @@ process.title = 'filebot-nos'
 
 
 http.createServer(function (request, response) {
+    console.log('-----------------------------')
+    console.log(request.method)
+    console.log(request.url)
+
     var result = null
     var status = 200
 
@@ -163,16 +173,16 @@ http.createServer(function (request, response) {
 
         // or report failure otherwise
         if (result === false) {
-            result = {status: 'ERROR', error: 'ILLEGAL REQUEST'}
+            result = {success: false, error: 'ILLEGAL REQUEST'}
             status = 400
         }
     } catch (error) {
-        result = {status: 'ERROR', error: error.toString()}
+        result = {success: false, error: error.toString()}
         status = 500
     }
 
-    response.writeHead(status, {'Content-Type': 'text/json'})
-    response.end(JSON.stringify(result))
+    response.writeHead(status, RESPONSE_HEADERS_JSON)
+    response.end(JSON.stringify({success: true, data: result}))
 }).listen(PORT, HOST);
 
 

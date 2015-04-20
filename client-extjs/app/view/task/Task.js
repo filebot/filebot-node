@@ -35,13 +35,15 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Input Folder',
                 name: 'input',
                 emptyText: '/path/to/input',
-                allowBlank: false
+                allowBlank: false,
+                value: '/Users/reinhard/Test/AMC-TEST'
             }, {
                 xtype: 'textfield',
                 fieldLabel: 'Output Folder',
                 name: 'output',
                 emptyText: '/path/to/output',
-                allowBlank: false
+                allowBlank: false,
+                value: '/Users/reinhard/Test/OUTPUT'
             }, {
                 xtype: 'checkboxfield',
                 name: 'strict',
@@ -49,9 +51,8 @@ Ext.define('FileBot.view.task.Task', {
                 boxLabel: 'enabled'
             }, {
                 xtype: 'combobox',
-                reference: 'states',
-                publishes: 'value',
                 fieldLabel: 'Rename Action',
+                name: 'action',
                 displayField: 'action',
                 store: {
                     type: 'rename-actions'

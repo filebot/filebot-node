@@ -16,13 +16,17 @@ Ext.define('FileBot.view.task.TaskController', {
         if (true || form.isValid()) {
             // submit the Ajax request and handle the response
             form.submit({
-                success: function(form, action) {
-                    Ext.Msg.alert('Success', action.result.message);
-                },
+                method: 'GET',
+                params: form.getValues(),
+                url: location.protocol+'//'+location.hostname+':5452/execute',
+                cors: true,
 
-                // If you don't pass success:true, it will always go here
+                success: function(form, action) {
+                    console.log(action.result)
+                    Ext.Msg.alert('Success', JSON.stringify(action.result));
+                },
                 failure: function(form, action) {
-                    Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+                    Ext.Msg.alert('Failed', JSON.stringify(action.result));
                 }
             });
         }

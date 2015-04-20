@@ -13,6 +13,7 @@ Ext.define('FileBot.Application', {
     ],
     
     launch: function () {
-        // TODO - Launch the application
+        // disable X-Requested-With headers that are added by default
+        Ext.Ajax.setUseDefaultXhrHeader(false);
     }
-});
+})
