@@ -75,7 +75,7 @@ Ext.define('FileBot.view.task.Task', {
                 store: {
                     type: 'rename-actions'
                 },
-                value: 'Duplicate',
+                value: 'Test',
                 queryMode: 'local',
                 editable: false,
                 forceSelection: true,

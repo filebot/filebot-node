@@ -1,15 +1,19 @@
 Ext.define('FileBot.Node', {
     singleton: true,
 
-    getServerOrigin: function (path) {
-        return location.protocol + '//' + location.hostname + ':5452' + path
+    protocol: 'http',
+    hostname: location.hostname,
+    port: 5452,
+
+    getServerEndpoint: function (path) {
+        return this.protocol + '://' + this.hostname + ':' + this.port + path
     },
 
     requestExecute: function (parameters) {
         // submit the Ajax request and handle the response
         Ext.Ajax.request({
             method: 'GET',
-            url: this.getServerOrigin('/execute'),
+            url: this.getServerEndpoint('/execute'),
             params: parameters,
             cors: true,
 

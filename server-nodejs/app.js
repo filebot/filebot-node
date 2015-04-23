@@ -42,8 +42,11 @@ function getCommandArguments(options) {
         args.push('--output')
         args.push(options.output)
         args.push('--action')
-        args.push('TEST')
+        args.push(options.action)
         if (options.strict == 'on') args.push('-non-strict')
+        args.push('--def')
+        args.push('ut_label')
+        args.push(options.label)
     } else {
         throw new Error('Illegal options: ' + JSON.stringify(options))
     }
