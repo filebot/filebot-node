@@ -31,12 +31,30 @@ Ext.define('FileBot.view.task.Task', {
             title: 'Basic Options',
 
             items: [{
+                xtype: 'hidden',
+                name: 'fn',
+                value: 'amc',
+                hidden: true
+            }, {
                 xtype: 'textfield',
                 fieldLabel: 'Input Folder',
                 name: 'input',
                 emptyText: '/path/to/input',
                 allowBlank: false,
                 value: '/Users/reinhard/Test/AMC-TEST'
+            }, {
+                xtype: 'combobox',
+                fieldLabel: 'Input Type',
+                name: 'label',
+                displayField: 'label',
+                store: {
+                    type: 'media-labels'
+                },
+                value: 'Automatic',
+                queryMode: 'local',
+                editable: false,
+                forceSelection: true,
+                allowBlank: false
             }, {
                 xtype: 'textfield',
                 fieldLabel: 'Output Folder',
@@ -57,7 +75,7 @@ Ext.define('FileBot.view.task.Task', {
                 store: {
                     type: 'rename-actions'
                 },
-                value: 'DUPLICATE',
+                value: 'Duplicate',
                 queryMode: 'local',
                 editable: false,
                 forceSelection: true,

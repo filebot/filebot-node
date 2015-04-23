@@ -3,17 +3,19 @@ Ext.define('FileBot.store.RenameActions', {
 
     alias: 'store.rename-actions',
 
-    model: 'FileBot.model.RenameAction',
-
     storeId: 'rename-actions',
 
+    fields: [
+        'action'
+    ],
+
     data: [
-        [0, 'MOVE'],
-        [1, 'COPY'],
-        [2, 'HARDLINK'],
-        [3, 'SYMLINK'],
-        [4, 'KEEPLINK'],
-        [5, 'DUPLICATE'],
-        [6, 'TEST']
+        ['Move'],
+        ['Copy'],
+        ['Hardlink'],
+        ['Symlink'],
+        ['Keeplink'],
+        ['Duplicate'],
+        ['Test']
     ]
 });

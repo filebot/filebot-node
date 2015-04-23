@@ -12,8 +12,9 @@ Ext.define('FileBot.Application', {
         // TODO: add global / shared stores here
     ],
     
-    launch: function () {
+    launch: function() {
         // disable X-Requested-With headers that are added by default
         Ext.Ajax.setUseDefaultXhrHeader(false);
     }
+
 })

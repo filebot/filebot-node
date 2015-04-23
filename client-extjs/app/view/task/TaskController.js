@@ -7,28 +7,15 @@
  */
 Ext.define('FileBot.view.task.TaskController', {
     extend: 'Ext.app.ViewController',
+    requires: ['FileBot.Node'],
 
     alias: 'controller.task',
 
     onExecute: function () {
         var form = this.getView().down('form').getForm()
 
-        if (true || form.isValid()) {
-            // submit the Ajax request and handle the response
-            form.submit({
-                method: 'GET',
-                params: form.getValues(),
-                url: location.protocol+'//'+location.hostname+':5452/execute',
-                cors: true,
-
-                success: function(form, action) {
-                    console.log(action.result)
-                    Ext.Msg.alert('Success', JSON.stringify(action.result));
-                },
-                failure: function(form, action) {
-                    Ext.Msg.alert('Failed', JSON.stringify(action.result));
-                }
-            });
+        if (true || form.isValid()) { // DEBUG = true
+            FileBot.Node.requestExecute(form.getValues())
         }
     }
 

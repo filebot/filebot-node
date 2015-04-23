@@ -34,15 +34,19 @@ function getCommand() {
 }
 
 function getCommandArguments(options) {
-    var args = ['-script', 'dev:sysenv'] // TEST
-
-    var keys = Object.keys(options)
-    for (var i = 0, length = keys.length; i < length; i++) {
-        var k = keys[i]
-        args.push(k)
-        args.push(options[k])
+    var args = []
+    if (options.fn == 'amc') {
+        args.push('-script')
+        args.push('fn:amc')
+        args.push(options.input)
+        args.push('--output')
+        args.push(options.output)
+        args.push('--action')
+        args.push('TEST')
+        if (options.strict == 'on') args.push('-non-strict')
+    } else {
+        throw new Error('Illegal options: ' + JSON.stringify(options))
     }
-
     return args
 }
 
