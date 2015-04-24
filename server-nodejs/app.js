@@ -43,10 +43,24 @@ function getCommandArguments(options) {
         args.push(options.output)
         args.push('--action')
         args.push(options.action)
-        if (options.strict == 'on') args.push('-non-strict')
+        if (options.strict == 'on') {
+            args.push('-non-strict')
+        }
+        if (options.filter) {
+            args.push('--filter')
+            args.push(options.filter)
+        }
         args.push('--def')
-        args.push('ut_label')
-        args.push(options.label)
+        args.push('music=y')
+        args.push('artwork=y')
+        args.push('deleteAfterExtract=y')
+        args.push('unsorted=y')
+        if (options.label) args.push('ut_label='+options.label)
+        if (options.clean == 'on') args.push('clean=y')
+        if (options.seriesFormat) args.push('seriesFormat='+options.seriesFormat)
+        if (options.animeFormat) args.push('animeFormat='+options.animeFormat)
+        if (options.movieFormat) args.push('movieFormat='+options.movieFormat)
+        if (options.musicFormat) args.push('musicFormat='+options.musicFormat)
     } else {
         throw new Error('Illegal options: ' + JSON.stringify(options))
     }

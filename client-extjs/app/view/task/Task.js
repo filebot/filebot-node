@@ -20,16 +20,30 @@ Ext.define('FileBot.view.task.Task', {
         type: 'task'
     },
 
-    layout: 'vbox',
+    defaults: {
+        split: true,
+        bodyPadding: 10,
+        scrollable: true
+    },
+
+    layout: 'border',
+    bodyBorder: true,
 
     items: [{
+        region: 'center',
+        collapsible: false,
         xtype: 'form',
         title: 'Organize Files',
+        headerPosition: 'left',
         bodyPadding: 20,
+        frame: true,
         items: [{
             xtype: 'fieldset',
+            collapsible: false,
             title: 'Basic Options',
-
+            defaults: {
+                anchor: '100%',
+            },
             items: [{
                 xtype: 'hidden',
                 name: 'fn',
@@ -52,16 +66,9 @@ Ext.define('FileBot.view.task.Task', {
                 },
                 value: 'Automatic',
                 queryMode: 'local',
-                editable: false,
                 forceSelection: true,
+                editable: false,
                 allowBlank: false
-            }, {
-                xtype: 'textfield',
-                fieldLabel: 'Output Folder',
-                name: 'output',
-                emptyText: '/path/to/output',
-                allowBlank: false,
-                value: '/Users/reinhard/Test/OUTPUT'
             }, {
                 xtype: 'checkboxfield',
                 name: 'strict',
@@ -77,9 +84,54 @@ Ext.define('FileBot.view.task.Task', {
                 },
                 value: 'Test',
                 queryMode: 'local',
-                editable: false,
                 forceSelection: true,
+                editable: false,
                 allowBlank: false
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Output Folder',
+                name: 'output',
+                emptyText: '/path/to/output',
+                allowBlank: false,
+                value: '/Users/reinhard/Test/OUTPUT'
+            }]
+        }, {
+            xtype: 'fieldset',
+            collapsible: true,
+            title: 'Advanced Options',
+            defaults: {
+                anchor: '100%',
+            },
+            items: [{
+                xtype: 'textfield',
+                fieldLabel: 'Filter',
+                name: 'filter',
+                emptyText: 'age < 7'
+            }, {
+                xtype: 'checkboxfield',
+                name: 'clean',
+                fieldLabel: 'Clean',
+                boxLabel: 'empty folders and clutter files'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Movie Format',
+                name: 'movieFormat',
+                emptyText: 'Movies/{n} {y}/{fn}'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Series Format',
+                name: 'seriesFormat',
+                emptyText: 'TV/{n}/{\'S\'+s}/{fn}'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Anime Format',
+                name: 'animeFormat',
+                emptyText: 'Anime/{n}/{fn}'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Music Format',
+                name: 'musicFormat',
+                emptyText: 'Music/{n}/{fn}'
             }]
         }],
 
