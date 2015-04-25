@@ -10,6 +10,7 @@ Ext.define('FileBot.view.main.Main', {
     requires: [
         'FileBot.view.main.MainController',
         'FileBot.view.main.MainModel',
+        'FileBot.view.main.NavigationTabs',
         'FileBot.view.task.Task'
     ],
 
@@ -27,7 +28,7 @@ Ext.define('FileBot.view.main.Main', {
     items: [
         {
             region: 'center',
-            xtype: 'tabpanel',
+            xtype: 'navigation-tabs',
             items: [{
                 title: 'Tasks',
                 xtype: 'section-task'

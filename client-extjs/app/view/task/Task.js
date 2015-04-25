@@ -10,7 +10,8 @@ Ext.define('FileBot.view.task.Task', {
     requires: [
         'FileBot.view.task.TaskController',
         'FileBot.view.task.TaskModel',
-        'FileBot.store.RenameActions'
+        'FileBot.store.RenameActions',
+        'FileBot.store.MediaLabels'
     ],
 
     xtype: 'section-task',
