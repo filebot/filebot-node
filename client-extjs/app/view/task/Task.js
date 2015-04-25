@@ -42,7 +42,7 @@ Ext.define('FileBot.view.task.Task', {
             collapsible: false,
             title: 'Basic Options',
             defaults: {
-                anchor: '100%',
+                anchor: '100%'
             },
             items: [{
                 xtype: 'hidden',
@@ -82,7 +82,7 @@ Ext.define('FileBot.view.task.Task', {
                 store: {
                     type: 'rename-actions'
                 },
-                value: 'Test',
+                value: 'Duplicate',
                 queryMode: 'local',
                 forceSelection: true,
                 editable: false,
@@ -100,7 +100,7 @@ Ext.define('FileBot.view.task.Task', {
             collapsible: true,
             title: 'Advanced Options',
             defaults: {
-                anchor: '100%',
+                anchor: '100%'
             },
             items: [{
                 xtype: 'textfield',
@@ -136,9 +136,14 @@ Ext.define('FileBot.view.task.Task', {
         }],
 
         buttons: [{
+            text: 'Test',
+            formBind: true,
+            listeners: {
+                click: 'onTest'
+            }
+        }, {
             text: 'Execute',
-            formBind: false,
-            disabled: false,
+            formBind: true,
             listeners: {
                 click: 'onExecute'
             }

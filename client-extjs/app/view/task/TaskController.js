@@ -12,11 +12,28 @@ Ext.define('FileBot.view.task.TaskController', {
     alias: 'controller.task',
 
     onExecute: function () {
-        var form = this.getView().down('form').getForm()
+        var form = this.getForm()
+        var parameters = form.getValues()
 
-        if (true || form.isValid()) { // DEBUG = true
-            FileBot.Node.requestExecute(form.getValues())
+        if (form.isValid()) {
+            FileBot.Node.requestExecute(parameters)
         }
+    },
+
+    onTest: function () {
+        var form = this.getForm()
+        var parameters = form.getValues()
+
+        // force --action test
+        parameters.action = 'TEST'
+
+        if (form.isValid()) {
+            FileBot.Node.requestExecute(parameters)
+        }
+    },
+
+    getForm: function () {
+        return this.getView().down('form').getForm()
     }
 
 });

@@ -51,16 +51,16 @@ function getCommandArguments(options) {
             args.push(options.filter)
         }
         args.push('--def')
+        if (options.label) args.push('ut_label=' + options.label)
         args.push('music=y')
         args.push('artwork=y')
         args.push('deleteAfterExtract=y')
         args.push('unsorted=y')
-        if (options.label) args.push('ut_label='+options.label)
         if (options.clean == 'on') args.push('clean=y')
-        if (options.seriesFormat) args.push('seriesFormat='+options.seriesFormat)
-        if (options.animeFormat) args.push('animeFormat='+options.animeFormat)
-        if (options.movieFormat) args.push('movieFormat='+options.movieFormat)
-        if (options.musicFormat) args.push('musicFormat='+options.musicFormat)
+        if (options.seriesFormat) args.push('seriesFormat=' + options.seriesFormat)
+        if (options.animeFormat) args.push('animeFormat=' + options.animeFormat)
+        if (options.movieFormat) args.push('movieFormat=' + options.movieFormat)
+        if (options.musicFormat) args.push('musicFormat=' + options.musicFormat)
     } else {
         throw new Error('Illegal options: ' + JSON.stringify(options))
     }
@@ -76,8 +76,7 @@ function spawnChildProcess(command, arguments) {
         t: id,
         exitCode: null,
         duration: null,
-        command: command,
-        arguments: arguments
+        command: [command].concat(arguments)
     }
 
     var process = child_process.spawn(

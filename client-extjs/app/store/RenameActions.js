@@ -15,7 +15,6 @@ Ext.define('FileBot.store.RenameActions', {
         ['Hardlink'],
         ['Symlink'],
         ['Keeplink'],
-        ['Duplicate'],
-        ['Test']
+        ['Duplicate']
     ]
 });
