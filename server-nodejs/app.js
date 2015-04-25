@@ -1,7 +1,8 @@
 // CONFIGURATION AND GLOBAL VARIABLES
 
-var PORT = 5452
-var HOST = '127.0.0.1'
+var PORT = process.env['FILEBOT_NODE_PORT']
+var HOST = process.env['FILEBOT_NODE_HOST']
+var AUTH = process.env['FILEBOT_NODE_AUTH']
 
 var ACTIVE_TASKS = []
 var LOG_FOLDER = './log'
@@ -74,10 +75,12 @@ function spawnChildProcess(command, arguments) {
     var pd = {
         pid: null,
         t: id,
-        exitCode: null,
-        duration: null,
-        command: [command].concat(arguments)
+        status: null,
+        duration: null
     }
+
+    // each log contains the original command (as JSON) in the first line
+    fs.writeFileSync(logFile, JSON.stringify({'command': command, 'args': arguments, 't': pd.t}) + '\n')
 
     var process = child_process.spawn(
         command,
@@ -86,10 +89,9 @@ function spawnChildProcess(command, arguments) {
     )
     pd.pid = process.pid
 
-    console.log('Task started: ' + JSON.stringify(pd))
     process.on('close', function (code) {
         pd.pid = null
-        pd.exitCode = code
+        pd.status = code
         pd.duration = Date.now() - pd.t
         console.log('Task complete: ' + JSON.stringify(pd))
     })
