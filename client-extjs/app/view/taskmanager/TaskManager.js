@@ -5,7 +5,8 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
     extend: 'Ext.grid.Panel',
     requires: [
         'FileBot.view.taskmanager.TaskManagerController',
-        'FileBot.view.taskmanager.TaskManagerModel'
+        'FileBot.view.taskmanager.TaskManagerModel',
+        'FileBot.Node'
     ],
     viewModel: {
         type: 'taskmanager'
@@ -38,8 +39,10 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
                 return 'Running'
             if (val == '0')
                 return 'Complete'
+            if (val == '137')
+                return 'Cancelled'
             else
-                return 'Failure (' + val + ')'
+                return 'Failure'
         }
     }, {
         menuDisabled: true,
@@ -62,20 +65,18 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
                 if (val == '')
                     return 'Cancel'
                 if (val == '0')
-                    return 'Complete'
+                    return 'Success'
+                if (val == '137')
+                    return 'Cancelled'
                 else
-                    return 'Failure (' + val + ')'
+                    return 'Error (' + val + ')'
             },
             handler: function(grid, rowIndex, colIndex) {
                 var rec = grid.getStore().getAt(rowIndex)
                 var val = rec.get('status')
-                console.log(val)
-                if (val == '')
-                    return Ext.Msg.alert('A', 'Cancel ' + rec.get('id'));
-                if (val == '0')
-                    return Ext.Msg.alert('A', 'Done ' + val);
-                else
-                    return Ext.Msg.alert('A', 'Cancel ' + val);
+                if (val == '') {
+                    FileBot.Node.requestKill({id: rec.get('id')})
+                }
             }
         }]
     }],

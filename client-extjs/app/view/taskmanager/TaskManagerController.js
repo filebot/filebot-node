@@ -4,8 +4,8 @@
 Ext.define('FileBot.view.taskmanager.TaskManagerController', {
     extend: 'Ext.app.ViewController',
     requires: [
-        'Ext.util.TaskManager',
-        'FileBot.view.taskmanager.TaskManagerModel'
+        'FileBot.view.taskmanager.TaskManagerModel',
+        'Ext.util.TaskManager'
     ],
     alias: 'controller.taskmanager',
 

@@ -4,7 +4,8 @@ var PORT = process.env['FILEBOT_NODE_PORT']
 var HOST = process.env['FILEBOT_NODE_HOST']
 var AUTH = process.env['FILEBOT_NODE_AUTH']
 
-var ACTIVE_TASKS = []
+var TASKS = []
+var ACTIVE_PROCESSES = {}
 var LOG_FOLDER = './log'
 
 
@@ -21,6 +22,7 @@ var path = require('path')
 
 var RESPONSE_HEADERS_JSON = {'Content-Type': 'text/json', 'Access-Control-Allow-Origin': '*'}
 var RESPONSE_HEADERS_TEXT = {'Content-Type': 'text/plain; charset=utf-8', 'Access-Control-Allow-Origin': '*'}
+var SIGKILL_EXIT_CODE = 137
 
 
 // HELPER FUNCTIONS
@@ -74,7 +76,6 @@ function spawnChildProcess(command, arguments) {
 
     var pd = {
         id: id,
-        pid: null,
         status: null
     }
 
@@ -86,11 +87,16 @@ function spawnChildProcess(command, arguments) {
         arguments,
         {stdio: ['ignore', fs.openSync(logFile, 'a'), fs.openSync(logFile, 'a')]}
     )
-    pd.pid = process.pid
+
+    ACTIVE_PROCESSES[id] = process
+    TASKS.push(pd)
 
     process.on('close', function (code) {
-        pd.pid = null
-        pd.status = code
+        // remove process object reference
+        delete ACTIVE_PROCESSES[id]
+
+        // store exit code
+        pd.status = code != null ? code : SIGKILL_EXIT_CODE
         console.log('Task complete: ' + JSON.stringify(pd))
     })
 
@@ -101,7 +107,7 @@ function spawnChildProcess(command, arguments) {
 // ROUTES
 
 
-function version(requestParameters) {
+function version() {
     var process = child_process.spawnSync(getCommand(), ['-version'])
     if (process.status == 0) {
         return process.stdout.toString('UTF-8').trim()
@@ -110,20 +116,31 @@ function version(requestParameters) {
     }
 }
 
-function execute(requestParameters) {
-    var options = querystring.parse(requestParameters.query)
+function execute(options) {
     var pd = spawnChildProcess(getCommand(), getCommandArguments(options))
-
-    ACTIVE_TASKS.push(pd)
-
     return pd
 }
 
-function listTasks(requestParameters) {
-    return ACTIVE_TASKS
+function kill(options) {
+    var id = options.id
+    var process = ACTIVE_PROCESSES[id]
+    console.log(id)
+    console.log(process)
+    if (process) {
+        // remove process object reference
+        delete ACTIVE_PROCESSES[id]
+        process.kill()
+        return {id: id, status: SIGKILL_EXIT_CODE}
+    } else {
+        throw new Error('No such process')
+    }
 }
 
-function listLogs(requestParameters) {
+function listTasks() {
+    return TASKS
+}
+
+function listLogs() {
     return fs.readdirSync(LOG_FOLDER).map(function (s) {
         return s.substr(0, s.lastIndexOf('.'))
     })
@@ -133,35 +150,40 @@ function handleRequest(request, response) {
     var requestParameters = url.parse(request.url)
     var requestPath = requestParameters.pathname
 
-    if ('/execute' == requestPath) {
-        return execute(requestParameters)
-    }
-
     if ('/tasks' == requestPath) {
-        return listTasks(requestParameters)
+        return listTasks()
     }
 
     if ('/logs' == requestPath) {
-        return listLogs(requestParameters)
+        return listLogs()
+    }
+
+    if ('/execute' == requestPath) {
+        return execute(querystring.parse(requestParameters.query))
+    }
+
+    if ('/kill' == requestPath) {
+        return kill(querystring.parse(requestParameters.query))
     }
 
     if ('/version' == requestPath) {
-        return version(requestParameters)
+        return version()
     }
 
-    var logPathPattern = /^\/logs\/(\d+)$/
-    if (logPathPattern.test(requestPath)) {
-        var id = requestPath.match(logPathPattern)[1]
-        var readStream = fs.createReadStream(getLogFile(id))
-        readStream.on('open', function () {
-            response.writeHead(200, RESPONSE_HEADERS_TEXT)
-            readStream.pipe(response)
-        })
-        readStream.on('error', function (error) {
-            response.writeHead(404, RESPONSE_HEADERS_JSON)
-            response.end(JSON.stringify(error))
-        })
-        return true
+    if ('/log' == requestPath) {
+        var id = requestParameters.id
+        if (id > 0) {
+            var readStream = fs.createReadStream(getLogFile(id))
+            readStream.on('open', function () {
+                response.writeHead(200, RESPONSE_HEADERS_TEXT)
+                readStream.pipe(response)
+            })
+            readStream.on('error', function (error) {
+                response.writeHead(404, RESPONSE_HEADERS_JSON)
+                response.end(JSON.stringify(error))
+            })
+            return true
+        }
     }
 
     return false
@@ -179,6 +201,7 @@ http.createServer(function (request, response) {
     console.log(request.method)
     console.log(request.url)
 
+    var success = true
     var result = null
     var status = 200
 
@@ -193,16 +216,18 @@ http.createServer(function (request, response) {
 
         // or report failure otherwise
         if (result === false) {
-            result = {success: false, error: 'ILLEGAL REQUEST'}
+            success = false
+            result = {error: 'ILLEGAL REQUEST'}
             status = 400
         }
     } catch (error) {
-        result = {success: false, error: error.toString()}
+        success = false
+        result = {error: error.toString()}
         status = 500
     }
 
     response.writeHead(status, RESPONSE_HEADERS_JSON)
-    response.end(JSON.stringify({success: true, data: result}))
+    response.end(JSON.stringify({'success': success, 'data': result}))
 }).listen(PORT, HOST);
 
 
