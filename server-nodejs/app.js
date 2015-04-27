@@ -73,14 +73,13 @@ function spawnChildProcess(command, arguments) {
     var logFile = getLogFile(id)
 
     var pd = {
+        id: id,
         pid: null,
-        t: id,
-        status: null,
-        duration: null
+        status: null
     }
 
     // each log contains the original command (as JSON) in the first line
-    fs.writeFileSync(logFile, JSON.stringify({'command': command, 'args': arguments, 't': pd.t}) + '\n')
+    fs.writeFileSync(logFile, JSON.stringify({'command': command, 'args': arguments, 't': pd.id}) + '\n')
 
     var process = child_process.spawn(
         command,
@@ -92,7 +91,6 @@ function spawnChildProcess(command, arguments) {
     process.on('close', function (code) {
         pd.pid = null
         pd.status = code
-        pd.duration = Date.now() - pd.t
         console.log('Task complete: ' + JSON.stringify(pd))
     })
 

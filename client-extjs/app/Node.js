@@ -15,15 +15,18 @@ Ext.define('FileBot.Node', {
             method: 'GET',
             url: this.getServerEndpoint('/execute'),
             params: parameters,
+            useDefaultXhrHeader: false,
             cors: true,
 
             success: function (response) {
-                console.log(response)
-                Ext.Msg.alert('Success', response.responseText);
+                var data = Ext.JSON.decode(response.responseText).data
+                console.log(data)
+                
+                // broadcast event
+                FileBot.getApplication().fireEvent('executeTask', data)
             },
             failure: function (response) {
-                console.log(response)
-                Ext.Msg.alert('Failed', response.responseText);
+                Ext.Msg.alert('Failed', response.responseText)
             }
         });
     }

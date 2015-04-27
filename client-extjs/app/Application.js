@@ -5,14 +5,14 @@
  */
 Ext.define('FileBot.Application', {
     extend: 'Ext.app.Application',
-    
+
     name: 'FileBot',
 
     stores: [
-        // TODO: add global / shared stores here
+
     ],
     views: [
-        'FileBot.view.main.Main'
+
     ],
 
     launch: function() {

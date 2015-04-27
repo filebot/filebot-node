@@ -96,5 +96,9 @@ build/Release
 node_modules
 
 # More Excludes
-.idea
+*.sublime*
+.idea/
+.sencha/
+overrides/
+packages/
 log/

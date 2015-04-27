@@ -10,7 +10,7 @@ Ext.define('FileBot.view.main.Main', {
     requires: [
         'FileBot.view.main.MainController',
         'FileBot.view.main.MainModel',
-        'FileBot.view.main.NavigationTabs',
+        'FileBot.view.navigation.Navigation',
         'FileBot.view.task.Task'
     ],
 
@@ -35,11 +35,11 @@ Ext.define('FileBot.view.main.Main', {
             },
             {
                 title: 'Logs',
-                html: '<h2>Content appropriate for the current navigation.</h2>'
+                html: '<h2>TODO</h2>'
             },
             {
                 title: 'Settings',
-                html: '<h2>Content appropriate for the current navigation.</h2>'
+                html: '<h2>TODO</h2>'
             }]
         }]
 });

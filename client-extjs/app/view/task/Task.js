@@ -10,6 +10,7 @@ Ext.define('FileBot.view.task.Task', {
     requires: [
         'FileBot.view.task.TaskController',
         'FileBot.view.task.TaskModel',
+        'FileBot.view.taskmanager.TaskManager',
         'FileBot.store.RenameActions',
         'FileBot.store.MediaLabels'
     ],
@@ -23,7 +24,6 @@ Ext.define('FileBot.view.task.Task', {
 
     defaults: {
         split: true,
-        bodyPadding: 10,
         scrollable: true
     },
 
@@ -37,7 +37,6 @@ Ext.define('FileBot.view.task.Task', {
         title: 'Organize Files',
         headerPosition: 'left',
         bodyPadding: 20,
-        frame: true,
         items: [{
             xtype: 'fieldset',
             collapsible: false,
@@ -99,6 +98,8 @@ Ext.define('FileBot.view.task.Task', {
         }, {
             xtype: 'fieldset',
             collapsible: true,
+            collapsed: false,
+            
             title: 'Advanced Options',
             defaults: {
                 anchor: '100%'
@@ -149,5 +150,10 @@ Ext.define('FileBot.view.task.Task', {
                 click: 'onExecute'
             }
         }]
+    }, {
+
+        region: 'south',
+        xtype: 'taskmanager',
+        frame: true
     }]
 });
