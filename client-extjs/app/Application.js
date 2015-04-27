@@ -16,8 +16,7 @@ Ext.define('FileBot.Application', {
     ],
 
     launch: function() {
-        // disable X-Requested-With headers that are added by default
-        Ext.Ajax.setUseDefaultXhrHeader(false);
+
     }
 
 })
