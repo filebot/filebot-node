@@ -141,6 +141,8 @@
         {
             "path": "bootstrap.css",
             "bootstrap": true
+        }, {
+            "path": "resources/main.css"
         }
     ],
 

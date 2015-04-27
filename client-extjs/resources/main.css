@@ -1,0 +1,12 @@
+
+img.ok-col {
+	background-image: url('images/accept.png');
+}
+
+img.fail-col {
+	background-image: url('images/error.png');
+}
+
+img.cancel-col {
+	background-image: url('images/stop.png');
+}

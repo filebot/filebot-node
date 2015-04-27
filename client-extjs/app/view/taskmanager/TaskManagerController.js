@@ -15,12 +15,17 @@ Ext.define('FileBot.view.taskmanager.TaskManagerController', {
     init: function() {
     	var store = this.getViewModel().getStore('tasks')
     	Ext.util.TaskManager.start({
-    		run: function() {
-    			console.log('Reload Task Store')
-    			store.reload()
-    		},
-    		interval: 2000 
+    		run: this.refresh,
+    		interval: 5000,
+            scope: this
     	});
-    }
 
+        FileBot.getApplication().on('executeTask', this.refresh, this)
+    },
+
+    refresh: function() {
+        var store = this.getViewModel().getStore('tasks')
+        console.log('Reload Task Store')
+        store.reload()
+    }
 });
