@@ -149,26 +149,23 @@
     /**
      * This option is used to configure the dynamic loader. At present these options
      * are supported.
-     *
-     *      "loader": {
-     *          // This property controls how the loader manages caching for requests:
-     *          //
-     *          //   - true: allows requests to receive cached responses
-     *          //   - false: disable cached responses by adding a random "cache buster"
-     *          //   - other: a string (such as the build.timestamp shown here) to allow
-     *          //     requests to be cached for this build.
-     *          //
-     *          "cache": "${build.timestamp}",
-     *
-     *          // When "cache" is not true, this value is the request parameter used
-     *          // to control caching.
-     *          //
-     *          "cacheParam": "_dc"
-     *      },
-     *
      */
+    "loader": {
+       // This property controls how the loader manages caching for requests:
+       //
+       //   - true: allows requests to receive cached responses
+       //   - false: disable cached responses by adding a random "cache buster"
+       //   - other: a string (such as the build.timestamp shown here) to allow
+       //     requests to be cached for this build.
+       //
+       "cache": "${build.timestamp}",
 
-
+       // When "cache" is not true, this value is the request parameter used
+       // to control caching.
+       //
+       "cacheParam": "_dc"
+    },
+    
     /**
      * override objects for setting build environment specific 
      * settings.
