@@ -4,9 +4,12 @@ var PORT = process.env['FILEBOT_NODE_PORT']
 var HOST = process.env['FILEBOT_NODE_HOST']
 var AUTH = process.env['FILEBOT_NODE_AUTH']
 
-var TASKS = []
-var ACTIVE_PROCESSES = {}
 var LOG_FOLDER = './log'
+var ACTIVE_PROCESSES = {}
+var TASKS = []
+
+// update task list via If-Last-Modified
+TASKS.lastModified = Date.now()
 
 
 // INCLUDES
@@ -19,9 +22,6 @@ var child_process = require('child_process')
 var fs = require('fs')
 var path = require('path')
 
-
-var RESPONSE_HEADERS_JSON = {'Content-Type': 'text/json', 'Access-Control-Allow-Origin': '*'}
-var RESPONSE_HEADERS_TEXT = {'Content-Type': 'text/plain; charset=utf-8', 'Access-Control-Allow-Origin': '*'}
 var SIGKILL_EXIT_CODE = 137
 
 
@@ -90,14 +90,17 @@ function spawnChildProcess(command, arguments) {
 
     ACTIVE_PROCESSES[id] = process
     TASKS.push(pd)
+    TASKS.lastModified = Date.now()
 
     process.on('close', function (code) {
+        console.log('Task complete: ' + JSON.stringify(pd))
+
         // remove process object reference
         delete ACTIVE_PROCESSES[id]
 
         // store exit code
         pd.status = code != null ? code : SIGKILL_EXIT_CODE
-        console.log('Task complete: ' + JSON.stringify(pd))
+        TASKS.lastModified = Date.now()
     })
 
     return pd
@@ -136,10 +139,6 @@ function kill(options) {
     }
 }
 
-function listTasks() {
-    return TASKS
-}
-
 function listLogs() {
     return fs.readdirSync(LOG_FOLDER).map(function (s) {
         return s.substr(0, s.lastIndexOf('.'))
@@ -151,28 +150,40 @@ function handleRequest(request, response) {
     var requestPath = requestParameters.pathname
 
     if ('/tasks' == requestPath) {
-        return listTasks()
+        if (modifiedSince(request, TASKS.lastModified)) {
+            return ok(response, TASKS, TASKS.lastModified)
+        } else {
+            return notModified(response)
+        }
     }
 
     if ('/logs' == requestPath) {
-        return listLogs()
+        var data = listLogs()
+        return ok(response, data)
     }
 
     if ('/execute' == requestPath) {
-        return execute(querystring.parse(requestParameters.query))
+        var options = querystring.parse(requestParameters.query)
+        var data = execute(options)
+        return ok(response, data)
     }
 
     if ('/kill' == requestPath) {
-        return kill(querystring.parse(requestParameters.query))
+        var options = querystring.parse(requestParameters.query)
+        var data = kill(options)
+        return ok(response, data)
     }
 
     if ('/version' == requestPath) {
-        return version()
+        var data = version()
+        return ok(response, data)
     }
 
     if ('/log' == requestPath) {
-        var id = requestParameters.id
+        var options = querystring.parse(requestParameters.query)
+        var id = options.id
         if (id > 0) {
+            var RESPONSE_HEADERS_TEXT = {'Content-Type': 'text/plain; charset=utf-8', 'Access-Control-Allow-Origin': '*'}
             var readStream = fs.createReadStream(getLogFile(id))
             readStream.on('open', function () {
                 response.writeHead(200, RESPONSE_HEADERS_TEXT)
@@ -182,52 +193,66 @@ function handleRequest(request, response) {
                 response.writeHead(404, RESPONSE_HEADERS_JSON)
                 response.end(JSON.stringify(error))
             })
-            return true
+            return null
         }
     }
 
-    return false
+    throw new Error('ILLEGAL REQUEST')
+}
+
+function modifiedSince(request, lastModified) {
+    var header = request.headers['if-modified-since']
+    if (header) {
+        var lastModifiedInSeconds = Math.floor(lastModified / 1000)
+        var ifModifiedSinceInSeconds = Date.parse(header) / 1000 // UTC STRING IS ONLY IN SECONDS PRECISION !!!
+        return lastModifiedInSeconds > ifModifiedSinceInSeconds
+    }
+    return true // assume modified by default
+}
+
+function ok(response, data, lastModified) {
+    var result = {success: true, data: data}
+
+    response.statusCode = 200
+    response.setHeader('Content-Type', 'text/json')
+    response.setHeader('Access-Control-Allow-Origin', '*')
+    if (lastModified > 0) {
+        response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache')
+        response.setHeader('Last-Modified', new Date(lastModified).toUTCString())
+    }
+    response.end(JSON.stringify(result))
+}
+
+function notModified(response) {
+    response.statusCode = 304
+    response.setHeader('Access-Control-Allow-Origin', '*')
+    response.end()
+}
+
+function error(response, msg) {
+    var result = {success: false, error: msg}
+
+    response.statusCode = 500
+    response.setHeader('Content-Type', 'text/json')
+    response.setHeader('Access-Control-Allow-Origin', '*')
+    response.end(JSON.stringify(result))
 }
 
 
 // START NODE SERVER
-
-
 process.title = 'filebot-nos'
-
 
 http.createServer(function (request, response) {
     console.log('-----------------------------')
+    console.log(new Date().toString())
     console.log(request.method)
     console.log(request.url)
 
-    var success = true
-    var result = null
-    var status = 200
-
     try {
-        // try to process request
-        result = handleRequest(request, response)
-
-        // check if response has already been taken care of
-        if (result === true) {
-            return;
-        }
-
-        // or report failure otherwise
-        if (result === false) {
-            success = false
-            result = {error: 'ILLEGAL REQUEST'}
-            status = 400
-        }
-    } catch (error) {
-        success = false
-        result = {error: error.toString()}
-        status = 500
+        handleRequest(request, response)
+    } catch (e) {
+        error(response, e.toString())
     }
-
-    response.writeHead(status, RESPONSE_HEADERS_JSON)
-    response.end(JSON.stringify({'success': success, 'data': result}))
 }).listen(PORT, HOST);
 
 

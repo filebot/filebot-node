@@ -31,6 +31,8 @@ Ext.define('FileBot.view.taskmanager.TaskManagerModel', {
                 cors: true,
 
                 url: FileBot.Node.getServerEndpoint('/tasks'),
+                noCache: false,
+                
                 reader: {
                     type: 'json',
                     rootProperty: 'data'
