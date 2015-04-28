@@ -25,8 +25,7 @@ Ext.define('FileBot.view.taskmanager.TaskManagerController', {
 
     refresh: function() {
         var store = this.getViewModel().getStore('tasks')
-        console.log('Reload Task Store')
         store.reload()
     }
-    
+
 });

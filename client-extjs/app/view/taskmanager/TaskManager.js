@@ -34,7 +34,6 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
         text: 'Status',
         dataIndex: 'status',
         renderer: function(val) {
-            console.log(val)
             if (val == '')
                 return 'Running'
             if (val == '0')
