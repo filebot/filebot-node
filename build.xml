@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="filebot-node" default="package">
+    <!-- include default inputs (optional) -->
+    <property file="profile.properties" />
+
+    <!-- include application properties -->
+    <property name="title" value="FileBot Node" />
+    <property name="version" value="0.1" />
+
+    <tstamp>
+        <format property="today" pattern="yyyy-MM-dd" />
+    </tstamp>
+
+    <!-- define source dirs -->
+    <property name="dir.client" location="${basedir}/client-extjs" />
+    <property name="dir.server" location="${basedir}/server-nodejs" />
+    <property name="dir.dist" location="${basedir}/dist" />
+    <property name="dir.lib" location="${basedir}/lib" />
+
+
+    <target name="build">
+        <!-- run sencha app build -->
+        <exec executable="sencha" dir="${dir.client}">
+            <arg line="app build production"/>
+        </exec>
+
+        <copy todir="${dir.dist}/client">
+            <fileset dir="${dir.client}/build/production/FileBot">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+        
+        <copy todir="${dir.dist}/server">
+            <fileset dir="${dir.server}">
+                <include name="**/*.js" />
+                <include name="**/*.json" />
+                <include name="**/*.sh" />
+            </fileset>
+        </copy>
+    </target>
+
+
+    <target name="package" depends="build">
+
+    </target>
+
+
+    <target name="clean">
+        <delete dir="${dir.dist}" />
+        <delete dir="${dir.client}/build" />
+    </target>
+
+
+</project>

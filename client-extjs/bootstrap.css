@@ -5,5 +5,5 @@
  * to the most recently built CSS file for the application to allow index.html
  * in the development directory to load properly (i.e., "dev mode").
  */
-@import 'build/development/FileBot/resources/FileBot-all.css';
+@import 'build/production/FileBot/resources/FileBot-all.css';
 

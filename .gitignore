@@ -96,9 +96,13 @@ build/Release
 node_modules
 
 # More Excludes
-*.sublime*
+*.sublime-project
+*.sublime-workspace
+*.properties
 .idea/
 .sencha/
 overrides/
 packages/
 log/
+dist/
+build/
