@@ -16,7 +16,6 @@ Ext.define('FileBot.view.taskmanager.TaskManagerModel', {
 
             fields: [
                 { name: 'id', type: 'int' },
-                { name: 'pid', type: 'int'},
                 { name: 'status', type: 'string' }
             ],
 

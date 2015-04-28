@@ -16,6 +16,13 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
 
     bind: '{tasks}',
 
+    listeners: {
+        select: function(view, record) {
+            // broadcast event
+            FileBot.getApplication().fireEvent('selectTask', record.data)
+        }
+    },
+
     width: 400,
     height: 200,
 
