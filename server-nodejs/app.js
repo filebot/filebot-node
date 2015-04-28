@@ -218,12 +218,13 @@ function file(request, response, file, contentType) {
         if (error) {
             return error(response, error.toString())
         }
-
+        
         if (modifiedSince(request, stats.mtime.getTime())) {
             var readStream = fs.createReadStream(file)
             readStream.on('open', function() {
                 response.statusCode = 200
                 response.setHeader('Content-Type', contentType)
+                response.setHeader('Content-Length', stats.size)
                 response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache')
                 response.setHeader('Last-Modified', stats.mtime.toUTCString())
                 response.setHeader('Access-Control-Allow-Origin', '*')
