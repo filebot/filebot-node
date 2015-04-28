@@ -183,17 +183,7 @@ function handleRequest(request, response) {
         var options = querystring.parse(requestParameters.query)
         var id = options.id
         if (id > 0) {
-            var RESPONSE_HEADERS_TEXT = {'Content-Type': 'text/plain; charset=utf-8', 'Access-Control-Allow-Origin': '*'}
-            var readStream = fs.createReadStream(getLogFile(id))
-            readStream.on('open', function () {
-                response.writeHead(200, RESPONSE_HEADERS_TEXT)
-                readStream.pipe(response)
-            })
-            readStream.on('error', function (error) {
-                response.writeHead(404, RESPONSE_HEADERS_JSON)
-                response.end(JSON.stringify(error))
-            })
-            return null
+            return file(request, response, getLogFile(id), 'text/plain; charset=utf-8')
         }
     }
 
@@ -221,6 +211,31 @@ function ok(response, data, lastModified) {
         response.setHeader('Last-Modified', new Date(lastModified).toUTCString())
     }
     response.end(JSON.stringify(result))
+}
+
+function file(request, response, file, contentType) {
+    fs.stat(file, function(error, stats) {
+        if (error) {
+            return error(response, error.toString())
+        }
+
+        if (modifiedSince(request, stats.mtime.getTime())) {
+            var readStream = fs.createReadStream(file)
+            readStream.on('open', function() {
+                response.statusCode = 200
+                response.setHeader('Content-Type', contentType)
+                response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache')
+                response.setHeader('Last-Modified', stats.mtime.toUTCString())
+                response.setHeader('Access-Control-Allow-Origin', '*')
+                readStream.pipe(response) // response.end() is called automatically
+            })
+            readStream.on('error', function(error) {
+                return error(response, error.toString())
+            })
+        } else {
+            return notModified(response)
+        }
+    })
 }
 
 function notModified(response) {
