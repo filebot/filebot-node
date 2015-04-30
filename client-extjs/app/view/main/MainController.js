@@ -14,13 +14,11 @@ Ext.define('FileBot.view.main.MainController', {
 
     alias: 'controller.main',
 
-    onClickButton: function () {
-        Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
-    },
-
-    onConfirm: function (choice) {
-        if (choice === 'yes') {
-            //
-        }
+    /**
+     * Called when the view is created
+     */
+    init: function() {
+        Ext.state.Manager.setProvider(new Ext.state.LocalStorageProvider())
     }
+
 });
