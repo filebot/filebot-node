@@ -4,6 +4,9 @@ var PORT = process.env['FILEBOT_NODE_PORT']
 var HOST = process.env['FILEBOT_NODE_HOST']
 var AUTH = process.env['FILEBOT_NODE_AUTH']
 
+var CLIENT = process.env['FILEBOT_NODE_CLIENT']
+var FILEBOT_EXECUTABLE = process.env['FILEBOT_EXECUTABLE']
+
 var LOG_FOLDER = './log'
 var ACTIVE_PROCESSES = {}
 var TASKS = []
@@ -11,10 +14,7 @@ var TASKS = []
 // update task list via If-Last-Modified
 TASKS.lastModified = Date.now()
 
-
 // INCLUDES
-
-
 var http = require('http')
 var url = require('url')
 var querystring = require('querystring')
@@ -22,6 +22,8 @@ var child_process = require('child_process')
 var fs = require('fs')
 var path = require('path')
 
+var PUBLIC_HTML = '/app/'
+var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript'}
 var SIGKILL_EXIT_CODE = 137
 
 
@@ -33,7 +35,7 @@ function getLogFile(id) {
 }
 
 function getCommand() {
-    return 'filebot'
+    return FILEBOT_EXECUTABLE
 }
 
 function getCommandArguments(options) {
@@ -149,6 +151,26 @@ function handleRequest(request, response) {
     var requestParameters = url.parse(request.url)
     var requestPath = requestParameters.pathname
 
+    if (requestPath.indexOf(PUBLIC_HTML) == 0) {
+        var requestedFile = requestPath == PUBLIC_HTML ? 'index.html' : requestPath.substring(PUBLIC_HTML.length)
+        var ext = path.extname(requestedFile)
+        var contentType = MIME_TYPES[ext]
+
+        // relative path must not contain '..'
+        if (contentType && requestedFile.indexOf('..') < 0) {
+            // resolve against CLIENT folder
+            return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true) 
+        } else {
+            return unauthorized(response)
+        }
+    }
+
+
+    // require user authentication for all handlers below
+    if (!auth(request, response)) {
+        return unauthorized(response)
+    }
+    
     if ('/tasks' == requestPath) {
         if (modifiedSince(request, TASKS.lastModified)) {
             return ok(response, TASKS, TASKS.lastModified)
@@ -183,7 +205,7 @@ function handleRequest(request, response) {
         var options = querystring.parse(requestParameters.query)
         var id = options.id
         if (id > 0) {
-            return file(request, response, getLogFile(id), 'text/plain; charset=utf-8')
+            return file(request, response, getLogFile(id), 'text/plain; charset=utf-8', false)
         }
     }
 
@@ -207,31 +229,32 @@ function ok(response, data, lastModified) {
     response.setHeader('Content-Type', 'text/json')
     response.setHeader('Access-Control-Allow-Origin', '*')
     if (lastModified > 0) {
-        response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache')
+        response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
         response.setHeader('Last-Modified', new Date(lastModified).toUTCString())
     }
     response.end(JSON.stringify(result))
 }
 
-function file(request, response, file, contentType) {
-    fs.stat(file, function(error, stats) {
-        if (error) {
-            return error(response, error.toString())
+function file(request, response, file, contentType, cacheable) {
+    fs.stat(file, function(err, stats) {
+        if (err) {
+            return error(response, err)
         }
-        
         if (modifiedSince(request, stats.mtime.getTime())) {
             var readStream = fs.createReadStream(file)
             readStream.on('open', function() {
                 response.statusCode = 200
                 response.setHeader('Content-Type', contentType)
                 response.setHeader('Content-Length', stats.size)
-                response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache')
+                if (!cacheable) {
+                    response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
+                }
                 response.setHeader('Last-Modified', stats.mtime.toUTCString())
                 response.setHeader('Access-Control-Allow-Origin', '*')
                 readStream.pipe(response) // response.end() is called automatically
             })
-            readStream.on('error', function(error) {
-                return error(response, error.toString())
+            readStream.on('error', function(err) {
+                return error(response, err)
             })
         } else {
             return notModified(response)
@@ -245,15 +268,30 @@ function notModified(response) {
     response.end()
 }
 
-function error(response, msg) {
-    var result = {success: false, error: msg}
+function unauthorized(response) {
+    response.statusCode = 401
+    response.setHeader('Access-Control-Allow-Origin', '*')
+    response.end()
+}
 
+function error(response, exception) {
+    var result = {success: false, error: exception.toString()}
     response.statusCode = 500
     response.setHeader('Content-Type', 'text/json')
     response.setHeader('Access-Control-Allow-Origin', '*')
     response.end(JSON.stringify(result))
 }
 
+function auth(request, response) {
+    switch (AUTH) {
+        case 'SYNO':
+            return true
+        case 'NONE':
+            return true
+        default:
+            return false
+    }
+}
 
 // START NODE SERVER
 process.title = 'filebot-nos'
@@ -267,9 +305,9 @@ http.createServer(function (request, response) {
     try {
         handleRequest(request, response)
     } catch (e) {
-        error(response, e.toString())
+        error(response, e)
     }
 }).listen(PORT, HOST);
 
 
-console.log('FileBot Node Server running at http://' + HOST + ':' + PORT + '/');
+console.log('FileBot Node Server running at http://' + HOST + ':' + PORT + '/')
