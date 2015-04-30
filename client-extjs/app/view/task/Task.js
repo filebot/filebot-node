@@ -22,6 +22,10 @@ Ext.define('FileBot.view.task.Task', {
         type: 'task'
     },
 
+    listeners: {
+        afterrender: 'restoreState'
+    },
+
     defaults: {
         split: true,
         scrollable: true
@@ -32,15 +36,15 @@ Ext.define('FileBot.view.task.Task', {
 
     items: [{
         region: 'center',
-        collapsible: false,
         xtype: 'form',
         title: 'Organize Files',
         headerPosition: 'left',
         bodyPadding: 20,
+        collapsible: false,
         items: [{
             xtype: 'fieldset',
-            collapsible: false,
             title: 'Basic Options',
+            collapsible: false,
             defaults: {
                 anchor: '100%'
             },
@@ -151,9 +155,19 @@ Ext.define('FileBot.view.task.Task', {
             }
         }]
     }, {
-
+        xtype: 'container',
         region: 'south',
-        xtype: 'taskmanager',
-        frame: true
+        frame: true,
+        layout: 'border',
+        width: 400,
+        height: 200,
+
+        items: [{
+            region: 'center',
+            xtype: 'taskmanager'
+        }, {
+            region: 'east',
+            xtype: 'textarea'
+        }]
     }]
 });

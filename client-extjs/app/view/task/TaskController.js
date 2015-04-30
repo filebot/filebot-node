@@ -11,9 +11,30 @@ Ext.define('FileBot.view.task.TaskController', {
 
     alias: 'controller.task',
 
+    /**
+     * Called when the view is created
+     */
+    init: function() {
+
+    },
+    
+    restoreState: function() {
+        var values = Ext.state.Manager.get('formOrganizeFiles')
+        if (values) {
+            this.getForm().setValues(values)
+        }
+    },
+
+    saveState: function() {
+        var values = this.getForm().getValues()
+        Ext.state.Manager.set('formOrganizeFiles', values)
+    },
+
     onExecute: function () {
         var form = this.getForm()
         var parameters = form.getValues()
+
+        this.saveState()
 
         if (form.isValid()) {
             FileBot.Node.requestExecute(parameters)
@@ -24,10 +45,11 @@ Ext.define('FileBot.view.task.TaskController', {
         var form = this.getForm()
         var parameters = form.getValues()
 
-        // force --action test
-        parameters.action = 'TEST'
+        this.saveState()
 
         if (form.isValid()) {
+            // force --action test
+            parameters.action = 'TEST'
             FileBot.Node.requestExecute(parameters)
         }
     },
