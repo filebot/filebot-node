@@ -58,8 +58,7 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Input Folder',
                 name: 'input',
                 emptyText: '/path/to/input',
-                allowBlank: false,
-                value: '/Users/reinhard/Test/AMC-TEST'
+                allowBlank: false
             }, {
                 xtype: 'combobox',
                 fieldLabel: 'Input Type',
@@ -96,8 +95,7 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Output Folder',
                 name: 'output',
                 emptyText: '/path/to/output',
-                allowBlank: false,
-                value: '/Users/reinhard/Test/OUTPUT'
+                allowBlank: false
             }]
         }, {
             xtype: 'fieldset',
