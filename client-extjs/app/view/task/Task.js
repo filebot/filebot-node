@@ -159,13 +159,14 @@ Ext.define('FileBot.view.task.Task', {
         layout: 'border',
         width: 400,
         height: 200,
+        scrollable: false,
 
         items: [{
-            region: 'center',
+            region: 'west',
             xtype: 'taskmanager'
         }, {
-            region: 'east',
-            xtype: 'textarea'
+            region: 'center',
+            xtype: 'tasklogcat'
         }]
     }]
 });

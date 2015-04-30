@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono);
+
 
 img.ok-col {
 	background-image: url('images/accept.png');
@@ -9,4 +11,17 @@ img.fail-col {
 
 img.cancel-col {
 	background-image: url('images/stop.png');
+}
+
+
+textarea {
+	font-family: 'Andale Mono', Consolas, 'Courier New'		!important;
+	font-size: 14px							!important;
+	background: #002535						!important;
+	color: #C7C7C7							!important;
+	padding: 5px							!important;
+	overflow: hidden						!important;
+	cursor: text							!important;
+	line-height: 1.2em						!important;
+	box-shadow: 0 0 30px rgba(0,0,0,0.5)	!important;
 }

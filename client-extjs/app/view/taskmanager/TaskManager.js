@@ -22,7 +22,7 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
             FileBot.getApplication().fireEvent('selectTask', record.data)
         }
     },
-
+    
     width: 400,
     height: 200,
 

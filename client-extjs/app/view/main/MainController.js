@@ -9,7 +9,7 @@ Ext.define('FileBot.view.main.MainController', {
     extend: 'Ext.app.ViewController',
 
     requires: [
-        'Ext.window.MessageBox'
+        
     ],
 
     alias: 'controller.main',
@@ -18,7 +18,11 @@ Ext.define('FileBot.view.main.MainController', {
      * Called when the view is created
      */
     init: function() {
-        Ext.state.Manager.setProvider(new Ext.state.LocalStorageProvider())
+        if (Ext.util.LocalStorage.supported) {
+            Ext.state.Manager.setProvider(new Ext.state.LocalStorageProvider())
+        } else {
+            Ext.state.Manager.setProvider(new Ext.state.CookieProvider())
+        }
     }
 
 });
