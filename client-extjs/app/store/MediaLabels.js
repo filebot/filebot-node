@@ -6,15 +6,15 @@ Ext.define('FileBot.store.MediaLabels', {
     storeId: 'media-labels',
 
     fields: [
-        'label'
+        'id', 'label'
     ],
 
     data: [
-        ['Automatic'],
-        ['Movies'],
-        ['TV Series'],
-        ['Anime'],
-        ['Music'],
-        ['Other']
+        [0, 'Automatic'],
+        [1, 'Movies'],
+        [2, 'TV Series'],
+        [3, 'Anime'],
+        [4, 'Music'],
+        [5, 'Other']
     ]
 });

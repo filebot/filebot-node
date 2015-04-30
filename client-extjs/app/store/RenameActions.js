@@ -6,15 +6,15 @@ Ext.define('FileBot.store.RenameActions', {
     storeId: 'rename-actions',
 
     fields: [
-        'action'
+        'id', 'action'
     ],
-
+    
     data: [
-        ['Move'],
-        ['Copy'],
-        ['Hardlink'],
-        ['Symlink'],
-        ['Keeplink'],
-        ['Duplicate']
+        [1, 'Move'],
+        [2, 'Copy'],
+        [3, 'Hardlink'],
+        [4, 'Symlink'],
+        [5, 'Keeplink'],
+        [6, 'Duplicate']
     ]
 });
