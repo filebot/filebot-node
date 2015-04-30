@@ -25,21 +25,8 @@ Ext.define('FileBot.view.main.Main', {
         type: 'border'
     },
 
-    items: [
-        {
-            region: 'center',
-            xtype: 'navigation-tabs',
-            items: [{
-                title: 'Tasks',
-                xtype: 'section-task'
-            },
-            {
-                title: 'Logs',
-                html: '<h2>TODO</h2>'
-            },
-            {
-                title: 'Settings',
-                html: '<h2>TODO</h2>'
-            }]
-        }]
+    items: [{
+        region: 'center',
+        xtype: 'section-task'
+    }]  
 });
