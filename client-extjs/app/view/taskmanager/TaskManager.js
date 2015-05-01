@@ -16,6 +16,14 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
 
     bind: '{tasks}',
 
+    tools: [{
+        type: 'print',
+        callback: function() {
+            var url = FileBot.Node.getLogAllEndpoint()
+            window.open(url, 'filebot-log')
+        }
+    }],
+    
     listeners: {
         select: function(view, record) {
             // broadcast event

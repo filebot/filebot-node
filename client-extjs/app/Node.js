@@ -9,6 +9,10 @@ Ext.define('FileBot.Node', {
         return this.protocol + '://' + this.hostname + ':' + this.port + path
     },
 
+    getLogAllEndpoint: function(path) {
+        return this.getServerEndpoint('/log/all')
+    },
+
     requestExecute: function (parameters) {
         Ext.Ajax.request({
             method: 'GET',

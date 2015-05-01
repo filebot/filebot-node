@@ -7,7 +7,6 @@ var AUTH = process.env['FILEBOT_NODE_AUTH']
 var CLIENT = process.env['FILEBOT_NODE_CLIENT']
 var FILEBOT_EXECUTABLE = process.env['FILEBOT_EXECUTABLE']
 
-var LOG_FOLDER = './log'
 var ACTIVE_PROCESSES = {}
 var TASKS = []
 
@@ -23,8 +22,11 @@ var fs = require('fs')
 var path = require('path')
 
 var PUBLIC_HTML = '/app/'
-var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript'}
+var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
 var SIGKILL_EXIT_CODE = 137
+
+var LOG_FOLDER = path.resolve('log')
+var FILEBOT_LOG = path.resolve('filebot.log')
 
 
 // HELPER FUNCTIONS
@@ -66,6 +68,8 @@ function getCommandArguments(options) {
         if (options.animeFormat) args.push('animeFormat=' + options.animeFormat)
         if (options.movieFormat) args.push('movieFormat=' + options.movieFormat)
         if (options.musicFormat) args.push('musicFormat=' + options.musicFormat)
+        args.push('--log-file')
+        args.push(FILEBOT_LOG)
     } else {
         throw new Error('Illegal options: ' + JSON.stringify(options))
     }
@@ -205,8 +209,12 @@ function handleRequest(request, response) {
         var options = querystring.parse(requestParameters.query)
         var id = options.id
         if (id > 0) {
-            return file(request, response, getLogFile(id), 'text/plain; charset=utf-8', false)
+            return file(request, response, getLogFile(id), MIME_TYPES['.log'], false)
         }
+    }
+
+    if ('/log/all' == requestPath) {
+        return file(request, response, FILEBOT_LOG, MIME_TYPES['.log'], true)
     }
 
     throw new Error('ILLEGAL REQUEST')
@@ -238,7 +246,7 @@ function ok(response, data, lastModified) {
 function file(request, response, file, contentType, cacheable) {
     fs.stat(file, function(err, stats) {
         if (err) {
-            return error(response, err)
+            return notFound(response)
         }
         if (modifiedSince(request, stats.mtime.getTime())) {
             var readStream = fs.createReadStream(file)
@@ -264,6 +272,12 @@ function file(request, response, file, contentType, cacheable) {
 
 function notModified(response) {
     response.statusCode = 304
+    response.setHeader('Access-Control-Allow-Origin', '*')
+    response.end()
+}
+
+function notFound(response) {
+    response.statusCode = 404
     response.setHeader('Access-Control-Allow-Origin', '*')
     response.end()
 }
