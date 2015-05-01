@@ -4,7 +4,7 @@
 Ext.define('FileBot.view.tasklogcat.TaskLogCat', {
     extend: 'Ext.panel.Panel',
     requires: [
-        /* include classes required by this component here */
+        'FileBot.view.tasklogcat.TaskLogCatController'
     ],
     xtype: 'tasklogcat',
 

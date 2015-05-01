@@ -22,9 +22,6 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
             FileBot.getApplication().fireEvent('selectTask', record.data)
         }
     },
-    
-    width: 400,
-    height: 200,
 
     columns: [
     {
@@ -40,6 +37,7 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
     }, {
         text: 'Status',
         dataIndex: 'status',
+        width: 100,
         renderer: function(val) {
             if (val == '')
                 return 'Running'
@@ -54,8 +52,7 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
         menuDisabled: true,
         sortable: false,
         xtype: 'actioncolumn',
-        width: 30,
-        
+        focusable: false,
         items: [{
             getClass: function(v, meta, rec) {
                 var val = rec.get('status')
@@ -88,8 +85,6 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
     }],
 
     title: 'Task Manager',
-    collapsible: true,
-    headerPosition: 'left',
     sortableColumns: false,
     enableColumnHide: false,
     enableColumnMove: false,

@@ -11,6 +11,7 @@ Ext.define('FileBot.view.task.Task', {
         'FileBot.view.task.TaskController',
         'FileBot.view.task.TaskModel',
         'FileBot.view.taskmanager.TaskManager',
+        'FileBot.view.tasklogcat.TaskLogCat',
         'FileBot.store.RenameActions',
         'FileBot.store.MediaLabels'
     ],
@@ -27,12 +28,14 @@ Ext.define('FileBot.view.task.Task', {
     },
 
     defaults: {
+        collapsible: true,
         split: true,
-        scrollable: true
+        scrollable: true,
+        floatable: false,
+        bodyPadding: 10
     },
 
     layout: 'border',
-    bodyBorder: true,
 
     items: [{
         region: 'center',
@@ -157,16 +160,23 @@ Ext.define('FileBot.view.task.Task', {
         region: 'south',
         frame: true,
         layout: 'border',
-        width: 400,
         height: 200,
         scrollable: false,
 
         items: [{
             region: 'west',
-            xtype: 'taskmanager'
+            xtype: 'taskmanager',
+            headerPosition: 'left',
+            collapsible: true,
+            floatable: false,
+            overflowY: 'auto',
+            width: 325
         }, {
             region: 'center',
-            xtype: 'tasklogcat'
+            xtype: 'tasklogcat',
+            collapsible: false,
+            floatable: false,
+            scrollable: true
         }]
     }]
 });
