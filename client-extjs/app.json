@@ -10,6 +10,16 @@
     "version": "0.1",
 
     /**
+     * The ports that the client application use for talking to the node server
+     */
+    "server": {
+        "port": {
+            "http": 5452,
+            "https": 5453
+        }
+    },
+
+    /**
      * The relative path to the appliaction's markup file (html, jsp, asp, etc.)
      */
     "indexHtmlPath": "index.html",
