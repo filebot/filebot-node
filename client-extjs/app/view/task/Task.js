@@ -141,19 +141,23 @@ Ext.define('FileBot.view.task.Task', {
                 emptyText: 'Music/{n}/{fn}'
             }]
         }],
-
+        
         buttons: [{
-            text: 'Test',
+            xtype: 'splitbutton',
             formBind: true,
-            listeners: {
-                click: 'onTest'
-            }
-        }, {
+            scale: 'small',
+            iconCls: 'run-btn',
             text: 'Execute',
-            formBind: true,
-            listeners: {
-                click: 'onExecute'
-            }
+            // handle a click on the button itself
+            handler: 'onExecute',
+            menu: new Ext.menu.Menu({
+                items: [
+                    // these will render as dropdown menu items when the arrow is clicked:
+                    {text: 'Dry Run', handler: 'onTest'},
+                    {text: 'Schedule', handler: 'onSchedule'}
+                ]
+            }),
+            style:'margin-right: 3em'
         }]
     }, {
         xtype: 'container',

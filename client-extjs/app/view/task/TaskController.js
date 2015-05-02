@@ -28,33 +28,41 @@ Ext.define('FileBot.view.task.TaskController', {
     saveState: function() {
         var values = this.getForm().getValues()
         Ext.state.Manager.set('formOrganizeFiles', values)
+        return values
     },
 
-    onExecute: function () {
-        var form = this.getForm()
-        var parameters = form.getValues()
-
-        this.saveState()
-
-        if (form.isValid()) {
+    onExecute: function() {
+        var parameters = this.getExecuteParameters()
+        if (parameters) {
             FileBot.Node.requestExecute(parameters)
         }
     },
 
-    onTest: function () {
-        var form = this.getForm()
-        var parameters = form.getValues()
-
-        this.saveState()
-
-        if (form.isValid()) {
-            // force --action test
+    onTest: function() {
+        var parameters = this.getExecuteParameters()
+        if (parameters) {
+            // force --action test and then execute normally
             parameters.action = 'TEST'
             FileBot.Node.requestExecute(parameters)
         }
     },
 
-    getForm: function () {
+    onSchedule: function() {
+        var parameters = this.getExecuteParameters()
+        if (parameters) {
+            FileBot.Node.requestSchedule(parameters)
+        }
+    },
+
+    getExecuteParameters: function() {
+        var form = this.getForm()
+        if (form.isValid()) {
+            return this.saveState()
+        }
+        return null
+    },
+
+    getForm: function() {
         return this.getView().down('form').getForm()
     }
 

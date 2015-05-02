@@ -13,6 +13,11 @@ img.cancel-col {
 	background-image: url('images/stop.png');
 }
 
+.run-btn {
+	background-image: url('images/run.png');
+	background-size: contain;
+}
+
 textarea {
 	font-family: 'Droid Sans Mono', monospace	!important;
 	font-size: 8pt								!important;
