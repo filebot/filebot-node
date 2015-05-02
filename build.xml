@@ -40,7 +40,7 @@
     </target>
 
 
-    <target name="package" depends="build">
+    <target name="package" depends="clean, build">
 
     </target>
 
