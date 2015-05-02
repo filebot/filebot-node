@@ -1,12 +1,8 @@
 Ext.define('FileBot.Node', {
     singleton: true,
-
-    protocol: 'http',
-    hostname: location.hostname,
-    port: 5452,
-
+    
     getServerEndpoint: function(path) {
-        return this.protocol + '://' + this.hostname + ':' + this.port + path
+        return location.protocol + '//' + location.hostname + ':' + (location.protocol.indexOf('https') < 0 ? 5452 : 5453) + path
     },
 
     getLogAllEndpoint: function(path) {

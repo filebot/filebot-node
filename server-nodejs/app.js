@@ -1,29 +1,30 @@
-// CONFIGURATION AND GLOBAL VARIABLES
-
-var PORT = process.env['FILEBOT_NODE_PORT']
-var HOST = process.env['FILEBOT_NODE_HOST']
-var AUTH = process.env['FILEBOT_NODE_AUTH']
-
-var CLIENT = process.env['FILEBOT_NODE_CLIENT']
-var FILEBOT_EXECUTABLE = process.env['FILEBOT_EXECUTABLE']
-
-var ACTIVE_PROCESSES = {}
-var TASKS = []
-
-// update task list via If-Last-Modified
-TASKS.lastModified = Date.now()
-
 // INCLUDES
 var http = require('http')
+var https = require('https')
 var url = require('url')
 var querystring = require('querystring')
 var child_process = require('child_process')
 var fs = require('fs')
 var path = require('path')
 
+// CONFIGURATION AND GLOBAL VARIABLES
+var AUTH = process.env['FILEBOT_NODE_AUTH']
+var CLIENT = process.env['FILEBOT_NODE_CLIENT']
+var FILEBOT_EXECUTABLE = process.env['FILEBOT_EXECUTABLE']
+
 var PUBLIC_HTML = '/app/'
 var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
 var SIGKILL_EXIT_CODE = 137
+
+// INITIALIZERS
+var ACTIVE_PROCESSES = {}
+var TASKS = []
+
+// update task list via If-Last-Modified
+TASKS.lastModified = Date.now()
+
+// customize process name
+process.title = 'filebot-nos'
 
 var LOG_FOLDER = path.resolve('log')
 var FILEBOT_LOG = path.resolve('filebot.log')
@@ -307,10 +308,11 @@ function auth(request, response) {
     }
 }
 
-// START NODE SERVER
-process.title = 'filebot-nos'
 
-http.createServer(function (request, response) {
+// START SERVER
+
+
+function server(request, response) {
     console.log('-----------------------------')
     console.log(new Date().toString())
     console.log(request.method)
@@ -321,7 +323,24 @@ http.createServer(function (request, response) {
     } catch (e) {
         error(response, e)
     }
-}).listen(PORT, HOST);
+}
 
+// HTTP
+if ('YES' == process.env['FILEBOT_NODE_HTTP']) {
+    var host = process.env['FILEBOT_NODE_HOST']
+    var port = process.env['FILEBOT_NODE_HTTP_PORT']
+    http.createServer(server).listen(port, host)
+    console.log('FileBot Node Server running at http://' + host + ':' + port + '/')  
+}
 
-console.log('FileBot Node Server running at http://' + HOST + ':' + PORT + '/')
+// HTTPS
+if ('YES' == process.env['FILEBOT_NODE_HTTPS']) {
+    var host = process.env['FILEBOT_NODE_HOST']
+    var port = process.env['FILEBOT_NODE_HTTPS_PORT']
+    var options = {
+        key: fs.readFileSync(process.env['FILEBOT_NODE_HTTPS_KEY']),
+        cert: fs.readFileSync(process.env['FILEBOT_NODE_HTTPS_CERT'])
+    }
+    https.createServer(options, server).listen(port, host)
+    console.log('FileBot Node Server running at https://' + host + ':' + port + '/')  
+}

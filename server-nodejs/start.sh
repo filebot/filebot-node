@@ -1,8 +1,15 @@
 #!/bin/sh
 
 export FILEBOT_NODE_HOST='127.0.0.1'
-export FILEBOT_NODE_PORT='5452'
 export FILEBOT_NODE_AUTH='SYNO'
+
+export FILEBOT_NODE_HTTP='YES'
+export FILEBOT_NODE_HTTP_PORT='5452'
+
+export FILEBOT_NODE_HTTPS='YES'
+export FILEBOT_NODE_HTTPS_PORT='5453'
+export FILEBOT_NODE_HTTPS_KEY='/usr/syno/etc/ssl/ssl.key/server.key'
+export FILEBOT_NODE_HTTPS_CERT='/usr/syno/etc/ssl/ssl.crt/server.crt'
 
 export FILEBOT_NODE_CLIENT='../client-extjs/build/production/FileBot'
 export FILEBOT_EXECUTABLE='filebot'
