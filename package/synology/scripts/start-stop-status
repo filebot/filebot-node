@@ -2,22 +2,22 @@
 
 case "$1" in
 	start)
-		"$SYNOPKG_PKGDEST/server/start.sh" > "$SYNOPKG_PKGDEST/server/node.log" 2>&1 &
+		"$SYNOPKG_PKGDEST/server/start.sh" > "$SYNOPKG_PKGDEST/node.log" 2>&1 &
 		exit $?
 	;;
 
 	stop)
-		killall "filebot-node"
+		killall "$SYNOPKG_PKGNAME"
 		exit $?
 	;;
 
 	status)
-		ps | grep 'filebot-node' | grep -v 'grep'
+		ps | grep "$SYNOPKG_PKGNAME" | grep -v 'grep'
 		exit $?
 	;;
 
 	log)
-		echo "$SYNOPKG_PKGDEST/server/node.log"
+		echo "$SYNOPKG_PKGDEST/node.log"
 		exit 0
 	;;
 
