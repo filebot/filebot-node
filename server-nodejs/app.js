@@ -6,6 +6,7 @@ var querystring = require('querystring')
 var child_process = require('child_process')
 var fs = require('fs')
 var path = require('path')
+var shellescape = require('shell-escape')
 
 // CONFIGURATION AND GLOBAL VARIABLES
 var AUTH = process.env['FILEBOT_NODE_AUTH']
@@ -23,11 +24,14 @@ var TASKS = []
 // update task list via If-Last-Modified
 TASKS.lastModified = Date.now()
 
+var LOG_FOLDER = path.resolve('log')
+var FILEBOT_LOG = path.resolve(LOG_FOLDER, 'filebot.log')
+
+// create folder if necessary
+if (!fs.existsSync(LOG_FOLDER)) fs.mkdirSync(LOG_FOLDER)
+
 // customize process name
 process.title = 'filebot-nos'
-
-var LOG_FOLDER = path.resolve('log')
-var FILEBOT_LOG = path.resolve('filebot.log')
 
 
 // HELPER FUNCTIONS
@@ -87,7 +91,7 @@ function spawnChildProcess(command, arguments) {
     }
 
     // each log contains the original command (as JSON) in the first line
-    fs.writeFileSync(logFile, JSON.stringify({'command': command, 'args': arguments, 't': pd.id}) + '\n')
+    fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + '\n\n------------------------------------------\n\n')
 
     var process = child_process.spawn(
         command,
@@ -100,14 +104,12 @@ function spawnChildProcess(command, arguments) {
     TASKS.lastModified = Date.now()
 
     process.on('close', function (code) {
-        console.log('Task complete: ' + JSON.stringify(pd))
-
         // remove process object reference
         delete ACTIVE_PROCESSES[id]
-
         // store exit code
         pd.status = code != null ? code : SIGKILL_EXIT_CODE
         TASKS.lastModified = Date.now()
+        fs.appendFile(logFile, '\n------------------------------------------\n\n' + (code == null ? '[Process killed]' : code == 0 ? '[Process completed]' : '[Process error]'))
     })
 
     return pd
@@ -134,8 +136,7 @@ function execute(options) {
 function kill(options) {
     var id = options.id
     var process = ACTIVE_PROCESSES[id]
-    console.log(id)
-    console.log(process)
+
     if (process) {
         // remove process object reference
         delete ACTIVE_PROCESSES[id]
@@ -315,8 +316,7 @@ function auth(request, response) {
 function server(request, response) {
     console.log('-----------------------------')
     console.log(new Date().toString())
-    console.log(request.method)
-    console.log(request.url)
+    console.log(request.method + ": " + request.url)
 
     try {
         handleRequest(request, response)
