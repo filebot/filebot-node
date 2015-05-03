@@ -56,7 +56,7 @@ function getCommandArguments(options) {
         args.push(options.output)
         args.push('--action')
         args.push(options.action)
-        if (options.strict == 'on') {
+        if (options.strict != 'on') {
             args.push('-non-strict')
         }
         if (options.filter) {
