@@ -60,6 +60,7 @@
             <info name="support_url" value="https://github.com/filebot/filebot-node/issues" />
             <info name="helpurl" value="https://www.filebot.net/forums/viewforum.php?f=13" />
             <info name="firmware" value="5.0" />
+            <info name="install_dep_packages" value="Node.js" />
             <info name="startable" value="yes" />
             <info name="silent_install" value="no" />
             <info name="silent_upgrade" value="yes" />
