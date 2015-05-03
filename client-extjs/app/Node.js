@@ -2,7 +2,7 @@ Ext.define('FileBot.Node', {
     singleton: true,
     
     getServerEndpoint: function(path) {
-        return location.protocol + '//' + location.hostname + ':' + (location.protocol.indexOf('https') < 0 ? Ext.manifest.server.port.http : Ext.manifest.server.port.htts) + '/' + path
+        return location.protocol + '//' + location.hostname + ':' + (location.protocol.indexOf('https') < 0 ? Ext.manifest.server.port.http : Ext.manifest.server.port.https) + '/' + path
     },
 
     getLogAllEndpoint: function() {

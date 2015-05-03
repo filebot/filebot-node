@@ -67,8 +67,8 @@
             <info name="dsmappname" value="net.filebot.NodeClient" />
             <info name="dsmuidir" value="client" />
 
-            <icon size="72" file="${dir.package}/synology/package/client/images/icon72.png" />
-            <icon size="256" file="${dir.package}/synology/package/client/images/icon256.png" />
+            <icon size="72" file="${dir.package}/synology/package/client/images/filebot_node_72.png" />
+            <icon size="256" file="${dir.package}/synology/package/client/images/filebot_node_256.png" />
             
             <!-- override generic server/start.sh with synology-specific configuration -->
             <package dir="${dir.dist}/generic" />
