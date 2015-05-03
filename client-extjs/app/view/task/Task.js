@@ -67,6 +67,7 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Input Type',
                 name: 'label',
                 displayField: 'label',
+                valueField: 'value',
                 store: {
                     type: 'media-labels'
                 },
@@ -84,7 +85,8 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'combobox',
                 fieldLabel: 'Rename Action',
                 name: 'action',
-                displayField: 'action',
+                displayField: 'label',
+                valueField: 'value',
                 store: {
                     type: 'rename-actions'
                 },
