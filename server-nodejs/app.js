@@ -18,6 +18,7 @@ var FILEBOT_EXECUTABLE = process.env['FILEBOT_EXECUTABLE']
 
 var PUBLIC_HTML = '/filebot/'
 var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
+var DASHLINE = '------------------------------------------'
 var SIGKILL_EXIT_CODE = 137
 
 // INITIALIZERS
@@ -91,7 +92,7 @@ function spawnChildProcess(command, arguments) {
     }
 
     // each log contains the original command (as JSON) in the first line
-    fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + '\n\n------------------------------------------\n\n')
+    fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + '\n\n' + DASHLINE + '\n\n')
 
     var process = child_process.spawn(
         command,
@@ -109,7 +110,7 @@ function spawnChildProcess(command, arguments) {
         // store exit code
         pd.status = code != null ? code : SIGKILL_EXIT_CODE
         TASKS.lastModified = Date.now()
-        fs.appendFile(logFile, '\n------------------------------------------\n\n' + (code == null ? '[Process killed]' : code == 0 ? '[Process completed]' : '[Process error]'))
+        fs.appendFile(logFile, DASHLINE +'\n\n' + (code == null ? '[Process killed]' : code == 0 ? '[Process completed]' : '[Process error]'))
     })
 
     return pd
@@ -298,9 +299,10 @@ function auth(request, response) {
 
 
 function server(request, response) {
-    console.log('-----------------------------')
+    console.log(DASHLINE)
     console.log(new Date().toString())
     console.log(request.method + ": " + request.url)
+    console.log(request.headers)
 
     try {
         handleRequest(request, response)

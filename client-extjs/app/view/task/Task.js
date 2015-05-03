@@ -79,7 +79,8 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'checkboxfield',
                 name: 'strict',
                 fieldLabel: 'Strict Mode',
-                boxLabel: 'enabled'
+                boxLabel: 'enabled',
+                checked: false
             }, {
                 xtype: 'combobox',
                 fieldLabel: 'Rename Action',
