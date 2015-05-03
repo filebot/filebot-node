@@ -1,22 +1,27 @@
 {
   "name": "filebot-node-server",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "FileBot Node Server",
   "main": "app.js",
   "scripts": {
-    "start": "sh start.sh"
+    "start": "sh start-test.sh"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/filebot/filebot-node.git"
   },
   "keywords": [
-    "filebot"
+    "filebot",
+    "synology",
+    "dsm"
   ],
   "author": "Reinhard Pointner",
   "license": "GPLv3",
   "bugs": {
     "url": "https://github.com/filebot/filebot-node/issues"
   },
-  "homepage": "https://github.com/filebot/filebot-node"
+  "homepage": "https://github.com/filebot/filebot-node",
+  "dependencies": {
+    "shell-escape": "^0.2.0"
+  }
 }
