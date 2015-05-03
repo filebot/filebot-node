@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# create /usr/local/[package] link
+ln -s "/var/packages/$SYNOPKG_PKGNAME/target" "/usr/local/$SYNOPKG_PKGNAME"
+
+# return successfully
+exit 0

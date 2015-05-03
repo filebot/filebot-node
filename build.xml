@@ -14,6 +14,7 @@
     <!-- define source dirs -->
     <property name="dir.client" location="${basedir}/client-extjs" />
     <property name="dir.server" location="${basedir}/server-nodejs" />
+    <property name="dir.package" location="${basedir}/package" />
     <property name="dir.dist" location="${basedir}/dist" />
     <property name="dir.lib" location="${basedir}/lib" />
 
@@ -24,13 +25,19 @@
             <arg line="app build production"/>
         </exec>
 
-        <copy todir="${dir.dist}/client">
+        <copy todir="${dir.dist}/generic/client">
             <fileset dir="${dir.client}/build/production/FileBot">
-                <include name="**/*" />
+                <include name="**/*.html" />
+                <include name="**/*.css" />
+                <include name="**/*.js" />
+                <include name="**/*.json" />
+                <include name="**/*.png" />
+                <include name="**/*.gif" />
+                <include name="**/*.svg" />
             </fileset>
         </copy>
-        
-        <copy todir="${dir.dist}/server">
+
+        <copy todir="${dir.dist}/generic/server">
             <fileset dir="${dir.server}">
                 <include name="**/*.js" />
                 <include name="**/*.json" />
@@ -41,14 +48,48 @@
     </target>
 
 
-    <target name="package" depends="clean, build">
+    <target name="spk" description="Synology NAS package">
+        <taskdef name="spk" classname="net.filebot.ant.spk.SpkTask" classpath="${dir.lib}/ant-spk.jar" />
+
+        <spk destdir="${dir.dist}" name="filebot-node" version="${version}" arch="noarch">
+            <info name="displayname" value="FileBot Node Service" />
+            <info name="description" value="FileBot Node allows you to execute filebot calls via Synology DSM." />
+            <info name="maintainer" value="rednoah" />
+            <info name="distributor" value="FileBot" />
+            <info name="distributor_url" value="http://www.filebot.net/" />
+            <info name="support_url" value="https://github.com/filebot/filebot-node/issues" />
+            <info name="helpurl" value="https://www.filebot.net/forums/viewforum.php?f=13" />
+            <info name="firmware" value="5.0" />
+            <info name="startable" value="yes" />
+            <info name="silent_install" value="no" />
+            <info name="silent_upgrade" value="yes" />
+            <info name="silent_uninstall" value="yes" />
+            <info name="dsmappname" value="net.filebot.NodeClient" />
+            <info name="dsmuidir" value="client" />
+
+            <icon size="72" file="${dir.package}/synology/package/client/images/icon72.png" />
+            <icon size="256" file="${dir.package}/synology/package/client/images/icon256.png" />
+            
+            <!-- override generic server/start.sh with synology-specific configuration -->
+            <package dir="${dir.dist}/generic" />
+            <package dir="${dir.package}/synology/package" includes="client/**" />
+            <package dir="${dir.package}/synology/package" includes="server/*.sh" filemode="755" />
+            <scripts dir="${dir.package}/synology/scripts" filemode="755" />
+        </spk>
+    </target>
+
+    <target name="package" depends="clean, build, spk">
 
     </target>
 
 
     <target name="clean">
-        <delete dir="${dir.dist}" />
-        <delete dir="${dir.client}/build" />
+        <delete includeEmptyDirs="true" failonerror="false">
+            <fileset defaultexcludes="false" dir="${dir.dist}" />
+            <fileset defaultexcludes="false" dir="${dir.dist}" />
+            <fileset defaultexcludes="false" dir="${dir.server}/log" />
+            <fileset defaultexcludes="false" dir="${dir.server}" includes="*.log" />
+        </delete>
     </target>
 
 

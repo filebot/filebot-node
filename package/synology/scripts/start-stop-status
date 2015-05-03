@@ -1,0 +1,27 @@
+#!/bin/sh
+
+case "$1" in
+	start)
+		"$SYNOPKG_PKGDEST/server/start.sh" > "$SYNOPKG_PKGDEST/server/node.log" 2>&1 &
+		exit $?
+	;;
+
+	stop)
+		killall "filebot-node"
+		exit $?
+	;;
+
+	status)
+		ps | grep 'filebot-node' | grep -v 'grep'
+		exit $?
+	;;
+
+	log)
+		echo "$SYNOPKG_PKGDEST/server/node.log"
+		exit 0
+	;;
+
+	*)
+		exit 1
+	;;
+esac
