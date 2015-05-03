@@ -3,7 +3,9 @@
  */
 Ext.define('FileBot.view.taskmanager.TaskManagerModel', {
     extend: 'Ext.app.ViewModel',
-    requires: ['FileBot.Node'],
+    requires: [
+        'FileBot.Node'
+    ],
     alias: 'viewmodel.taskmanager',
 
     stores: {
@@ -24,19 +26,7 @@ Ext.define('FileBot.view.taskmanager.TaskManagerModel', {
                 direction: 'DESC'
             }],
 
-            proxy: {
-                type: 'ajax',
-                useDefaultXhrHeader: false,
-                cors: true,
-
-                url: FileBot.Node.getServerEndpoint('/tasks'),
-                noCache: false,
-                
-                reader: {
-                    type: 'json',
-                    rootProperty: 'data'
-                }
-            }
+            proxy: FileBot.Node.getDataProxy('tasks')
         }
     },
 

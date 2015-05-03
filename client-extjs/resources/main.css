@@ -28,4 +28,7 @@ textarea {
 	cursor: text								!important;
 	line-height: 1.2em							!important;
 	box-shadow: 0 0 30px rgba(0,0,0,0.5)		!important;
+	white-space: pre							!important;
+	word-wrap: normal							!important;
+	overflow: scroll							!important;
 }
