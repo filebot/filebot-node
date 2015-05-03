@@ -316,7 +316,7 @@ if ('YES' == process.env['FILEBOT_NODE_HTTP']) {
     var host = process.env['FILEBOT_NODE_HOST']
     var port = process.env['FILEBOT_NODE_HTTP_PORT']
     http.createServer(server).listen(port, host)
-    console.log('FileBot Node Server running at http://' + host + ':' + port + '/')  
+    console.log(process.title + ' listening at http://' + host + ':' + port + '/')  
 }
 
 // HTTPS
@@ -328,5 +328,5 @@ if ('YES' == process.env['FILEBOT_NODE_HTTPS']) {
         cert: fs.readFileSync(process.env['FILEBOT_NODE_HTTPS_CERT'])
     }
     https.createServer(options, server).listen(port, host)
-    console.log('FileBot Node Server running at https://' + host + ':' + port + '/')  
+    console.log(process.title + ' listening at https://' + host + ':' + port + '/')  
 }

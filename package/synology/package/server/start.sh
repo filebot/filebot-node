@@ -12,12 +12,12 @@ export FILEBOT_NODE_HTTPS_KEY='/usr/syno/etc/ssl/ssl.key/server.key'
 export FILEBOT_NODE_HTTPS_CERT='/usr/syno/etc/ssl/ssl.crt/server.crt'
 
 export FILEBOT_NODE_CLIENT='/usr/syno/synoman/webman/3rdparty/filebot-node' 
-export FILEBOT_EXECUTABLE='/var/packages/filebot/target/filebot.sh'
+export FILEBOT_EXECUTABLE='/usr/bin/filebot'
 
 # set working dir
-cd '/var/packages/filebot-node/target/server'
+cd '/usr/local/filebot-node/server'
 
-# --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
 # --max_executable_size (max size of executable memory (in Mbytes))
+# (NOT YET SUPPORTED SYNO NODE.JS) --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
 # --use_idle_notification (Use idle notification to reduce memory footprint.)
-/usr/bin/node --max_executable_size=16 --optimize_for_size --use_idle_notification app.js
+/usr/bin/node --max_executable_size=16 --use_idle_notification app.js
