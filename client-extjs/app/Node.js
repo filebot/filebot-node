@@ -41,7 +41,7 @@ Ext.define('FileBot.Node', {
             failure: function (response) {
                 Ext.MessageBox.show({
                     title: 'Error',
-                    msg: response.responseText,
+                    msg: response.responseText ? response.responseText : Ext.JSON.encode(response),
                     buttons: Ext.MessageBox.OK,
                     scope: this,
                     icon: Ext.MessageBox.ERROR

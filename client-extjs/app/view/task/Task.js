@@ -68,14 +68,13 @@ Ext.define('FileBot.view.task.Task', {
                 name: 'label',
                 displayField: 'label',
                 valueField: 'value',
+                value: '',
                 store: {
                     type: 'media-labels'
                 },
-                value: 'Automatic',
-                queryMode: 'local',
                 forceSelection: true,
                 editable: false,
-                allowBlank: false
+                queryMode: 'local'
             }, {
                 xtype: 'checkboxfield',
                 name: 'strict',
@@ -87,14 +86,13 @@ Ext.define('FileBot.view.task.Task', {
                 name: 'action',
                 displayField: 'label',
                 valueField: 'value',
+                value: 'duplicate',
                 store: {
                     type: 'rename-actions'
                 },
-                value: 'Duplicate',
-                queryMode: 'local',
                 forceSelection: true,
                 editable: false,
-                allowBlank: false
+                queryMode: 'local'
             }, {
                 xtype: 'textfield',
                 fieldLabel: 'Output Folder',

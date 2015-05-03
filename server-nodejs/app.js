@@ -1,3 +1,6 @@
+// PROCESS NAME
+process.title = 'filebot-node'
+
 // INCLUDES
 var http = require('http')
 var https = require('https')
@@ -13,7 +16,7 @@ var AUTH = process.env['FILEBOT_NODE_AUTH']
 var CLIENT = process.env['FILEBOT_NODE_CLIENT']
 var FILEBOT_EXECUTABLE = process.env['FILEBOT_EXECUTABLE']
 
-var PUBLIC_HTML = '/app/'
+var PUBLIC_HTML = '/filebot/'
 var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
 var SIGKILL_EXIT_CODE = 137
 
@@ -29,9 +32,6 @@ var FILEBOT_LOG = path.resolve('filebot.log')
 
 // create folder if necessary
 if (!fs.existsSync(LOG_FOLDER)) fs.mkdirSync(LOG_FOLDER)
-
-// customize process name
-process.title = 'filebot-nos'
 
 
 // HELPER FUNCTIONS
@@ -119,15 +119,6 @@ function spawnChildProcess(command, arguments) {
 // ROUTES
 
 
-function version() {
-    var process = child_process.spawnSync(getCommand(), ['-version'])
-    if (process.status == 0) {
-        return process.stdout.toString('UTF-8').trim()
-    } else {
-        throw new Error('Failed to call ' + getCommand())
-    }
-}
-
 function execute(options) {
     var pd = spawnChildProcess(getCommand(), getCommandArguments(options))
     return pd
@@ -185,28 +176,6 @@ function handleRequest(request, response) {
         }
     }
 
-    if ('/logs' == requestPath) {
-        var data = listLogs()
-        return ok(response, data)
-    }
-
-    if ('/execute' == requestPath) {
-        var options = querystring.parse(requestParameters.query)
-        var data = execute(options)
-        return ok(response, data)
-    }
-
-    if ('/kill' == requestPath) {
-        var options = querystring.parse(requestParameters.query)
-        var data = kill(options)
-        return ok(response, data)
-    }
-
-    if ('/version' == requestPath) {
-        var data = version()
-        return ok(response, data)
-    }
-
     if ('/log' == requestPath) {
         var options = querystring.parse(requestParameters.query)
         var id = options.id
@@ -215,11 +184,27 @@ function handleRequest(request, response) {
         }
     }
 
+    if ('/execute' == requestPath) {
+        var options = querystring.parse(requestParameters.query)
+        var data = execute(options)
+        return ok(response, data)
+    }
+
+    if ('/schedule' == requestPath) {
+        return error(response, 'NOT IMPLEMENTED')
+    }
+
+    if ('/kill' == requestPath) {
+        var options = querystring.parse(requestParameters.query)
+        var data = kill(options)
+        return ok(response, data)
+    }
+
     if ('/log/all' == requestPath) {
         return file(request, response, FILEBOT_LOG, MIME_TYPES['.log'], true, true)
     }
 
-    throw new Error('ILLEGAL REQUEST')
+    return error(response, 'ILLEGAL REQUEST')
 }
 
 function modifiedSince(request, lastModified) {

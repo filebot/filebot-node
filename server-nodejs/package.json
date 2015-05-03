@@ -4,7 +4,7 @@
   "description": "FileBot Node Server",
   "main": "app.js",
   "scripts": {
-    "start": "sh start-test.sh"
+    "start": "sh start.sh"
   },
   "repository": {
     "type": "git",
@@ -17,10 +17,10 @@
   ],
   "author": "Reinhard Pointner",
   "license": "GPLv3",
+  "homepage": "https://github.com/filebot/filebot-node",
   "bugs": {
     "url": "https://github.com/filebot/filebot-node/issues"
   },
-  "homepage": "https://github.com/filebot/filebot-node",
   "dependencies": {
     "shell-escape": "^0.2.0"
   }
