@@ -11,7 +11,7 @@ export FILEBOT_NODE_HTTPS_PORT='5453'
 export FILEBOT_NODE_HTTPS_KEY='/usr/syno/etc/ssl/ssl.key/server.key'
 export FILEBOT_NODE_HTTPS_CERT='/usr/syno/etc/ssl/ssl.crt/server.crt'
 
-export FILEBOT_NODE_CLIENT='/usr/syno/synoman/webman/3rdparty/filebot-node'
+export FILEBOT_NODE_CLIENT='/var/packages/filebot-node/target/client' 
 export FILEBOT_EXECUTABLE='/var/packages/filebot/target/filebot.sh'
 
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
