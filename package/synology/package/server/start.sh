@@ -11,7 +11,7 @@ export FILEBOT_NODE_HTTPS_PORT='5453'
 export FILEBOT_NODE_HTTPS_KEY='/usr/syno/etc/ssl/ssl.key/server.key'
 export FILEBOT_NODE_HTTPS_CERT='/usr/syno/etc/ssl/ssl.crt/server.crt'
 
-export FILEBOT_NODE_CLIENT='/usr/syno/synoman/webman/3rdparty/filebot-node' 
+export FILEBOT_NODE_CLIENT='/usr/local/filebot-node/client' 
 export FILEBOT_EXECUTABLE='/usr/bin/filebot'
 
 # set working dir
