@@ -13,12 +13,12 @@ img.cancel-col {
 	background-image: url('images/stop.png');
 }
 
-.run-btn {
+span.run-btn {
 	background-image: url('images/run.png');
 	background-size: contain;
 }
 
-textarea {
+textarea.logcatviewer {
 	font-family: 'Droid Sans Mono', monospace	!important;
 	font-size: 8pt								!important;
 	background: #300A24							!important;
@@ -27,8 +27,7 @@ textarea {
 	overflow: hidden							!important;
 	cursor: text								!important;
 	line-height: 1.2em							!important;
-	box-shadow: 0 0 30px rgba(0,0,0,0.5)		!important;
 	white-space: pre							!important;
 	word-wrap: normal							!important;
-	overflow: scroll							!important;
+	overflow: auto								!important;
 }
