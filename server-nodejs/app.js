@@ -25,7 +25,7 @@ var TASKS = []
 TASKS.lastModified = Date.now()
 
 var LOG_FOLDER = path.resolve('log')
-var FILEBOT_LOG = path.resolve(LOG_FOLDER, 'filebot.log')
+var FILEBOT_LOG = path.resolve('filebot.log')
 
 // create folder if necessary
 if (!fs.existsSync(LOG_FOLDER)) fs.mkdirSync(LOG_FOLDER)
@@ -165,7 +165,7 @@ function handleRequest(request, response) {
         // relative path must not contain '..'
         if (contentType && requestedFile.indexOf('..') < 0) {
             // resolve against CLIENT folder
-            return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true) 
+            return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true, false) 
         } else {
             return unauthorized(response)
         }
@@ -211,12 +211,12 @@ function handleRequest(request, response) {
         var options = querystring.parse(requestParameters.query)
         var id = options.id
         if (id > 0) {
-            return file(request, response, getLogFile(id), MIME_TYPES['.log'], false)
+            return file(request, response, getLogFile(id), MIME_TYPES['.log'], false, false)
         }
     }
 
     if ('/log/all' == requestPath) {
-        return file(request, response, FILEBOT_LOG, MIME_TYPES['.log'], true)
+        return file(request, response, FILEBOT_LOG, MIME_TYPES['.log'], true, true)
     }
 
     throw new Error('ILLEGAL REQUEST')
@@ -245,7 +245,7 @@ function ok(response, data, lastModified) {
     response.end(JSON.stringify(result))
 }
 
-function file(request, response, file, contentType, cacheable) {
+function file(request, response, file, contentType, cacheable, attachment) {
     fs.stat(file, function(err, stats) {
         if (err) {
             return notFound(response)
@@ -256,9 +256,8 @@ function file(request, response, file, contentType, cacheable) {
                 response.statusCode = 200
                 response.setHeader('Content-Type', contentType)
                 response.setHeader('Content-Length', stats.size)
-                if (!cacheable) {
-                    response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
-                }
+                if (attachment) response.setHeader('Content-Disposition', 'attachment; filename="' + path.basename(file) +'"')
+                if (!cacheable) response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
                 response.setHeader('Last-Modified', stats.mtime.toUTCString())
                 response.setHeader('Access-Control-Allow-Origin', '*')
                 readStream.pipe(response) // response.end() is called automatically
