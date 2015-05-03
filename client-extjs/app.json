@@ -16,9 +16,10 @@
         "port": {
             "http": 5452,
             "https": 5453
-        }
+        },
+        "refresh": 2000
     },
-
+    
     /**
      * The relative path to the appliaction's markup file (html, jsp, asp, etc.)
      */
