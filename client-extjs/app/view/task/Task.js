@@ -113,7 +113,7 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'checkboxfield',
                 name: 'clean',
                 fieldLabel: 'Clean',
-                boxLabel: 'delete empty folders and clutter files',
+                boxLabel: 'delete left behind clutter files',
                 checked: false
             }]
         }, {
