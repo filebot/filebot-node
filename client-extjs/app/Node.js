@@ -1,6 +1,36 @@
 Ext.define('FileBot.Node', {
     singleton: true,
-    
+
+    CSRF_TOKEN_KEY: 'SynoToken',
+    CSRF_TOKEN_VAL: null,
+    COOKIE_KEY: 'Cookie',
+    COOKIE_VAL: 'id='+Ext.util.Cookies.get('id'),
+
+    init: function() {
+        Ext.Ajax.request({
+            method: 'GET',
+            url: '/webman/login.cgi',
+            success: function (response) {
+                var data = Ext.decode(response.responseText)
+                this.CSRF_TOKEN_VAL = data[this.CSRF_TOKEN_KEY]
+            },
+            failure: function (response) {
+                Ext.MessageBox.show({
+                    title: 'Error: CSRF token',
+                    msg: response.responseText ? response.responseText : Ext.encode(response),
+                    buttons: Ext.MessageBox.OK,
+                    icon: Ext.MessageBox.ERROR
+                })
+            },
+            scope: this
+        })
+
+        Ext.Ajax.on('beforerequest', function(conn, request) {
+            request.params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
+            request.params[this.COOKIE_KEY] = this.COOKIE_VAL
+        }, this)
+    },
+
     getServerEndpoint: function(path) {
         return location.protocol + '//' + location.hostname + ':' + (location.protocol.indexOf('https') < 0 ? Ext.manifest.server.port.http : Ext.manifest.server.port.https) + '/' + path
     },
@@ -41,9 +71,8 @@ Ext.define('FileBot.Node', {
             failure: function (response) {
                 Ext.MessageBox.show({
                     title: 'Error',
-                    msg: response.responseText ? response.responseText : Ext.JSON.encode(response),
+                    msg: response.responseText ? response.responseText : Ext.encode(response),
                     buttons: Ext.MessageBox.OK,
-                    scope: this,
                     icon: Ext.MessageBox.ERROR
                 })
             }

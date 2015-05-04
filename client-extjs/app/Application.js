@@ -16,7 +16,7 @@ Ext.define('FileBot.Application', {
     ],
 
     launch: function() {
-    	
+    	FileBot.Node.init()
     }
 
 });
