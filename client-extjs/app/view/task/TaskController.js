@@ -7,7 +7,9 @@
  */
 Ext.define('FileBot.view.task.TaskController', {
     extend: 'Ext.app.ViewController',
-    requires: ['FileBot.Node'],
+    requires: [
+        'FileBot.Node'
+    ],
 
     alias: 'controller.task',
 
@@ -42,7 +44,7 @@ Ext.define('FileBot.view.task.TaskController', {
         var parameters = this.getExecuteParameters()
         if (parameters) {
             // force --action test and then execute normally
-            parameters.action = 'TEST'
+            parameters.action = 'test'
             FileBot.Node.requestExecute(parameters)
         }
     },

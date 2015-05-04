@@ -1,8 +1,6 @@
 Ext.define('FileBot.store.MediaLabels', {
     extend: 'Ext.data.ArrayStore',
-
     alias: 'store.media-labels',
-
     storeId: 'media-labels',
 
     fields: [
@@ -15,6 +13,6 @@ Ext.define('FileBot.store.MediaLabels', {
         [2, 'tv', 'TV Series'],
         [3, 'anime', 'Anime'],
         [4, 'music', 'Music'],
-        [5, 'other', 'other']
+        [5, 'other', 'Files']
     ]
 });

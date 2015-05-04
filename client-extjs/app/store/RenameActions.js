@@ -1,8 +1,6 @@
 Ext.define('FileBot.store.RenameActions', {
     extend: 'Ext.data.ArrayStore',
-
     alias: 'store.rename-actions',
-
     storeId: 'rename-actions',
 
     fields: [

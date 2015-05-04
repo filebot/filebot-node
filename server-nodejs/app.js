@@ -65,17 +65,23 @@ function getCommandArguments(options) {
         }
         args.push('--def')
         if (options.label) args.push('ut_label=' + options.label)
-        args.push('music=y')
-        args.push('artwork=y')
+        if (options.artwork == 'on') {
+            args.push('artwork=y')
+        }
         args.push('deleteAfterExtract=y')
+        args.push('music=y')
         args.push('unsorted=y')
         if (options.clean == 'on') args.push('clean=y')
         if (options.seriesFormat) args.push('seriesFormat=' + options.seriesFormat)
         if (options.animeFormat) args.push('animeFormat=' + options.animeFormat)
         if (options.movieFormat) args.push('movieFormat=' + options.movieFormat)
         if (options.musicFormat) args.push('musicFormat=' + options.musicFormat)
-        args.push('--log-file')
-        args.push(FILEBOT_LOG)
+        args.push('--log')
+        args.push(options.log)
+        if (options.action != 'test') {
+            args.push('--log-file')
+            args.push(FILEBOT_LOG)
+        }
     } else {
         throw new Error('Illegal options: ' + JSON.stringify(options))
     }

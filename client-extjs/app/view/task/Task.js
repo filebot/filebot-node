@@ -13,7 +13,8 @@ Ext.define('FileBot.view.task.Task', {
         'FileBot.view.taskmanager.TaskManager',
         'FileBot.view.tasklogcat.TaskLogCat',
         'FileBot.store.RenameActions',
-        'FileBot.store.MediaLabels'
+        'FileBot.store.MediaLabels',
+        'FileBot.store.LogLevels'
     ],
 
     xtype: 'section-task',
@@ -74,6 +75,7 @@ Ext.define('FileBot.view.task.Task', {
                 },
                 forceSelection: true,
                 editable: false,
+                allowBlank: false,
                 queryMode: 'local'
             }, {
                 xtype: 'checkboxfield',
@@ -93,6 +95,7 @@ Ext.define('FileBot.view.task.Task', {
                 },
                 forceSelection: true,
                 editable: false,
+                allowBlank: false,
                 queryMode: 'local'
             }, {
                 xtype: 'textfield',
@@ -100,11 +103,23 @@ Ext.define('FileBot.view.task.Task', {
                 name: 'output',
                 emptyText: '/path/to/output',
                 allowBlank: false
+            }, {
+                xtype: 'checkboxfield',
+                name: 'artwork',
+                fieldLabel: 'Artwork',
+                boxLabel: 'fetch artwork and generate .nfo files',
+                checked: true
+            }, {
+                xtype: 'checkboxfield',
+                name: 'clean',
+                fieldLabel: 'Clean',
+                boxLabel: 'delete empty folders and clutter files',
+                checked: false
             }]
         }, {
             xtype: 'fieldset',
             collapsible: true,
-            collapsed: false,
+            collapsed: true,
             
             title: 'Advanced Options',
             defaults: {
@@ -116,11 +131,30 @@ Ext.define('FileBot.view.task.Task', {
                 name: 'filter',
                 emptyText: 'age < 7'
             }, {
-                xtype: 'checkboxfield',
-                name: 'clean',
-                fieldLabel: 'Clean',
-                boxLabel: 'empty folders and clutter files'
-            }, {
+                xtype: 'combobox',
+                fieldLabel: 'Log',
+                name: 'log',
+                displayField: 'label',
+                valueField: 'value',
+                value: 'info',
+                store: {
+                    type: 'log-levels'
+                },
+                forceSelection: true,
+                editable: false,
+                allowBlank: false,
+                queryMode: 'local'
+            }]
+        }, {
+            xtype: 'fieldset',
+            collapsible: true,
+            collapsed: true,
+
+            title: 'Custom Formats',
+            defaults: {
+                anchor: '100%'
+            },
+            items: [{
                 xtype: 'textfield',
                 fieldLabel: 'Movie Format',
                 name: 'movieFormat',
@@ -140,9 +174,14 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Music Format',
                 name: 'musicFormat',
                 emptyText: 'Music/{n}/{fn}'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'File Format',
+                name: 'unsortedFormat',
+                emptyText: 'Unsorted/{fn}'
             }]
         }],
-        
+
         buttons: [{
             xtype: 'splitbutton',
             formBind: true,
