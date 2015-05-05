@@ -315,11 +315,12 @@ function auth_syno(request, response, options) {
     }
 
     // authenticate.cgi requires these and some other environment variables for authentication
-    // (node is single threaded so using process.env should be fine)
-    process.env['HTTP_COOKIE'] = options.Cookie
-    process.env['HTTP_X_SYNO_TOKEN'] = options.SynoToken
     var pd = child_process.spawn('/usr/syno/synoman/webman/modules/authenticate.cgi', [], {
-        env: process.env
+        env: {
+                'HTTP_COOKIE': options.Cookie, 
+                'HTTP_X_SYNO_TOKEN': options.SynoToken, 
+                'REMOTE_ADDR': request.connection.remoteAddress
+        }
     })
     pd.stdout.on('data', function(data) {
         AUTH_CACHE[user_id] = data.toString('utf8').trim()

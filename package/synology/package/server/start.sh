@@ -15,7 +15,7 @@ export FILEBOT_NODE_CLIENT='client'
 export FILEBOT_EXECUTABLE='/usr/bin/filebot'
 
 # set working dir
-cd '/usr/local/filebot-node'
+cd "$SYNOPKG_PKGDEST"
 
 # --max_executable_size (max size of executable memory (in Mbytes))
 # (NOT YET SUPPORTED SYNO NODE.JS) --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
