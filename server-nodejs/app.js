@@ -175,10 +175,15 @@ function handleRequest(request, response) {
     // require user authentication for all handlers below
     var user = auth(request, response, options)
     console.log('AUTH: user='+user)
+    
+    if ('/auth' == requestPath) {
+        return ok(response, {'user': user})
+    }
+
+    // AUTHENTICATION REQUIRED BEYOND THIS POINT
     if (!user) {
         return unauthorized(response)
     }
-
 
     if ('/tasks' == requestPath) {
         if (modifiedSince(request, TASKS.lastModified)) {
@@ -300,9 +305,9 @@ function auth(request, response, options) {
         case 'SYNO':
             return auth_syno(request, response, options)
         case 'NONE':
-            return true
+            return 'NONE'
         default:
-            return false
+            return null
     }
 }
 

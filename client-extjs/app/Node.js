@@ -13,6 +13,8 @@ Ext.define('FileBot.Node', {
             success: function (response) {
                 var data = Ext.decode(response.responseText)
                 this.CSRF_TOKEN_VAL = data[this.CSRF_TOKEN_KEY]
+
+                this.requestAuth({'method': 'syno'}) // submit auth request once we have the CSRF token
             },
             failure: function (response) {
                 Ext.MessageBox.show({
@@ -37,6 +39,10 @@ Ext.define('FileBot.Node', {
 
     getLogAllEndpoint: function() {
         return this.getServerEndpoint('log/all')
+    },
+
+    requestAuth: function(parameters) {
+        this.dispatchRequest('auth', parameters)
     },
 
     requestExecute: function (parameters) {
