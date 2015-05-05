@@ -108,7 +108,7 @@ Ext.define('FileBot.view.task.Task', {
                 name: 'artwork',
                 fieldLabel: 'Artwork',
                 boxLabel: 'fetch artwork and generate .nfo files',
-                checked: true
+                checked: false
             }, {
                 xtype: 'checkboxfield',
                 name: 'clean',
