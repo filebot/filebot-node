@@ -186,9 +186,14 @@
     },
     
     "testing": {
+
     },
-    
+
     "development": {
+        "server": {
+            "refresh": 5000,
+            "authentication": "none"
+        }
     },
 
     /**
