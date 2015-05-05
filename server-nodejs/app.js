@@ -22,6 +22,7 @@ var DASHLINE = '------------------------------------------'
 var SIGKILL_EXIT_CODE = 137
 
 // INITIALIZERS
+var AUTH_CACHE = {}
 var ACTIVE_PROCESSES = {}
 var TASKS = []
 
@@ -154,6 +155,8 @@ function listLogs() {
 function handleRequest(request, response) {
     var requestParameters = url.parse(request.url)
     var requestPath = requestParameters.pathname
+    var options = querystring.parse(requestParameters.query)
+
 
     if (requestPath.indexOf(PUBLIC_HTML) == 0) {
         var requestedFile = requestPath == PUBLIC_HTML ? 'index.html' : requestPath.substring(PUBLIC_HTML.length)
@@ -169,12 +172,14 @@ function handleRequest(request, response) {
         }
     }
 
-
     // require user authentication for all handlers below
-    if (!auth(request, response)) {
+    var user = auth(request, response, options)
+    console.log('AUTH: user='+user)
+    if (!user) {
         return unauthorized(response)
     }
-    
+
+
     if ('/tasks' == requestPath) {
         if (modifiedSince(request, TASKS.lastModified)) {
             return ok(response, TASKS, TASKS.lastModified)
@@ -184,7 +189,6 @@ function handleRequest(request, response) {
     }
 
     if ('/log' == requestPath) {
-        var options = querystring.parse(requestParameters.query)
         var id = options.id
         if (id > 0) {
             return file(request, response, getLogFile(id), MIME_TYPES['.log'], false, false)
@@ -192,7 +196,6 @@ function handleRequest(request, response) {
     }
 
     if ('/execute' == requestPath) {
-        var options = querystring.parse(requestParameters.query)
         var data = execute(options)
         return ok(response, data)
     }
@@ -202,7 +205,6 @@ function handleRequest(request, response) {
     }
 
     if ('/kill' == requestPath) {
-        var options = querystring.parse(requestParameters.query)
         var data = kill(options)
         return ok(response, data)
     }
@@ -213,6 +215,8 @@ function handleRequest(request, response) {
 
     return error(response, 'ILLEGAL REQUEST')
 }
+
+
 
 function modifiedSince(request, lastModified) {
     var header = request.headers['if-modified-since']
@@ -289,15 +293,41 @@ function error(response, exception) {
     response.end(JSON.stringify(result))
 }
 
-function auth(request, response) {
+
+
+function auth(request, response, options) {
     switch (AUTH) {
         case 'SYNO':
-            return true
+            return auth_syno(request, response, options)
         case 'NONE':
             return true
         default:
             return false
     }
+}
+
+function auth_syno(request, response, options) {
+    var user_id = options.Cookie
+
+    var user = AUTH_CACHE[user_id]
+    if (user) {
+        return user
+    }
+
+    // authenticate.cgi requires these and some other environment variables for authentication
+    // (node is single threaded so using process.env should be fine)
+    process.env['HTTP_COOKIE'] = options.Cookie
+    process.env['HTTP_X_SYNO_TOKEN'] = options.SynoToken
+    var pd = child_process.spawn('/usr/syno/synoman/webman/modules/authenticate.cgi', [], {
+        env: process.env
+    })
+    pd.stdout.on('data', function(data) {
+        AUTH_CACHE[user_id] = data.toString('utf8').trim()
+    })
+    pd.on('close', function(code) {
+        if (code == 0) console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
+    })
+    return null
 }
 
 
@@ -308,14 +338,10 @@ function server(request, response) {
     console.log(DASHLINE)
     console.log(new Date().toString())
     console.log(request.method + ": " + request.url)
-    console.log(request.headers)
 
-    try {
-        handleRequest(request, response)
-    } catch (e) {
-        error(response, e)
-    }
+    return handleRequest(request, response)
 }
+
 
 // HTTP
 if ('YES' == process.env['FILEBOT_NODE_HTTP']) {
