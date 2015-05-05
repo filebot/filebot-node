@@ -14,7 +14,9 @@ Ext.define('FileBot.view.task.Task', {
         'FileBot.view.tasklogcat.TaskLogCat',
         'FileBot.store.RenameActions',
         'FileBot.store.MediaLabels',
-        'FileBot.store.LogLevels'
+        'FileBot.store.LogLevels',
+        'FileBot.store.VideoLengthFilters',
+        'FileBot.store.FileSizeFilters'
     ],
 
     xtype: 'section-task',
