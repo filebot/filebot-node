@@ -127,7 +127,7 @@ Ext.define('FileBot.view.task.Task', {
                 anchor: '100%'
             }]
         }, {
-            title: 'File Selection',
+            title: 'File Filters',
             defaults: {
                 allowBlank: true,
                 forceSelection: true,
@@ -167,6 +167,13 @@ Ext.define('FileBot.view.task.Task', {
                     type: 'filesize-filters'
                 },
                 editable: false
+            }, {
+                xtype: 'textfield',
+                name: 'excludeList',
+                fieldLabel: 'Exclude List',
+                emptyText: 'exclude file that keeps track of processed files (e.g. done.txt)',
+                value: '.excludes',
+                anchor: '100%'
             }]
         }, {
             title: 'Custom Formats',
