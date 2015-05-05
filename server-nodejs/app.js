@@ -265,7 +265,7 @@ function file(request, response, file, contentType, cacheable, attachment) {
                 response.statusCode = 200
                 response.setHeader('Content-Type', contentType)
                 response.setHeader('Content-Length', stats.size)
-                if (attachment) response.setHeader('Content-Disposition', 'inline; filename="' + path.basename(file) +'"')
+                if (attachment) response.setHeader('Content-Disposition', 'attachment; filename="' + path.basename(file) +'"')
                 if (!cacheable) response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
                 response.setHeader('Last-Modified', stats.mtime.toUTCString())
                 response.setHeader('Access-Control-Allow-Origin', '*')
