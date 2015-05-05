@@ -4,7 +4,8 @@ Ext.define('FileBot.Node', {
     init: function() {
         switch(Ext.manifest.server.authentication) {
             case 'syno':
-                return this.init_syno()
+                this.init_syno()
+                break
         }
         
         // add Login Cookie and CSRF token to all subsequent requests
@@ -18,7 +19,11 @@ Ext.define('FileBot.Node', {
     },
 
     getLogAllEndpoint: function() {
-        return this.getServerEndpoint('log/all') + '?' + Ext.Object.toQueryString(this.authenticate({}))
+        // add auth parameters to URL
+        var params = {}
+        this.authenticate(params)
+
+        return this.getServerEndpoint('log/all') + '?' + Ext.Object.toQueryString(params)
     },
 
     requestAuth: function(parameters) {
