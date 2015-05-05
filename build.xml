@@ -79,7 +79,7 @@
         </spk>
     </target>
 
-    <target name="package" depends="build, spk">
+    <target name="package" depends="clean, build, spk">
 
     </target>
 
