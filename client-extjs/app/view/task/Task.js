@@ -45,12 +45,21 @@ Ext.define('FileBot.view.task.Task', {
         headerPosition: 'left',
         bodyPadding: 20,
         collapsible: false,
-        items: [{
+
+        defaults: {
             xtype: 'fieldset',
-            title: 'Basic Options',
+            collapsible: true,
+            collapsed: true
+        },
+        items: [{
+            title: 'Organize Files',
             collapsible: false,
+            collapsed: false,
+
             defaults: {
-                anchor: '100%'
+                allowBlank: false,
+                forceSelection: true,
+                queryMode: 'local'
             },
             items: [{
                 xtype: 'hidden',
@@ -59,24 +68,21 @@ Ext.define('FileBot.view.task.Task', {
                 hidden: true
             }, {
                 xtype: 'textfield',
-                fieldLabel: 'Input Folder',
                 name: 'input',
+                fieldLabel: 'Input Folder',
                 emptyText: '/path/to/input',
-                allowBlank: false
+                anchor: '100%'
             }, {
                 xtype: 'combobox',
-                fieldLabel: 'Input Type',
                 name: 'label',
+                fieldLabel: 'Input Type',
                 displayField: 'label',
                 valueField: 'value',
                 value: '',
                 store: {
                     type: 'media-labels'
                 },
-                forceSelection: true,
-                editable: false,
-                allowBlank: false,
-                queryMode: 'local'
+                editable: false
             }, {
                 xtype: 'checkboxfield',
                 name: 'strict',
@@ -85,24 +91,21 @@ Ext.define('FileBot.view.task.Task', {
                 checked: false
             }, {
                 xtype: 'combobox',
-                fieldLabel: 'Rename Action',
                 name: 'action',
+                fieldLabel: 'Action',
                 displayField: 'label',
                 valueField: 'value',
                 value: 'duplicate',
                 store: {
                     type: 'rename-actions'
                 },
-                forceSelection: true,
-                editable: false,
-                allowBlank: false,
-                queryMode: 'local'
+                editable: false
             }, {
                 xtype: 'textfield',
-                fieldLabel: 'Output Folder',
                 name: 'output',
+                fieldLabel: 'Output Folder',
                 emptyText: '/path/to/output',
-                allowBlank: false
+                anchor: '100%'
             }, {
                 xtype: 'checkboxfield',
                 name: 'artwork',
@@ -115,70 +118,130 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Clean',
                 boxLabel: 'delete left behind clutter files',
                 checked: false
+            }, {
+                xtype: 'textfield',
+                name: 'filter',
+                fieldLabel: 'Autodetection Filter',
+                emptyText: 'restrict autodetection (e.g. age < 7)',
+                allowBlank: true,
+                anchor: '100%'
             }]
         }, {
-            xtype: 'fieldset',
-            collapsible: true,
-            collapsed: true,
-            
-            title: 'Advanced Options',
+            title: 'File Selection',
             defaults: {
+                allowBlank: true,
+                forceSelection: true,
+                queryMode: 'local'
+            },
+            items: [{
+                xtype: 'checkboxfield',
+                name: 'skipExtract',
+                fieldLabel: 'Archives',
+                boxLabel: 'skip and ignore archives',
+                checked: false
+            }, {
+                xtype: 'textfield',
+                name: 'ignore',
+                fieldLabel: 'Ignore Rules',
+                emptyText: 'regular expression',
+                anchor: '100%'
+            }, {
+                xtype: 'combobox',
+                name: 'minLengthMS',
+                fieldLabel: 'Minimum Video Length',
+                displayField: 'label',
+                valueField: 'value',
+                value: '',
+                store: {
+                    type: 'videolength-filters'
+                },
+                editable: false
+            }, {
+                xtype: 'combobox',
+                name: 'minFileSize',
+                fieldLabel: 'Minimum File Size',
+                displayField: 'label',
+                valueField: 'value',
+                value: '',
+                store: {
+                    type: 'filesize-filters'
+                },
+                editable: false
+            }]
+        }, {
+            title: 'Custom Formats',
+            defaults: {
+                allowBlank: true,
+                xtype: 'textfield',
                 anchor: '100%'
             },
             items: [{
-                xtype: 'textfield',
-                fieldLabel: 'Filter',
-                name: 'filter',
-                emptyText: 'age < 7'
+                fieldLabel: 'Movie Format',
+                name: 'movieFormat',
+                emptyText: 'Movies/{n} {y}/{fn}'
             }, {
+                fieldLabel: 'Series Format',
+                name: 'seriesFormat',
+                emptyText: 'TV/{n}/{fn}'
+            }, {
+                fieldLabel: 'Anime Format',
+                name: 'animeFormat',
+                emptyText: 'Anime/{n}/{fn}'
+            }, {
+                fieldLabel: 'Music Format',
+                name: 'musicFormat',
+                emptyText: 'Music/{n}/{fn}'
+            }, {
+                fieldLabel: 'File Format',
+                name: 'unsortedFormat',
+                emptyText: 'Unsorted/{fn}'
+            }]
+        }, {
+            title: 'Automated Media Center',
+            defaults: {
+                allowBlank: true,
+                xtype: 'textfield',
+                anchor: '100%'
+            },
+            items: [{
+                name: 'exec',
+                fieldLabel: 'Run Program',
+                emptyText: "touch '{file}'"
+            }, {
+                name: 'plex',
+                fieldLabel: 'Plex',
+                emptyText: 'host:token'
+            }, {
+                name: 'xbmc',
+                fieldLabel: 'Kodi',
+                emptyText: 'host'
+            }, {
+                name: 'pushover',
+                fieldLabel: 'Pushover',
+                emptyText: 'userkey:apikey'
+            }, {
+                name: 'pushbullet',
+                fieldLabel: 'PushBullet',
+                emptyText: 'apikey'
+            }]
+        }, {
+            title: 'Logging',
+            defaults: {
+                allowBlank: true,
+                forceSelection: true,
+                queryMode: 'local'
+            },
+            items: [{
                 xtype: 'combobox',
-                fieldLabel: 'Log',
                 name: 'log',
+                fieldLabel: 'Log Level',
                 displayField: 'label',
                 valueField: 'value',
                 value: 'info',
                 store: {
                     type: 'log-levels'
                 },
-                forceSelection: true,
-                editable: false,
-                allowBlank: false,
-                queryMode: 'local'
-            }]
-        }, {
-            xtype: 'fieldset',
-            collapsible: true,
-            collapsed: true,
-
-            title: 'Custom Formats',
-            defaults: {
-                anchor: '100%'
-            },
-            items: [{
-                xtype: 'textfield',
-                fieldLabel: 'Movie Format',
-                name: 'movieFormat',
-                emptyText: 'Movies/{n} {y}/{fn}'
-            }, {
-                xtype: 'textfield',
-                fieldLabel: 'Series Format',
-                name: 'seriesFormat',
-                emptyText: 'TV/{n}/{\'S\'+s}/{fn}'
-            }, {
-                xtype: 'textfield',
-                fieldLabel: 'Anime Format',
-                name: 'animeFormat',
-                emptyText: 'Anime/{n}/{fn}'
-            }, {
-                xtype: 'textfield',
-                fieldLabel: 'Music Format',
-                name: 'musicFormat',
-                emptyText: 'Music/{n}/{fn}'
-            }, {
-                xtype: 'textfield',
-                fieldLabel: 'File Format',
-                name: 'unsortedFormat',
-                emptyText: 'Unsorted/{fn}'
+                editable: false
             }]
         }],
 

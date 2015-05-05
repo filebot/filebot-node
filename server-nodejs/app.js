@@ -66,17 +66,25 @@ function getCommandArguments(options) {
         }
         args.push('--def')
         if (options.label) args.push('ut_label=' + options.label)
-        if (options.artwork == 'on') {
-            args.push('artwork=y')
-        }
-        args.push('deleteAfterExtract=y')
         args.push('music=y')
         args.push('unsorted=y')
+        if (options.artwork == 'on') args.push('artwork=y')
         if (options.clean == 'on') args.push('clean=y')
+        if (options.skipExtract == 'on') args.push('skipExtract=y')
+        args.push('deleteAfterExtract=y')
+        if (options.ignore) args.push('ignore=' + options.ignore)
+        if (options.minLengthMS) args.push('minLengthMS=' + options.minLengthMS)
+        if (options.minFileSize) args.push('minFileSize=' + options.minFileSize)
+        if (options.exec) args.push('exec=' + options.exec)
+        if (options.plex) args.push('plex=' + options.plex)
+        if (options.xbmc) args.push('xbmc=' + options.xbmc)
+        if (options.pushover) args.push('pushover=' + options.pushover)
+        if (options.pushbullet) args.push('pushbullet=' + options.pushbullet)
         if (options.seriesFormat) args.push('seriesFormat=' + options.seriesFormat)
         if (options.animeFormat) args.push('animeFormat=' + options.animeFormat)
         if (options.movieFormat) args.push('movieFormat=' + options.movieFormat)
         if (options.musicFormat) args.push('musicFormat=' + options.musicFormat)
+        if (options.excludeList) args.push('excludeList=' + options.excludeList)
         args.push('--log')
         args.push(options.log)
         if (options.action != 'test') {
@@ -97,7 +105,7 @@ function spawnChildProcess(command, arguments) {
         id: id,
         status: null
     }
-
+    
     // each log contains the original command (as JSON) in the first line
     fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + '\n\n' + DASHLINE + '\n\n')
 
