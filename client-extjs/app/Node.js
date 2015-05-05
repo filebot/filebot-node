@@ -6,6 +6,11 @@ Ext.define('FileBot.Node', {
             case 'syno':
                 return this.init_syno()
         }
+        
+        // add Login Cookie and CSRF token to all subsequent requests
+        Ext.Ajax.on('beforerequest', function(conn, request) {
+            this.authenticate(request.params)
+        }, this)
     },
 
     getServerEndpoint: function(path) {
@@ -13,7 +18,7 @@ Ext.define('FileBot.Node', {
     },
 
     getLogAllEndpoint: function() {
-        return this.getServerEndpoint('log/all')
+        return this.getServerEndpoint('log/all') + '?' + Ext.Object.toQueryString(this.authenticate({}))
     },
 
     requestAuth: function(parameters) {
@@ -87,6 +92,10 @@ Ext.define('FileBot.Node', {
         })
     },
 
+    authenticate: function(params) {
+        // do nothing by default
+    },
+
     init_syno: function() {
         // Synology DSM require SynoToken (CSRF) and Cookie (USER) to authenticate a user request
         this.CSRF_TOKEN_KEY ='SynoToken'
@@ -115,10 +124,10 @@ Ext.define('FileBot.Node', {
         })
 
         // add Login Cookie and CSRF token to all subsequent requests
-        Ext.Ajax.on('beforerequest', function(conn, request) {
-            request.params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
-            request.params[this.COOKIE_KEY] = this.COOKIE_VAL
-        }, this)
+        this.authenticate = function(params) {
+            params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
+            params[this.COOKIE_KEY] = this.COOKIE_VAL
+        }
     }
 
 });
