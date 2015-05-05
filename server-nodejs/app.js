@@ -34,7 +34,7 @@ var FILEBOT_LOG = path.resolve('filebot.log')
 
 // create folder if necessary
 if (!fs.existsSync(LOG_FOLDER)) fs.mkdirSync(LOG_FOLDER)
-
+if (!fs.existsSync(FILEBOT_LOG)) fs.writeFileSync(FILEBOT_LOG, '# created on ' + new Date())
 
 // HELPER FUNCTIONS
 
