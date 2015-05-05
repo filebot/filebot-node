@@ -79,7 +79,7 @@
         </spk>
     </target>
 
-    <target name="package" depends="clean, build, spk">
+    <target name="package" depends="build, spk">
 
     </target>
 
@@ -90,6 +90,7 @@
             <fileset defaultexcludes="false" dir="${dir.dist}" />
             <fileset defaultexcludes="false" dir="${dir.server}/log" />
             <fileset defaultexcludes="false" dir="${dir.server}" includes="*.log" />
+            <fileset defaultexcludes="false" dir="${dir.client}/build/production/FileBot" />
         </delete>
     </target>
 

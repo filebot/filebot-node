@@ -17,7 +17,8 @@
             "http": 5452,
             "https": 5453
         },
-        "refresh": 2000
+        "refresh": 2000,
+        "authentication": "syno"
     },
     
     /**

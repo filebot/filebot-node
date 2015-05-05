@@ -1,36 +1,11 @@
 Ext.define('FileBot.Node', {
     singleton: true,
 
-    CSRF_TOKEN_KEY: 'SynoToken',
-    CSRF_TOKEN_VAL: null,
-    COOKIE_KEY: 'Cookie',
-    COOKIE_VAL: 'id='+Ext.util.Cookies.get('id'),
-
     init: function() {
-        Ext.Ajax.request({
-            method: 'GET',
-            url: '/webman/login.cgi',
-            success: function (response) {
-                var data = Ext.decode(response.responseText)
-                this.CSRF_TOKEN_VAL = data[this.CSRF_TOKEN_KEY]
-
-                this.requestAuth({'method': 'syno'}) // submit auth request once we have the CSRF token
-            },
-            failure: function (response) {
-                Ext.MessageBox.show({
-                    title: 'Error: CSRF token',
-                    msg: response.responseText ? response.responseText : Ext.encode(response),
-                    buttons: Ext.MessageBox.OK,
-                    icon: Ext.MessageBox.ERROR
-                })
-            },
-            scope: this
-        })
-
-        Ext.Ajax.on('beforerequest', function(conn, request) {
-            request.params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
-            request.params[this.COOKIE_KEY] = this.COOKIE_VAL
-        }, this)
+        switch(Ext.manifest.server.authentication) {
+            case 'syno':
+                return this.init_syno()
+        }
     },
 
     getServerEndpoint: function(path) {
@@ -110,6 +85,40 @@ Ext.define('FileBot.Node', {
                 rootProperty: 'data'
             }
         })
+    },
+
+    init_syno: function() {
+        // Synology DSM require SynoToken (CSRF) and Cookie (USER) to authenticate a user request
+        this.CSRF_TOKEN_KEY ='SynoToken'
+        this.CSRF_TOKEN_VAL = null
+        this.COOKIE_KEY = 'Cookie'
+        this.COOKIE_VAL ='id='+Ext.util.Cookies.get('id')
+
+        Ext.Ajax.request({
+            method: 'GET',
+            url: '/webman/login.cgi',
+            success: function (response) {
+                var data = Ext.decode(response.responseText)
+                this.CSRF_TOKEN_VAL = data[this.CSRF_TOKEN_KEY]
+
+                this.requestAuth({'method': 'syno'}) // submit auth request once we have the CSRF token
+            },
+            failure: function (response) {
+                Ext.MessageBox.show({
+                    title: 'Error: CSRF token',
+                    msg: response.responseText ? response.responseText : Ext.encode(response),
+                    buttons: Ext.MessageBox.OK,
+                    icon: Ext.MessageBox.ERROR
+                })
+            },
+            scope: this
+        })
+
+        // add Login Cookie and CSRF token to all subsequent requests
+        Ext.Ajax.on('beforerequest', function(conn, request) {
+            request.params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
+            request.params[this.COOKIE_KEY] = this.COOKIE_VAL
+        }, this)
     }
 
 });
