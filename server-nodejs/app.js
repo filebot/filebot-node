@@ -14,7 +14,10 @@ var shellescape = require('shell-escape')
 // CONFIGURATION AND GLOBAL VARIABLES
 var AUTH = process.env['FILEBOT_NODE_AUTH']
 var CLIENT = process.env['FILEBOT_NODE_CLIENT']
-var FILEBOT_EXECUTABLE = process.env['FILEBOT_EXECUTABLE']
+var FILEBOT_CMD = process.env['FILEBOT_CMD']
+var FILEBOT_CMD_CWD = process.env['FILEBOT_CMD_CWD']
+var FILEBOT_CMD_UID = process.env['FILEBOT_CMD_UID']
+var FILEBOT_CMD_GID = process.env['FILEBOT_CMD_GID']
 
 var PUBLIC_HTML = '/filebot/'
 var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
@@ -44,7 +47,7 @@ function getLogFile(id) {
 }
 
 function getCommand() {
-    return FILEBOT_EXECUTABLE
+    return FILEBOT_CMD
 }
 
 function getCommandArguments(options) {
@@ -109,10 +112,12 @@ function spawnChildProcess(command, arguments) {
     // each log contains the original command (as JSON) in the first line
     fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + '\n\n' + DASHLINE + '\n\n')
 
-    var process = child_process.spawn(
-        command,
-        arguments,
-        {stdio: ['ignore', fs.openSync(logFile, 'a'), fs.openSync(logFile, 'a')]}
+    var process = child_process.spawn(command, arguments, {
+            stdio: ['ignore', fs.openSync(logFile, 'a'), fs.openSync(logFile, 'a')],
+            cwd: FILEBOT_CMD_CWD,
+            uid: FILEBOT_CMD_UID,
+            gid: FILEBOT_CMD_GID
+        }
     )
 
     ACTIVE_PROCESSES[id] = process
@@ -371,7 +376,7 @@ if ('YES' == process.env['FILEBOT_NODE_HTTPS']) {
     var port = process.env['FILEBOT_NODE_HTTPS_PORT']
     var options = {
         key: fs.readFileSync(process.env['FILEBOT_NODE_HTTPS_KEY']),
-        cert: fs.readFileSync(process.env['FILEBOT_NODE_HTTPS_CERT'])
+        cert: fs.readFileSync(process.env['FILEBOT_NODE_HTTPS_CRT'])
     }
     https.createServer(options, server).listen(port, host)
     console.log(process.title + ' listening at https://' + host + ':' + port + PUBLIC_HTML)  
