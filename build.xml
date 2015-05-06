@@ -4,17 +4,16 @@
     <property file="package.properties" />
     <property file="profile.properties" />
 
-    <tstamp>
-        <format property="today" pattern="yyyy-MM-dd" />
-    </tstamp>
-
     <!-- define source dirs -->
     <property name="dir.client" location="${basedir}/client-extjs" />
     <property name="dir.server" location="${basedir}/server-nodejs" />
-    <property name="dir.build" location="${basedir}/build" />
     <property name="dir.package" location="${basedir}/package" />
-    <property name="dir.dist" location="${basedir}/dist" />
+    <property name="dir.build" location="${basedir}/build" />
     <property name="dir.lib" location="${basedir}/lib" />
+    <property name="dir.dist" location="${basedir}/dist" />
+    
+    <property name="dir.release" location="${basedir}/release" />
+    <property name="frs.release" value="web.sourceforge.net:/home/frs/project/f/fi/filebot/filebot/HEAD" />
 
 
     <target name="build">
@@ -66,8 +65,8 @@
     <target name="spk" description="Synology NAS package">
         <taskdef name="spk" classname="net.filebot.ant.spk.SpkTask" classpath="${dir.lib}/ant-spk.jar" />
 
-        <spk destdir="${dir.dist}" name="filebot-node" version="${version}" arch="noarch">
-            <info name="displayname" value="FileBot Node Service" />
+        <spk destdir="${dir.dist}" name="${ant.project.name}" version="${version}" arch="noarch">
+            <info name="displayname" value="FileBot Node" />
             <info name="description" value="FileBot Node allows you to execute filebot calls via Synology DSM." />
             <info name="maintainer" value="rednoah" />
             <info name="distributor" value="FileBot" />
@@ -94,8 +93,9 @@
         </spk>
     </target>
 
-    <target name="package" depends="build, spk">
 
+    <target name="package" depends="build, spk">
+        <echo message="BUILD COMPLETE" />
     </target>
 
 
@@ -104,6 +104,29 @@
             <fileset defaultexcludes="false" dir="${dir.dist}" />
             <fileset defaultexcludes="false" dir="${dir.build}" />
         </delete>
+    </target>
+
+
+    <target name="deploy" depends="login, clean, package">
+        <!-- prepare release packages -->
+        <copy todir="${dir.release}/${ant.project.name}" verbose="yes">
+            <fileset dir="${dir.dist}">
+                <include name="*.spk" />
+            </fileset>
+        </copy>
+
+        <!-- upload -->
+        <scp todir="${sf.user}:${sf.password}@${frs.release}" trust="yes" verbose="true" sftp="true">
+            <fileset dir="${dir.release}">
+                <include name="**/*" />
+            </fileset>
+        </scp>
+    </target>
+
+    <target name="login">
+        <!-- ask for sourceforge password -->
+        <input message="Please enter sourceforge username:" addproperty="sf.user" />
+        <input message="Please enter sourceforge password:" addproperty="sf.password" />
     </target>
 
 

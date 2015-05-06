@@ -106,4 +106,5 @@ packages/
 log/
 dist/
 build/
+release/
 reference/
