@@ -16,8 +16,8 @@ var AUTH = process.env['FILEBOT_NODE_AUTH']
 var CLIENT = process.env['FILEBOT_NODE_CLIENT']
 var FILEBOT_CMD = process.env['FILEBOT_CMD']
 var FILEBOT_CMD_CWD = process.env['FILEBOT_CMD_CWD']
-var FILEBOT_CMD_UID = process.env['FILEBOT_CMD_UID']
-var FILEBOT_CMD_GID = process.env['FILEBOT_CMD_GID']
+var FILEBOT_CMD_UID = parseInt(process.env['FILEBOT_CMD_UID'], 10)
+var FILEBOT_CMD_GID = parseInt(process.env['FILEBOT_CMD_GID'], 10)
 
 var PUBLIC_HTML = '/filebot/'
 var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
@@ -36,8 +36,14 @@ var LOG_FOLDER = path.resolve('log')
 var FILEBOT_LOG = path.resolve('filebot.log')
 
 // create folder if necessary
-if (!fs.existsSync(LOG_FOLDER)) fs.mkdirSync(LOG_FOLDER)
-if (!fs.existsSync(FILEBOT_LOG)) fs.writeFileSync(FILEBOT_LOG, '# created on ' + new Date())
+if (!fs.existsSync(LOG_FOLDER)) {
+    fs.mkdirSync(LOG_FOLDER)
+    fs.chownSync(LOG_FOLDER, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
+}
+if (!fs.existsSync(FILEBOT_LOG)) {
+    fs.writeFileSync(FILEBOT_LOG, '# created on ' + new Date() + '\n')
+    fs.chownSync(FILEBOT_LOG, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
+}
 
 // HELPER FUNCTIONS
 
@@ -111,20 +117,22 @@ function spawnChildProcess(command, arguments) {
     
     // each log contains the original command (as JSON) in the first line
     fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + '\n\n' + DASHLINE + '\n\n')
+    fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
-    var process = child_process.spawn(command, arguments, {
+    var child = child_process.spawn(command, arguments, {
             stdio: ['ignore', fs.openSync(logFile, 'a'), fs.openSync(logFile, 'a')],
+            env: process.env,
             cwd: FILEBOT_CMD_CWD,
             uid: FILEBOT_CMD_UID,
             gid: FILEBOT_CMD_GID
         }
     )
 
-    ACTIVE_PROCESSES[id] = process
+    ACTIVE_PROCESSES[id] = child
     TASKS.push(pd)
     TASKS.lastModified = Date.now()
-
-    process.on('close', function (code) {
+    
+    child.on('close', function (code) {
         // remove process object reference
         delete ACTIVE_PROCESSES[id]
         // store exit code
