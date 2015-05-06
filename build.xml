@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <project name="filebot-node" default="package">
     <!-- include default inputs (optional) -->
+    <property file="package.properties" />
     <property file="profile.properties" />
-
-    <!-- include application properties -->
-    <property name="title" value="FileBot Node" />
-    <property name="version" value="0.1" />
 
     <tstamp>
         <format property="today" pattern="yyyy-MM-dd" />
@@ -14,12 +11,31 @@
     <!-- define source dirs -->
     <property name="dir.client" location="${basedir}/client-extjs" />
     <property name="dir.server" location="${basedir}/server-nodejs" />
+    <property name="dir.build" location="${basedir}/build" />
     <property name="dir.package" location="${basedir}/package" />
     <property name="dir.dist" location="${basedir}/dist" />
     <property name="dir.lib" location="${basedir}/lib" />
 
 
     <target name="build">
+        <copy todir="${dir.build}/client" includeEmptyDirs="no">
+            <fileset dir="${dir.client}">
+                <exclude name="build/**" />
+                <exclude name="bootstrap.*" />
+            </fileset>
+        </copy>
+        <copy todir="${dir.build}/server" includeEmptyDirs="no">
+            <fileset dir="${dir.server}">
+                <exclude name="**/*.log" />
+            </fileset>
+        </copy>
+
+        <replace dir="${dir.build}" encoding="utf-8" summary="yes">
+            <include name="client/app.json" />
+            <include name="server/package.json" />
+            <replacefilter token="0.0.0" value="${version}" />
+        </replace>
+
         <!-- run sencha app build -->
         <exec executable="sencha" dir="${dir.client}">
             <arg line="app build production"/>
@@ -79,7 +95,7 @@
         </spk>
     </target>
 
-    <target name="package" depends="clean, build, spk">
+    <target name="package" depends="build, spk">
 
     </target>
 
@@ -87,10 +103,7 @@
     <target name="clean">
         <delete includeEmptyDirs="true" failonerror="false">
             <fileset defaultexcludes="false" dir="${dir.dist}" />
-            <fileset defaultexcludes="false" dir="${dir.dist}" />
-            <fileset defaultexcludes="false" dir="${dir.server}/log" />
-            <fileset defaultexcludes="false" dir="${dir.server}" includes="*.log" />
-            <fileset defaultexcludes="false" dir="${dir.client}/build/production/FileBot" />
+            <fileset defaultexcludes="false" dir="${dir.build}" />
         </delete>
     </target>
 
