@@ -37,12 +37,12 @@
         </replace>
 
         <!-- run sencha app build -->
-        <exec executable="sencha" dir="${dir.client}">
+        <exec executable="sencha" dir="${dir.build}/client">
             <arg line="app build production"/>
         </exec>
 
         <copy todir="${dir.dist}/generic/client">
-            <fileset dir="${dir.client}/build/production/FileBot">
+            <fileset dir="${dir.build}/client/build/production/FileBot">
                 <include name="**/*.html" />
                 <include name="**/*.css" />
                 <include name="**/*.js" />
@@ -54,11 +54,10 @@
         </copy>
 
         <copy todir="${dir.dist}/generic/server">
-            <fileset dir="${dir.server}">
+            <fileset dir="${dir.build}/server">
                 <include name="**/*.js" />
                 <include name="**/*.json" />
                 <include name="**/*.sh" />
-                <exclude name="**/test/**" />
             </fileset>
         </copy>
     </target>
