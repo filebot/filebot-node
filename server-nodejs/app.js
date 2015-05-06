@@ -127,10 +127,6 @@ function spawnChildProcess(command, arguments) {
             gid: FILEBOT_CMD_GID
         }
     )
-
-    ACTIVE_PROCESSES[id] = child
-    TASKS.push(pd)
-    TASKS.lastModified = Date.now()
     
     child.on('close', function (code) {
         // remove process object reference
@@ -140,6 +136,10 @@ function spawnChildProcess(command, arguments) {
         TASKS.lastModified = Date.now()
         fs.appendFile(logFile, DASHLINE +'\n\n' + (code == null ? '[Process killed]' : code == 0 ? '[Process completed]' : '[Process error]'))
     })
+
+    ACTIVE_PROCESSES[id] = child
+    TASKS.push(pd)
+    TASKS.lastModified = Date.now()
 
     return pd
 }
