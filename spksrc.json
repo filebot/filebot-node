@@ -18,7 +18,7 @@
 		"size":716800,
 		"md5":"1058b2692b7fd8b71d89205485e98ea6",
 		"link":"http://sourceforge.net/projects/filebot/files/filebot/HEAD/filebot-node/filebot-node-0.1.1-noarch.spk",
-		"deppkgs":"Node.js>0.10.36:filebot>4.5.7",
+		"deppkgs":"Node.js>=0.10.36:filebot>=4.5.7",
 		"thirdparty":true,
 		"qinst":true,
 		"qstart":true,
