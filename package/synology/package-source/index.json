@@ -7,7 +7,6 @@
 	{
 		"dname":"FileBot Node",
 		"desc":"FileBot Node allows you to execute filebot calls via Synology DSM.",
-		"category":2,
 		"distributor":"FileBot",
 		"distributor_url":"http://www.filebot.net",
 		"maintainer":"rednoah",
@@ -19,7 +18,7 @@
 		"size":${filebot-node.spk.size},
 		"md5":"${filebot-node.spk.md5}",
 		"link":"${filebot-node.spk.download}",
-		"deppkgs":"Node.js:filebot",
+		"deppkgs":"Node.js>0.10.36:filebot>4.5.7",
 		"thirdparty":true,
 		"qinst":true,
 		"qstart":true,
