@@ -5,19 +5,25 @@
  */
 [
 	{
-		"dname": "FileBot Node",
-		"desc": "FileBot Node allows you to execute filebot calls via Synology DSM.",
-		"maintainer": "rednoah",
-		"distributor": "FileBot",
-		"distributor_url": "http://www.filebot.net/",
-		"icon": "http://i.imgur.com/bxHSJp9.png",
-		"snapshot": [
-			"http://i.imgur.com/HkQkh2h.png"
-		],
-		"package": "filebot-node",
-		"version": "${version}",
-		"size": "${filebot-node.spk.size}",
-		"md5": "${filebot-node.spk.md5}",
-		"link": "${filebot-node.spk.download}"
+		"dname":"FileBot Node",
+		"desc":"FileBot Node allows you to execute filebot calls via Synology DSM.",
+		"category":2,
+		"distributor":"FileBot",
+		"distributor_url":"http://www.filebot.net",
+		"maintainer":"rednoah",
+		"maintainer_url":"http://www.filebot.net",
+		"icon":"http://i.imgur.com/bxHSJp9.png",
+		"snapshot":["http://i.imgur.com/sCgINCR.png"],
+		"package":"filebot-node",
+		"version":"${version}",
+		"size":${filebot-node.spk.size},
+		"md5":"${filebot-node.spk.md5}",
+		"link":"${filebot-node.spk.download}",
+		"deppkgs":"Node.js:filebot",
+		"thirdparty":true,
+		"qinst":true,
+		"qstart":true,
+		"qupgrade":true,
+		"start":true
 	}
 ]
