@@ -1,0 +1,23 @@
+/**
+ * Just add https://raw.githubusercontent.com/filebot/filebot-node/master/spksrc.json in Package Sources
+ *
+ * Package Center -> Settings -> Package Sources -> Add -> Name: filebot-node and Location: https://raw.githubusercontent.com/filebot/filebot-node/master/spksrc.json -> OK
+ */
+[
+	{
+		"dname": "FileBot Node",
+		"desc": "FileBot Node allows you to execute filebot calls via Synology DSM.",
+		"maintainer": "rednoah",
+		"distributor": "FileBot",
+		"distributor_url": "http://www.filebot.net/",
+		"icon": "http://i.imgur.com/bxHSJp9.png",
+		"snapshot": [
+			"http://i.imgur.com/HkQkh2h.png"
+		],
+		"package": "filebot-node",
+		"version": "0.1.1",
+		"size": "716800",
+		"md5": "1058b2692b7fd8b71d89205485e98ea6",
+		"link": "http://sourceforge.net/projects/filebot/files/filebot/HEAD/filebot-node/filebot-node-0.1.1-noarch.spk"
+	}
+]

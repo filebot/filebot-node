@@ -1,134 +1,154 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <project name="filebot-node" default="package">
-    <!-- include default inputs (optional) -->
-    <property file="package.properties" />
-    <property file="profile.properties" />
+	<!-- include default inputs (optional) -->
+	<property file="package.properties" />
+	<property file="profile.properties" />
 
-    <!-- define source dirs -->
-    <property name="dir.client" location="${basedir}/client-extjs" />
-    <property name="dir.server" location="${basedir}/server-nodejs" />
-    <property name="dir.package" location="${basedir}/package" />
-    <property name="dir.build" location="${basedir}/build" />
-    <property name="dir.lib" location="${basedir}/lib" />
-    <property name="dir.dist" location="${basedir}/dist" />
-    
-    <property name="dir.release" location="${basedir}/release" />
-    <property name="frs.release" value="web.sourceforge.net:/home/frs/project/f/fi/filebot/filebot/HEAD" />
+	<!-- define source dirs -->
+	<property name="dir.client" location="${basedir}/client-extjs" />
+	<property name="dir.server" location="${basedir}/server-nodejs" />
+	<property name="dir.package" location="${basedir}/package" />
+	<property name="dir.build" location="${basedir}/build" />
+	<property name="dir.lib" location="${basedir}/lib" />
+	<property name="dir.dist" location="${basedir}/dist" />
 
-
-    <target name="build">
-        <copy todir="${dir.build}/client" includeEmptyDirs="no">
-            <fileset dir="${dir.client}">
-                <exclude name="build/**" />
-                <exclude name="bootstrap.*" />
-            </fileset>
-        </copy>
-        <copy todir="${dir.build}/server" includeEmptyDirs="no">
-            <fileset dir="${dir.server}">
-                <exclude name="**/*.log" />
-            </fileset>
-        </copy>
-
-        <replace dir="${dir.build}" encoding="utf-8" summary="yes">
-            <include name="client/app.json" />
-            <include name="server/package.json" />
-            <replacefilter token="0.0.0" value="${version}" />
-        </replace>
-
-        <!-- run sencha app build -->
-        <exec executable="sencha" dir="${dir.build}/client">
-            <arg line="app build production"/>
-        </exec>
-
-        <copy todir="${dir.dist}/generic/client">
-            <fileset dir="${dir.build}/client/build/production/FileBot">
-                <include name="**/*.html" />
-                <include name="**/*.css" />
-                <include name="**/*.js" />
-                <include name="**/*.json" />
-                <include name="**/*.png" />
-                <include name="**/*.gif" />
-                <include name="**/*.svg" />
-            </fileset>
-        </copy>
-
-        <copy todir="${dir.dist}/generic/server">
-            <fileset dir="${dir.build}/server">
-                <include name="**/*.js" />
-                <include name="**/*.json" />
-                <include name="**/*.sh" />
-            </fileset>
-        </copy>
-    </target>
+	<property name="dir.release" location="${basedir}/release" />
+	<property name="frs.release" value="web.sourceforge.net:/home/frs/project/f/fi/filebot/filebot/HEAD" />
 
 
-    <target name="spk" description="Synology NAS package">
-        <taskdef name="spk" classname="net.filebot.ant.spk.SpkTask" classpath="${dir.lib}/ant-spk.jar" />
+	<target name="build">
+		<copy todir="${dir.build}/client" includeEmptyDirs="no">
+			<fileset dir="${dir.client}">
+				<exclude name="build/**" />
+				<exclude name="bootstrap.*" />
+			</fileset>
+		</copy>
+		<copy todir="${dir.build}/server" includeEmptyDirs="no">
+			<fileset dir="${dir.server}">
+				<exclude name="**/*.log" />
+			</fileset>
+		</copy>
 
-        <spk destdir="${dir.dist}" name="${ant.project.name}" version="${version}" arch="noarch">
-            <info name="displayname" value="FileBot Node" />
-            <info name="description" value="FileBot Node allows you to execute filebot calls via Synology DSM." />
-            <info name="maintainer" value="rednoah" />
-            <info name="distributor" value="FileBot" />
-            <info name="distributor_url" value="http://www.filebot.net/" />
-            <info name="support_url" value="https://github.com/filebot/filebot-node/issues" />
-            <info name="helpurl" value="https://www.filebot.net/forums/viewforum.php?f=13" />
-            <info name="firmware" value="5.0" />
-            <info name="install_dep_packages" value="Node.js" />
-            <info name="startable" value="yes" />
-            <info name="silent_install" value="no" />
-            <info name="silent_upgrade" value="yes" />
-            <info name="silent_uninstall" value="yes" />
-            <info name="dsmappname" value="net.filebot.NodeClient" />
-            <info name="dsmuidir" value="client" />
+		<replace dir="${dir.build}" encoding="utf-8" summary="yes">
+			<include name="client/app.json" />
+			<include name="server/package.json" />
+			<replacefilter token="0.0.0" value="${version}" />
+		</replace>
 
-            <icon size="72" file="${dir.package}/synology/package/client/images/filebot_node_72.png" />
-            <icon size="256" file="${dir.package}/synology/package/client/images/filebot_node_256.png" />
-            
-            <!-- override generic server/start.sh with synology-specific configuration -->
-            <package dir="${dir.dist}/generic" />
-            <package dir="${dir.package}/synology/package" includes="client/**" />
-            <package dir="${dir.package}/synology/package" includes="server/*.sh" filemode="755" />
-            <scripts dir="${dir.package}/synology/scripts" filemode="755" />
-        </spk>
-    </target>
+		<!-- run sencha app build -->
+		<exec executable="sencha" dir="${dir.build}/client">
+			<arg line="app build production" />
+		</exec>
 
+		<copy todir="${dir.dist}/generic/client">
+			<fileset dir="${dir.build}/client/build/production/FileBot">
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.js" />
+				<include name="**/*.json" />
+				<include name="**/*.png" />
+				<include name="**/*.gif" />
+				<include name="**/*.svg" />
+			</fileset>
+		</copy>
 
-    <target name="package" depends="build, spk">
-        <echo message="BUILD COMPLETE" />
-    </target>
-
-
-    <target name="clean">
-        <delete includeEmptyDirs="true" failonerror="false">
-            <fileset defaultexcludes="false" dir="${dir.build}" />
-            <fileset defaultexcludes="false" dir="${dir.dist}" />
-            <fileset defaultexcludes="false" dir="${dir.release}" />
-        </delete>
-    </target>
+		<copy todir="${dir.dist}/generic/server">
+			<fileset dir="${dir.build}/server">
+				<include name="**/*.js" />
+				<include name="**/*.json" />
+				<include name="**/*.sh" />
+			</fileset>
+		</copy>
+	</target>
 
 
-    <target name="deploy" depends="login, clean, package">
-        <!-- prepare release packages -->
-        <copy todir="${dir.release}/${ant.project.name}" verbose="yes">
-            <fileset dir="${dir.dist}">
-                <include name="*.spk" />
-            </fileset>
-        </copy>
+	<target name="spk" description="Synology NAS package">
+		<taskdef name="spk" classname="net.filebot.ant.spk.SpkTask" classpath="${dir.lib}/ant-spk.jar" />
 
-        <!-- upload -->
-        <scp todir="${sf.user}:${sf.password}@${frs.release}" trust="yes" verbose="true" sftp="true">
-            <fileset dir="${dir.release}">
-                <include name="**/*" />
-            </fileset>
-        </scp>
-    </target>
+		<spk destdir="${dir.dist}" name="${ant.project.name}" version="${version}" arch="noarch">
+			<info name="displayname" value="FileBot Node" />
+			<info name="description" value="FileBot Node allows you to execute filebot calls via Synology DSM." />
+			<info name="maintainer" value="rednoah" />
+			<info name="distributor" value="FileBot" />
+			<info name="distributor_url" value="http://www.filebot.net/" />
+			<info name="support_url" value="https://github.com/filebot/filebot-node/issues" />
+			<info name="helpurl" value="https://www.filebot.net/forums/viewforum.php?f=13" />
+			<info name="firmware" value="5.0" />
+			<info name="install_dep_packages" value="Node.js" />
+			<info name="startable" value="yes" />
+			<info name="silent_install" value="no" />
+			<info name="silent_upgrade" value="yes" />
+			<info name="silent_uninstall" value="yes" />
+			<info name="dsmappname" value="net.filebot.NodeClient" />
+			<info name="dsmuidir" value="client" />
 
-    <target name="login">
-        <!-- ask for sourceforge password -->
-        <input message="Please enter sourceforge username:" addproperty="sf.user" />
-        <input message="Please enter sourceforge password:" addproperty="sf.password" />
-    </target>
+			<icon size="72" file="${dir.package}/synology/package/client/images/filebot_node_72.png" />
+			<icon size="256" file="${dir.package}/synology/package/client/images/filebot_node_256.png" />
 
+			<!-- override generic server/start.sh with synology-specific configuration -->
+			<package dir="${dir.dist}/generic" />
+			<package dir="${dir.package}/synology/package" includes="client/**" />
+			<package dir="${dir.package}/synology/package" includes="server/*.sh" filemode="755" />
+			<scripts dir="${dir.package}/synology/scripts" filemode="755" />
+		</spk>
+	</target>
+
+
+	<target name="package" depends="build, spk">
+
+	</target>
+
+
+	<target name="clean">
+		<delete includeEmptyDirs="true" failonerror="false">
+			<fileset defaultexcludes="false" dir="${dir.build}" />
+			<fileset defaultexcludes="false" dir="${dir.dist}" />
+			<fileset defaultexcludes="false" dir="${dir.release}" />
+		</delete>
+	</target>
+
+
+	<target name="deploy" depends="login, clean, package">
+		<!-- prepare release packages -->
+		<copy todir="${dir.release}/${ant.project.name}" verbose="yes">
+			<fileset dir="${dir.dist}">
+				<include name="*.spk" />
+			</fileset>
+		</copy>
+
+		<!-- upload -->
+		<scp todir="${sf.user}:${sf.password}@${frs.release}" trust="yes" verbose="true" sftp="true">
+			<fileset dir="${dir.release}">
+				<include name="**/*" />
+			</fileset>
+		</scp>
+	</target>
+
+
+	<target name="update-package-source">
+		<property name="dir.download" value="${dir.build}/package-source" />
+		<property name="filebot-node.spk.download" value="http://sourceforge.net/projects/filebot/files/filebot/HEAD/filebot-node/filebot-node-${version}-noarch.spk" />
+
+		<mkdir dir="${dir.download}" />
+    	<get src="${filebot-node.spk.download}" dest="${dir.download}" usetimestamp="true" verbose="true" />
+    	
+		<checksum file="${dir.download}/filebot-node-${version}-noarch.spk" algorithm="MD5" property="filebot-node.spk.md5" />
+		<length file="${dir.download}/filebot-node-${version}-noarch.spk" property="filebot-node.spk.size" />
+		
+		<copy  file="${dir.package}/synology/package-source/index.json" tofile="${basedir}/spksrc.json" encoding="UTF-8">
+			<filterset begintoken="${" endtoken="}">
+				<propertyset>
+					<propertyref builtin="all" />
+				</propertyset>
+			</filterset>
+		</copy>
+	</target>
+
+
+	<target name="login">
+		<!-- ask for sourceforge password -->
+		<input message="Please enter sourceforge username:" addproperty="sf.user" />
+		<input message="Please enter sourceforge password:" addproperty="sf.password" />
+	</target>
 
 </project>
