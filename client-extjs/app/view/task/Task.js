@@ -73,6 +73,7 @@ Ext.define('FileBot.view.task.Task', {
                 name: 'input',
                 fieldLabel: 'Input Folder',
                 emptyText: '/path/to/input',
+                value: Ext.manifest.server.form.input,
                 anchor: '100%'
             }, {
                 xtype: 'combobox',
@@ -107,6 +108,7 @@ Ext.define('FileBot.view.task.Task', {
                 name: 'output',
                 fieldLabel: 'Output Folder',
                 emptyText: '/path/to/output',
+                value: Ext.manifest.server.form.output,
                 anchor: '100%'
             }, {
                 xtype: 'checkboxfield',

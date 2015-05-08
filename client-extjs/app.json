@@ -18,7 +18,11 @@
             "https": 5453
         },
         "refresh": 2000,
-        "authentication": "syno"
+        "authentication": "syno",
+        "form": {
+            "input": "/volume1/download/",
+            "output": "/volume1/video/"
+        }
     },
     
     /**
