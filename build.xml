@@ -62,7 +62,7 @@
 	</target>
 
 
-	<target name="spk" description="Synology NAS package">
+	<target name="spk" description="Build Synology Package">
 		<taskdef name="spk" classname="net.filebot.ant.spk.SpkTask" classpath="${dir.lib}/ant-spk.jar" />
 
 		<spk destdir="${dir.dist}" name="${ant.project.name}" version="${version}" arch="noarch">
@@ -108,7 +108,7 @@
 	</target>
 
 
-	<target name="deploy" depends="login, clean, package">
+	<target name="deploy" depends="login, clean, package" description="Upload Synology Package">
 		<!-- prepare release packages -->
 		<copy todir="${dir.release}/${ant.project.name}" verbose="yes">
 			<fileset dir="${dir.dist}">
