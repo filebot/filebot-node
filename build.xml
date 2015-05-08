@@ -125,7 +125,7 @@
 	</target>
 
 
-	<target name="update-pkgsrc" description="Update Synology Package Source">
+	<target name="pkgsrc" description="Update Synology Package Source">
 		<property name="dir.download" value="${dir.build}/package-source" />
 		<property name="filebot-node.spk.download" value="http://sourceforge.net/projects/filebot/files/filebot/HEAD/filebot-node/filebot-node-${version}-noarch.spk" />
 
@@ -135,6 +135,7 @@
 		<checksum file="${dir.download}/filebot-node-${version}-noarch.spk" algorithm="MD5" property="filebot-node.spk.md5" />
 		<length file="${dir.download}/filebot-node-${version}-noarch.spk" property="filebot-node.spk.size" />
 		
+		<!-- replace ant variables in index.json files -->
 		<copy  file="${dir.package}/synology/package-source/index.json" tofile="${basedir}/spksrc.json" encoding="UTF-8">
 			<filterset begintoken="${" endtoken="}">
 				<propertyset>
