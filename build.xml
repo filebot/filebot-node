@@ -130,13 +130,13 @@
 		<property name="filebot-node.spk.download" value="http://sourceforge.net/projects/filebot/files/filebot/HEAD/filebot-node/filebot-node-${version}-noarch.spk" />
 
 		<mkdir dir="${dir.download}" />
-    	<get src="${filebot-node.spk.download}" dest="${dir.download}" usetimestamp="true" verbose="true" />
-    	
+		<get src="${filebot-node.spk.download}" dest="${dir.download}" usetimestamp="true" verbose="true" />
+
 		<checksum file="${dir.download}/filebot-node-${version}-noarch.spk" algorithm="MD5" property="filebot-node.spk.md5" />
 		<length file="${dir.download}/filebot-node-${version}-noarch.spk" property="filebot-node.spk.size" />
-		
+
 		<!-- replace ant variables in index.json files -->
-		<copy  file="${dir.package}/synology/package-source/index.json" tofile="${basedir}/spksrc.json" encoding="UTF-8">
+		<copy file="${dir.package}/synology/package-source/index.json" tofile="${basedir}/spksrc.json" overwrite="yes" encoding="UTF-8">
 			<filterset begintoken="${" endtoken="}">
 				<propertyset>
 					<propertyref builtin="all" />
