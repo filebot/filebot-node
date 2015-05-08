@@ -41,7 +41,7 @@ if (!fs.existsSync(LOG_FOLDER)) {
     fs.chownSync(LOG_FOLDER, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 }
 if (!fs.existsSync(FILEBOT_LOG)) {
-    fs.writeFileSync(FILEBOT_LOG, '# created on ' + new Date() + '\n')
+    fs.writeFileSync(FILEBOT_LOG, '# created on ' + (new Date()) + '\n')
     fs.chownSync(FILEBOT_LOG, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 }
 

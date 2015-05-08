@@ -11,12 +11,15 @@ export FILEBOT_NODE_HTTPS_PORT="5453"
 export FILEBOT_NODE_HTTPS_KEY="/usr/syno/etc/ssl/ssl.key/server.key"
 export FILEBOT_NODE_HTTPS_CRT="/usr/syno/etc/ssl/ssl.crt/server.crt"
 
-export FILEBOT_CMD="/usr/bin/filebot"
+export FILEBOT_CMD="filebot"
 export FILEBOT_CMD_CWD="$SYNOPKG_PKGDEST_VOL"
 export FILEBOT_CMD_UID=`id -u $SYNO_WEBAPI_USERNAME`
 export FILEBOT_CMD_GID=`cat /etc/group | grep 'administrators' | cut -d: -f3` # cannot use `id -u $SYNO_WEBAPI_USERNAME` because the result is 100:users but we need 101:administrators because users don't have execute permissions
 
 export FILEBOT_NODE_CLIENT="client"
+
+# set user
+export USER="$SYNO_WEBAPI_USERNAME"
 
 # set working dir
 cd "$SYNOPKG_PKGDEST"
