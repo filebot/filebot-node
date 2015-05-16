@@ -73,12 +73,13 @@
 			<info name="distributor_url" value="http://www.filebot.net/" />
 			<info name="support_url" value="https://github.com/filebot/filebot-node/issues" />
 			<info name="helpurl" value="https://www.filebot.net/forums/viewforum.php?f=13" />
-			<info name="firmware" value="5.0" />
+			<info name="firmware" value="5.0-4360" />
 			<info name="install_dep_packages" value="Node.js" />
 			<info name="startable" value="yes" />
-			<info name="silent_install" value="no" />
+			<info name="silent_install" value="yes" />
 			<info name="silent_upgrade" value="yes" />
 			<info name="silent_uninstall" value="yes" />
+			<info name="thirdparty" value="yes" />
 			<info name="dsmappname" value="net.filebot.NodeClient" />
 			<info name="dsmuidir" value="client" />
 
@@ -90,6 +91,8 @@
 			<package dir="${dir.package}/synology/package" includes="client/**" />
 			<package dir="${dir.package}/synology/package" includes="server/*.sh" filemode="755" />
 			<scripts dir="${dir.package}/synology/scripts" filemode="755" />
+
+			<codesign keyid="${gpg.key}" pubring="${gpg.pub}" secring="${gpg.sec}" password="${gpg.pwd}" />
 		</spk>
 	</target>
 
