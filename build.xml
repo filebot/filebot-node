@@ -63,7 +63,10 @@
 
 
 	<target name="spk" description="Build Synology Package">
-		<taskdef name="spk" classname="net.filebot.ant.spk.SpkTask" classpath="${dir.lib}/ant-spk.jar" />
+		<path id="build.classpath">
+			<fileset dir="${dir.lib}" includes="*.jar" />
+		</path>
+		<taskdef name="spk" classname="net.filebot.ant.spk.PackageTask" classpathref="build.classpath" />
 
 		<spk destdir="${dir.dist}" name="${ant.project.name}" version="${version}" arch="noarch">
 			<info name="displayname" value="FileBot Node" />
@@ -97,7 +100,7 @@
 	</target>
 
 
-	<target name="package" depends="build, spk">
+	<target name="package" depends="build, spk" description="Build all packages">
 
 	</target>
 
