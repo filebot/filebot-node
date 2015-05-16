@@ -92,7 +92,7 @@
 			<package dir="${dir.package}/synology/package" includes="server/*.sh" filemode="755" />
 			<scripts dir="${dir.package}/synology/scripts" filemode="755" />
 
-			<codesign keyid="${gpg.key}" pubring="${gpg.pub}" secring="${gpg.sec}" password="${gpg.pwd}" />
+			<codesign keyid="${gpg.key}" password="${gpg.pwd}" pubring="${dir.package}/gpg/pubring.gpg" secring="${dir.package}/gpg/secring.gpg" />
 		</spk>
 	</target>
 
