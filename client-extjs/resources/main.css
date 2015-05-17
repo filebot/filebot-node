@@ -18,6 +18,11 @@ span.run-btn {
 	background-size: contain;
 }
 
+span.donate-btn {
+	background-image: url('images/bitcoin.png');
+	background-size: contain;
+}
+
 textarea.logcatviewer {
 	font-family: 'Droid Sans Mono', monospace	!important;
 	font-size: 8pt								!important;

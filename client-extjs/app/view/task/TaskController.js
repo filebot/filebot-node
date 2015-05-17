@@ -56,6 +56,10 @@ Ext.define('FileBot.view.task.TaskController', {
         }
     },
 
+    onDonate: function() {
+        window.open(Ext.manifest.donate, '_blank')
+    },
+
     getExecuteParameters: function() {
         var form = this.getForm()
         if (form.isValid()) {

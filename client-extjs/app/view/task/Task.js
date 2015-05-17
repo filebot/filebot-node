@@ -257,6 +257,13 @@ Ext.define('FileBot.view.task.Task', {
         }],
 
         buttons: [{
+            xtype: 'button',
+            scale: 'small',
+            iconCls: 'donate-btn',
+            text: 'Donate',
+            handler: 'onDonate',
+            style: 'left: 0em !important' // align this button to the left
+        }, {
             xtype: 'splitbutton',
             formBind: true,
             scale: 'small',
