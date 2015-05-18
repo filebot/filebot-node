@@ -23,6 +23,11 @@ span.donate-btn {
 	background-size: contain;
 }
 
+span.configure-btn {
+	background-image: url('images/configure.png');
+	background-size: contain;
+}
+
 textarea.logcatviewer {
 	font-family: 'Droid Sans Mono', monospace	!important;
 	font-size: 8pt								!important;

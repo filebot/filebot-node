@@ -111,6 +111,13 @@ Ext.define('FileBot.view.task.Task', {
                 value: Ext.manifest.server.form.output,
                 anchor: '100%'
             }, {
+                xtype: 'textfield',
+                name: 'subtitles',
+                fieldLabel: 'Subtitles',
+                emptyText: 'subtitle language (e.g. eng)',
+                allowBlank: true,
+                minWidth: 300
+            }, {
                 xtype: 'checkboxfield',
                 name: 'artwork',
                 fieldLabel: 'Artwork',
@@ -263,6 +270,19 @@ Ext.define('FileBot.view.task.Task', {
             text: 'Donate',
             handler: 'onDonate',
             style: 'left: 0em !important' // align this button to the left
+        }, {
+            xtype: 'button',
+            scale: 'small',
+            iconCls: 'configure-btn',
+            text: 'Tools',
+            menu: new Ext.menu.Menu({
+                items: [
+                    // these will render as dropdown menu items when the arrow is clicked:
+                    {text: 'configure', handler: 'onConfigure'},
+                    {text: 'sysinfo', handler: 'onSysInfo' }
+                ]
+            }),
+            style: 'left: 6em !important' // align this button to the left
         }, {
             xtype: 'splitbutton',
             formBind: true,

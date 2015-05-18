@@ -60,6 +60,21 @@ Ext.define('FileBot.view.task.TaskController', {
         window.open(Ext.manifest.donate, '_blank')
     },
 
+    onConfigure: function() {
+        Ext.Msg.prompt('OpenSubtitles', 'Please enter your login details:', function(btn, text){
+            if (btn == 'ok') {
+                var input = text.split(':')
+                var parameters = {'fn':'configure', 'osdbUser': input[0].trim(), 'osdbPwd': input[1].trim()}
+                FileBot.Node.requestExecute(parameters)
+            }
+        }, this, false, 'username:password')
+    },
+
+    onSysInfo: function() {
+        var parameters = {'fn':'sysinfo'}
+        FileBot.Node.requestExecute(parameters)
+    },
+
     getExecuteParameters: function() {
         var form = this.getForm()
         if (form.isValid()) {

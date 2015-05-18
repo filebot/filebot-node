@@ -78,6 +78,7 @@ function getCommandArguments(options) {
         args.push('music=y')
         args.push('unsorted=y')
         if (options.artwork == 'on') args.push('artwork=y')
+        if (options.subtitles) args.push('subtitles=' + options.subtitles)
         if (options.clean == 'on') args.push('clean=y')
         if (options.skipExtract == 'on') args.push('skipExtract=y')
         args.push('deleteAfterExtract=y')
@@ -100,6 +101,15 @@ function getCommandArguments(options) {
             args.push('--log-file')
             args.push(FILEBOT_LOG)
         }
+    } else if (options.fn == 'sysinfo') {
+        args.push('-script')
+        args.push('fn:sysinfo')
+    } else if (options.fn == 'configure' && options.osdbUser && options.osdbPwd) {
+        args.push('-script')
+        args.push('fn:configure')
+        args.push('--def')
+        args.push('osdbUser=' + options.osdbUser)
+        args.push('osdbPwd=' + options.osdbPwd)
     } else {
         throw new Error('Illegal options: ' + JSON.stringify(options))
     }
@@ -366,7 +376,11 @@ function server(request, response) {
     console.log(new Date().toString())
     console.log(request.method + ": " + request.url)
 
-    return handleRequest(request, response)
+    try {
+        return handleRequest(request, response)
+    } catch(e) {
+        error(response, e)
+    }
 }
 
 
