@@ -371,15 +371,20 @@ function auth_syno(request, response, options) {
 // START SERVER
 
 
-function server(request, response) {
-    console.log(DASHLINE)
-    console.log(new Date().toString())
-    console.log(request.method + ": " + request.url)
+function server(request, response) { 
+    // request logging and uncaught exceptions for development
+    if (AUTH == 'NONE') {
+        console.log(DASHLINE)
+        console.log(new Date().toString())
+        console.log(request.method + ": " + request.url)
+        return handleRequest(request, response)
+    }
 
+    // catch and ignore exceptions in production
     try {
         return handleRequest(request, response)
     } catch(e) {
-        error(response, e)
+        return error(response, e)
     }
 }
 
