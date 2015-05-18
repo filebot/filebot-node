@@ -200,7 +200,7 @@
     "development": {
         "server": {
             "refresh": 10000,
-            "authentication": "syno"
+            "authentication": "none"
         }
     },
 
