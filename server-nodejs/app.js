@@ -45,6 +45,7 @@ if (!fs.existsSync(FILEBOT_LOG)) {
     fs.chownSync(FILEBOT_LOG, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 }
 
+
 // HELPER FUNCTIONS
 
 
@@ -377,6 +378,16 @@ function schedule(request, response, options) {
 }
 
 function schedule_syno(request, response, options) {
+    var logFile = getLogFile(Date.now())
+    var command = shellescape([getCommand()].concat(getCommandArguments(options)))
+
+    // each log contains the original command (as JSON) in the first line
+    fs.writeFileSync(logFile, command + '\n\n' + DASHLINE + '\n\n')
+    fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
+
+    // IO redirection to log folder
+    var script = command + ' >> ' + shellescape([logFile]) + ' 2>&1'
+
     // Syno Web API rejects requests from localhost, so we have to send the request from the client
     var clientSideRequest = {
         method: 'POST',
@@ -386,7 +397,7 @@ function schedule_syno(request, response, options) {
             owner: JSON.stringify('admin'),
             enable: true,
             schedule: JSON.stringify({"date_type":0,"week_day":"0,1,2,3,4,5,6","hour":0,"minute":0,"repeat_hour":0,"repeat_min":0,"last_work_hour":0,"repeat_min_store_config":[1,5,10,15,20,30],"repeat_hour_store_config":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]}),
-            extra: JSON.stringify({"script":shellescape([getCommand()].concat(getCommandArguments(options)))}),
+            extra: JSON.stringify({"script":script}),
             type: JSON.stringify('script'),
             api: 'SYNO.Core.TaskScheduler',
             method: 'create',
@@ -405,20 +416,11 @@ function schedule_syno(request, response, options) {
 
 
 function server(request, response) { 
-    // request logging and uncaught exceptions for development
-    if (AUTH == 'NONE') {
-        console.log(DASHLINE)
-        console.log(new Date().toString())
-        console.log(request.method + ": " + request.url)
-        return handleRequest(request, response)
-    }
+    // console.log(DASHLINE)
+    // console.log(new Date().toString())
+    // console.log(request.method + ": " + request.url)
 
-    // catch and ignore exceptions in production
-    try {
-        return handleRequest(request, response)
-    } catch(e) {
-        return error(response, e)
-    }
+    return handleRequest(request, response)
 }
 
 
