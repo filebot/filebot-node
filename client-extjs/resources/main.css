@@ -16,6 +16,11 @@
 	background-size: contain;
 }
 
+.schedule-col {
+	background-image: url('images/schedule.png');
+	background-size: contain;
+}
+
 .run-btn {
 	background-image: url('images/run.png');
 	background-size: contain;

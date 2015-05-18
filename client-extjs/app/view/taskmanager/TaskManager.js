@@ -53,6 +53,8 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
                 return 'Complete'
             if (val == '137')
                 return 'Cancelled'
+            if (val == '1000')
+                return 'Scheduled'
             else
                 return 'Failure'
         }
@@ -68,6 +70,8 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
                     return 'cancel-col'
                 if (val == '0')
                     return 'ok-col'
+                if (val == '1000')
+                    return 'schedule-col'
                 else
                     return 'fail-col'
             },
@@ -79,6 +83,8 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
                     return 'Success'
                 if (val == '137')
                     return 'Cancelled'
+                if (val == '1000')
+                    return 'Scheduled Task'
                 else
                     return 'Error (' + val + ')'
             },

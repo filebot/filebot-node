@@ -23,6 +23,7 @@ var PUBLIC_HTML = '/filebot/'
 var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
 var DASHLINE = '------------------------------------------'
 var SIGKILL_EXIT_CODE = 137
+var SCHEDULED_TASK_CODE = 1000
 
 // INITIALIZERS
 var AUTH_CACHE = {}
@@ -32,6 +33,7 @@ var TASKS = []
 // update task list via If-Last-Modified
 TASKS.lastModified = Date.now()
 
+var TASK_INDEX = path.resolve('schedule.ids')
 var LOG_FOLDER = path.resolve('log')
 var FILEBOT_LOG = path.resolve('filebot.log')
 
@@ -45,6 +47,13 @@ if (!fs.existsSync(FILEBOT_LOG)) {
     fs.chownSync(FILEBOT_LOG, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 }
 
+if (fs.existsSync(TASK_INDEX)) {
+    fs.readFileSync(TASK_INDEX, {'encoding': 'UTF-8'}).split(/\n/).forEach(function(id) {
+        if (id) {
+            TASKS.push({id: id, status: SCHEDULED_TASK_CODE})
+        }
+    })
+}
 
 // HELPER FUNCTIONS
 
@@ -206,8 +215,8 @@ function handleRequest(request, response) {
 
     // require user authentication for all handlers below
     var user = auth(request, response, options)
-    console.log('AUTH: user='+user)
-    
+    // console.log('AUTH: user='+user)
+
     if ('/auth' == requestPath) {
         return ok(response, {'user': user})
     }
@@ -378,12 +387,18 @@ function schedule(request, response, options) {
 }
 
 function schedule_syno(request, response, options) {
-    var logFile = getLogFile(Date.now())
+    var id = Date.now()
+    var logFile = getLogFile(id)
     var command = shellescape([getCommand()].concat(getCommandArguments(options)))
 
     // each log contains the original command (as JSON) in the first line
     fs.writeFileSync(logFile, command + '\n\n' + DASHLINE + '\n\n')
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
+
+    // update scheduled tasks index
+    fs.appendFileSync(TASK_INDEX, id + '\n')
+    TASKS.push({id: id, status: SCHEDULED_TASK_CODE})
+    TASKS.lastModified = Date.now()
 
     // IO redirection to log folder
     var script = command + ' >> ' + shellescape([logFile]) + ' 2>&1'
