@@ -17,7 +17,7 @@
             "http": 5452,
             "https": 5453
         },
-        "refresh": 1000,
+        "refresh": 2000,
         "authentication": "syno",
         "form": {
             "input": "/volume1/download/",
@@ -199,8 +199,8 @@
 
     "development": {
         "server": {
-            "refresh": 5000,
-            "authentication": "none"
+            "refresh": 10000,
+            "authentication": "syno"
         }
     },
 
