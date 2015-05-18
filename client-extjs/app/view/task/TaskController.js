@@ -57,7 +57,7 @@ Ext.define('FileBot.view.task.TaskController', {
     },
 
     onDonate: function() {
-        window.open(Ext.manifest.donate, '_blank')
+        window.open(Ext.manifest.server.url.donate, '_blank')
     },
 
     onConfigure: function() {
@@ -70,9 +70,13 @@ Ext.define('FileBot.view.task.TaskController', {
         }, this, false, 'username:password')
     },
 
-    onSysInfo: function() {
+    onInfo: function() {
         var parameters = {'fn':'sysinfo'}
         FileBot.Node.requestExecute(parameters)
+    },
+
+    onHelp: function() {
+        window.open(Ext.manifest.server.url.help, '_blank')
     },
 
     getExecuteParameters: function() {

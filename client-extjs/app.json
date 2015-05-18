@@ -22,10 +22,12 @@
         "form": {
             "input": "/volume1/download/",
             "output": "/volume1/video/"
+        },
+        "url": {
+            "help": "https://www.filebot.net/forums/viewforum.php?f=13",
+            "donate": "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Z8JHALZ4TXGWL&lc=US&item_name=FileBot%20Node&currency_code=EUR"
         }
     },
-
-    "donate": "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Z8JHALZ4TXGWL&lc=US&item_name=FileBot%20Node&currency_code=EUR",
 
     /**
      * The relative path to the appliaction's markup file (html, jsp, asp, etc.)

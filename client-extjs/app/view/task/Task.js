@@ -278,8 +278,9 @@ Ext.define('FileBot.view.task.Task', {
             menu: new Ext.menu.Menu({
                 items: [
                     // these will render as dropdown menu items when the arrow is clicked:
-                    {text: 'configure', handler: 'onConfigure'},
-                    {text: 'sysinfo', handler: 'onSysInfo' }
+                    {text: 'Configure', handler: 'onConfigure', iconCls: 'configure-item' },
+                    {text: 'System Info', handler: 'onInfo', iconCls: 'sysinfo-item' },
+                    {text: 'Help', handler: 'onHelp', iconCls: 'help-item' }
                 ]
             }),
             style: 'left: 6em !important' // align this button to the left
@@ -294,8 +295,8 @@ Ext.define('FileBot.view.task.Task', {
             menu: new Ext.menu.Menu({
                 items: [
                     // these will render as dropdown menu items when the arrow is clicked:
-                    {text: 'Dry Run', handler: 'onTest'},
-                    {text: 'Schedule', handler: 'onSchedule'}
+                    {text: 'Dry Run', handler: 'onTest', iconCls: 'dryrun-item'},
+                    {text: 'Schedule', handler: 'onSchedule', iconCls: 'schedule-item'}
                 ]
             }),
             style:'margin-right: 3em'

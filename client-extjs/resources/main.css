@@ -1,30 +1,58 @@
 @import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono);
 
 
-img.ok-col {
-	background-image: url('images/accept.png');
+.ok-col {
+	background-image: url('images/ok.png');
+	background-size: contain;
 }
 
-img.fail-col {
+.fail-col {
 	background-image: url('images/error.png');
+	background-size: contain;
 }
 
-img.cancel-col {
+.cancel-col {
 	background-image: url('images/stop.png');
+	background-size: contain;
 }
 
-span.run-btn {
+.run-btn {
 	background-image: url('images/run.png');
 	background-size: contain;
 }
 
-span.donate-btn {
+.donate-btn {
 	background-image: url('images/bitcoin.png');
 	background-size: contain;
 }
 
-span.configure-btn {
+.configure-btn {
 	background-image: url('images/configure.png');
+	background-size: contain;
+}
+
+.configure-item {
+	background-image: url('images/user.png');
+	background-size: contain;
+}
+
+.sysinfo-item {
+	background-image: url('images/info.png');
+	background-size: contain;
+}
+
+.dryrun-item {
+	background-image: url('images/generic.png');
+	background-size: contain;
+}
+
+.schedule-item {
+	background-image: url('images/schedule.png');
+	background-size: contain;
+}
+
+.help-item {
+	background-image: url('images/help.png');
 	background-size: contain;
 }
 
