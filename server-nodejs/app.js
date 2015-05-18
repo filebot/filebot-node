@@ -124,7 +124,7 @@ function spawnChildProcess(command, arguments) {
         id: id,
         status: null
     }
-    
+
     // each log contains the original command (as JSON) in the first line
     fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + '\n\n' + DASHLINE + '\n\n')
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
@@ -237,7 +237,7 @@ function handleRequest(request, response) {
     }
 
     if ('/schedule' == requestPath) {
-        return error(response, 'NOT IMPLEMENTED')
+        return schedule(request, response, options)
     }
 
     if ('/kill' == requestPath) {
@@ -365,6 +365,70 @@ function auth_syno(request, response, options) {
         if (code == 0) console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
     })
     return null
+}
+
+function schedule(request, response, options) {
+    switch (AUTH) {
+        case 'SYNO':
+            return schedule_syno(request, response, options)
+        default:
+            return error(response, 'NOT IMPLEMENTED')
+    }
+}
+
+function schedule_syno(request, response, options) {
+    var endpoint = url.parse(process.env['SCRIPT_URI'])
+
+    var postData = new Buffer(querystring.stringify({
+        name: JSON.stringify('FileBot Task'),
+        owner: JSON.stringify('admin'),
+        enable: true,
+        schedule: JSON.stringify({"date_type":0,"week_day":"0,1,2,3,4,5,6","hour":0,"minute":0,"repeat_hour":0,"repeat_min":0,"last_work_hour":0,"repeat_min_store_config":[1,5,10,15,20,30],"repeat_hour_store_config":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]}),
+        extra: JSON.stringify({"script":shellescape([getCommand()].concat(getCommandArguments(options)))}),
+        type: JSON.stringify('script'),
+        api: 'SYNO.Core.TaskScheduler',
+        method: 'create',
+        version: 2
+    }))
+
+    var options = {
+        hostname: endpoint.hostname,
+        port: endpoint.port,
+        path: endpoint.href,
+        method: 'POST',
+        headers: {
+            'Host': endpoint.host,
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'Content-Length': postData.length,
+            'X-SYNO-TOKEN': options.SynoToken,
+            'Cookie': options.Cookie
+        }
+    }
+
+    var req = http.request(options, function(res) {
+        res.setEncoding('UTF-8')
+        var responseData = ''
+        res.on('data', function(chunk) {
+            responseData += chunk
+        })
+        res.on('end', function() {
+            console.log(responseData)
+
+            var status = JSON.parse(responseData)
+            if (status.success) {
+                return ok(response, JSON.stringify(status.data))
+            } else {
+                return error(response, JSON.stringify(status.error))
+            }
+        })
+    });
+    req.on('error', function(e) {
+        return error(response, e)
+    })
+
+    // write data to request body
+    req.write(postData);
+    req.end();
 }
 
 
