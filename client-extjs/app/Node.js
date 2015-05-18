@@ -133,6 +133,33 @@ Ext.define('FileBot.Node', {
             params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
             params[this.COOKIE_KEY] = this.COOKIE_VAL
         }
+
+        // Task Scheduler Web API doesn't accept requests from localhost so we have to do it from the browser
+        FileBot.getApplication().on('schedule', function(request) {
+            Ext.Ajax.request({
+                method: request.method,
+                url: request.url,
+                params: request.params,
+                headers: request.headers,
+                success: function (response) {
+                    Ext.MessageBox.show({
+                        title: 'Task Scheduler',
+                        msg: response.responseText ? response.responseText : Ext.encode(response),
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.INFO
+                    })
+                },
+                failure: function (response) {
+                    Ext.MessageBox.show({
+                        title: 'Error',
+                        msg: response.responseText ? response.responseText : Ext.encode(response),
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.ERROR
+                    })
+                },
+                scope: this
+            })
+        }, this)
     }
 
 });
