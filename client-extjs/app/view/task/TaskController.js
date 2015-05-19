@@ -57,7 +57,14 @@ Ext.define('FileBot.view.task.TaskController', {
     },
 
     onDonate: function() {
-        window.open(Ext.manifest.server.url.donate, '_blank')
+        Ext.create('Ext.window.Window', {
+            bodyCls: ['paypal'],
+            html: Ext.manifest.server.html.paypalForm,
+            title: '💰 Donate',
+            bodyPadding: 10,
+            scrollable: false,
+            closable: true
+        }).show()
     },
 
     onConfigure: function() {

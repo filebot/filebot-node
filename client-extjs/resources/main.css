@@ -74,3 +74,18 @@ textarea.logcatviewer {
 	word-wrap: normal							!important;
 	overflow: auto								!important;
 }
+
+div.paypal {
+	text-align: center;
+}
+
+div.paypal select {
+	min-height: 2em;
+	margin: 5px;
+}
+
+div.paypal input[type=image] {
+	margin: 10px;
+	width: 114px;
+	height: 22px;
+}
