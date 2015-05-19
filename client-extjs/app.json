@@ -24,7 +24,8 @@
             "output": "/volume1/video/"
         },
         "url": {
-            "help": "https://www.filebot.net/forums/viewforum.php?f=13"
+            "help": "https://www.filebot.net/forums/viewforum.php?f=13",
+            "osdb_register": "http://www.opensubtitles.org/en/newuser"
         },
         "html": {
             "paypalForm": "<form action=\"https:\/\/www.paypal.com\/cgi-bin\/webscr\" method=\"post\" target=\"_blank\">\r\n<input type=\"hidden\" name=\"cmd\" value=\"_s-xclick\">\r\n<input type=\"hidden\" name=\"hosted_button_id\" value=\"GXCDQW864HTK8\">\r\n<table>\r\n<tr><td><input type=\"hidden\" name=\"on0\" value=\"Level of Gratitude\">Level of Gratitude<\/td><\/tr><tr><td><select name=\"os0\">\r\n\t<option value=\"Thanks! Please continue your work! \uD83D\uDCB0\">Thanks! Please continue your work! \uD83D\uDCB0 \u20AC10.00 EUR<\/option>\r\n\t<option value=\"Kudos! You\'ve saved me lots of time! \uD83D\uDE80\">Kudos! You\'ve saved me lots of time! \uD83D\uDE80 \u20AC20.00 EUR<\/option>\r\n\t<option value=\"FileBot Node is amazing! \uD83D\uDCAF\">FileBot Node is amazing! \uD83D\uDCAF \u20AC50.00 EUR<\/option>\r\n<\/select> <\/td><\/tr>\r\n<\/table>\r\n<input type=\"hidden\" name=\"currency_code\" value=\"EUR\">\r\n<input type=\"image\" src=\"resources\/images\/paypal.png\" border=\"0\" name=\"submit\" alt=\"PayPal \u2013 The safer, easier way to pay online.\">\r\n<\/form>"

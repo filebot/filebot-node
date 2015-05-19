@@ -68,13 +68,47 @@ Ext.define('FileBot.view.task.TaskController', {
     },
 
     onConfigure: function() {
-        Ext.Msg.prompt('OpenSubtitles', 'Please enter your login details:', function(btn, text){
-            if (btn == 'ok') {
-                var input = text.split(':')
-                var parameters = {'fn':'configure', 'osdbUser': input[0].trim(), 'osdbPwd': input[1].trim()}
-                FileBot.Node.requestExecute(parameters)
-            }
-        }, this, false, 'username:password')
+        Ext.create('Ext.window.Window', {
+            id: 'osdbWindow',
+            items: [{
+                xtype: 'form',
+                id: 'osdbForm',
+                items: [{
+                    xtype: 'hidden',
+                    name: 'fn',
+                    value: 'configure'
+                }, {
+                    xtype: 'textfield',
+                    allowBlank: false,
+                    fieldLabel: 'Username',
+                    name: 'osdbUser',
+                    emptyText: 'username'
+                }, {
+                    xtype: 'textfield',
+                    allowBlank: false,
+                    fieldLabel: 'Password',
+                    name: 'osdbPwd',
+                    emptyText: 'password',
+                    inputType: 'password'
+                }]
+            }],
+            buttons: [
+                { text:'Register', handler: function(btn) { 
+                    window.open(Ext.manifest.server.url.osdb_register, '_blank')
+                }},
+                { text:'Login', handler: function(btn) {
+                    var form = Ext.getCmp('osdbForm').getForm()
+                    if (form.isValid()) {
+                        FileBot.Node.requestExecute(form.getValues())
+                        Ext.getCmp('osdbWindow').destroy()
+                    }
+                }}
+            ],
+            title: 'OpenSubtitles',
+            bodyPadding: 10,
+            scrollable: false,
+            closable: true
+        }).show()
     },
 
     onInfo: function() {
