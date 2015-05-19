@@ -111,13 +111,6 @@ Ext.define('FileBot.view.task.Task', {
                 value: Ext.manifest.server.form.output,
                 anchor: '100%'
             }, {
-                xtype: 'textfield',
-                name: 'subtitles',
-                fieldLabel: 'Subtitles',
-                emptyText: 'subtitle language (e.g. eng)',
-                allowBlank: true,
-                minWidth: 300
-            }, {
                 xtype: 'checkboxfield',
                 name: 'artwork',
                 fieldLabel: 'Artwork',
@@ -136,6 +129,20 @@ Ext.define('FileBot.view.task.Task', {
                 emptyText: 'restrict autodetection (e.g. age < 7)',
                 allowBlank: true,
                 anchor: '100%'
+            }, {
+                xtype: 'combobox',
+                name: 'subtitles',
+                fieldLabel: 'Subtitles',
+                displayField: 'label',
+                valueField: 'iso_639_3',
+                store: {
+                    type: 'languages'
+                },
+                emptyText: 'subtitle language (e.g. eng)',
+                forceSelection: false,
+                editable: true,
+                allowBlank: true,
+                minWidth: 320
             }]
         }, {
             title: 'File Filters',
