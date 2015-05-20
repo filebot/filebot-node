@@ -411,7 +411,7 @@ function schedule_syno(request, response, options) {
             name: JSON.stringify('FileBot Task'),
             owner: JSON.stringify('admin'),
             enable: true,
-            schedule: JSON.stringify({"date_type":0,"week_day":"0,1,2,3,4,5,6","hour":0,"minute":0,"repeat_hour":0,"repeat_min":0,"last_work_hour":0,"repeat_min_store_config":[1,5,10,15,20,30],"repeat_hour_store_config":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]}),
+            schedule: JSON.stringify({"date_type":0,"week_day":"0,1,2,3,4,5,6","hour":4,"minute":0,"repeat_hour":0,"repeat_min":0,"last_work_hour":0,"repeat_min_store_config":[1,5,10,15,20,30],"repeat_hour_store_config":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]}),
             extra: JSON.stringify({"script":script}),
             type: JSON.stringify('script'),
             api: 'SYNO.Core.TaskScheduler',
