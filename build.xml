@@ -139,10 +139,9 @@
 		<taskdef name="package-source" classname="net.filebot.ant.spk.RepositoryTask" classpathref="jars.classpath" />
 		<package-source file="${basedir}/spksrc.json">
 			<keyring file="${dir.package}/gpg/FileBot.pub" />
-			<spk file="${dir.build}/package-source/${package}-${version}-noarch.spk" get="http://sourceforge.net/projects/filebot/files/filebot/HEAD/${package}/${package}-${version}-noarch.spk">
+			<spk file="${dir.build}/package-source/${package}-${version}-noarch.spk" url="http://sourceforge.net/projects/filebot/files/filebot/HEAD/${package}/${package}-${version}-noarch.spk">
 				<thumbnail url="http://i.imgur.com/bxHSJp9.png" />
 				<snapshot url="http://i.imgur.com/sCgINCR.png" />
-				<info name="deppkgs" value="Node.js>=0.10.36:filebot>=4.5.7" />
 			</spk>
 		</package-source>
 	</target>
