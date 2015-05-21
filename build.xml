@@ -15,6 +15,10 @@
 	<property name="dir.release" location="${basedir}/release" />
 	<property name="frs.release" value="web.sourceforge.net:/home/frs/project/f/fi/filebot/filebot/HEAD" />
 
+	<path id="jars.classpath">
+		<fileset dir="${dir.lib}" includes="**/*.jar" />
+	</path>
+
 
 	<target name="build">
 		<copy todir="${dir.build}/client" includeEmptyDirs="no">
@@ -63,12 +67,9 @@
 
 
 	<target name="spk" description="Build Synology Package">
-		<path id="build.classpath">
-			<fileset dir="${dir.lib}" includes="*.jar" />
-		</path>
-		<taskdef name="spk" classname="net.filebot.ant.spk.PackageTask" classpathref="build.classpath" />
+		<taskdef name="spk" classname="net.filebot.ant.spk.PackageTask" classpathref="jars.classpath" />
 
-		<spk destdir="${dir.dist}" name="${ant.project.name}" version="${version}" arch="noarch">
+		<spk destdir="${dir.dist}" name="${package}" version="${version}" arch="noarch">
 			<info name="displayname" value="FileBot Node" />
 			<info name="description" value="FileBot Node allows you to execute filebot calls via Synology DSM." />
 			<info name="maintainer" value="rednoah" />
@@ -76,8 +77,6 @@
 			<info name="distributor_url" value="http://www.filebot.net/" />
 			<info name="support_url" value="https://github.com/filebot/filebot-node/issues" />
 			<info name="helpurl" value="https://www.filebot.net/forums/viewforum.php?f=13" />
-			<info name="firmware" value="5.0-4360" />
-			<info name="install_dep_packages" value="Node.js" />
 			<info name="startable" value="yes" />
 			<info name="silent_install" value="yes" />
 			<info name="silent_upgrade" value="yes" />
@@ -85,6 +84,8 @@
 			<info name="thirdparty" value="yes" />
 			<info name="dsmappname" value="net.filebot.NodeClient" />
 			<info name="dsmuidir" value="client" />
+			<info name="firmware" value="5.0-4360" />
+			<info name="install_dep_packages" value="Node.js>=0.10.36:filebot>=4.5.7" />
 
 			<icon size="72" file="${dir.package}/synology/package/client/images/filebot_node_72.png" />
 			<icon size="256" file="${dir.package}/synology/package/client/images/filebot_node_256.png" />
@@ -116,7 +117,7 @@
 
 	<target name="deploy" depends="login, clean, package" description="Upload Synology Package">
 		<!-- prepare release packages -->
-		<copy todir="${dir.release}/${ant.project.name}" verbose="yes">
+		<copy todir="${dir.release}/${package}" verbose="yes">
 			<fileset dir="${dir.dist}">
 				<include name="*.spk" />
 			</fileset>
@@ -135,23 +136,15 @@
 
 
 	<target name="update-spksrc" description="Update Synology Package Source">
-		<property name="dir.download" value="${dir.build}/package-source" />
-		<property name="filebot-node.spk.download" value="http://sourceforge.net/projects/filebot/files/filebot/HEAD/filebot-node/filebot-node-${version}-noarch.spk" />
-
-		<mkdir dir="${dir.download}" />
-		<get src="${filebot-node.spk.download}" dest="${dir.download}" usetimestamp="true" verbose="true" />
-
-		<checksum file="${dir.download}/filebot-node-${version}-noarch.spk" algorithm="MD5" property="filebot-node.spk.md5" />
-		<length file="${dir.download}/filebot-node-${version}-noarch.spk" property="filebot-node.spk.size" />
-
-		<!-- replace ant variables in index.json files -->
-		<copy file="${dir.package}/synology/package-source/index.json" tofile="${basedir}/spksrc.json" overwrite="yes" encoding="UTF-8">
-			<filterset begintoken="${" endtoken="}">
-				<propertyset>
-					<propertyref builtin="all" />
-				</propertyset>
-			</filterset>
-		</copy>
+		<taskdef name="package-source" classname="net.filebot.ant.spk.RepositoryTask" classpathref="jars.classpath" />
+		<package-source file="${basedir}/spksrc.json">
+			<keyring file="${dir.package}/gpg/FileBot.pub" />
+			<spk file="${dir.build}/package-source/${package}-${version}-noarch.spk" get="http://sourceforge.net/projects/filebot/files/filebot/HEAD/${package}/${package}-${version}-noarch.spk">
+				<thumbnail url="http://i.imgur.com/bxHSJp9.png" />
+				<snapshot url="http://i.imgur.com/sCgINCR.png" />
+				<info name="deppkgs" value="Node.js>=0.10.36:filebot>=4.5.7" />
+			</spk>
+		</package-source>
 	</target>
 
 
