@@ -1,2 +1,2 @@
 #!/bin/sh
-git pull && ant clean deploy
+git fetch --progress --prune origin && ant clean deploy
