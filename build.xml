@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project name="filebot-node" default="package">
+<project name="filebot-node" default="tar">
 	<!-- include default inputs (optional) -->
 	<property file="package.properties" />
 	<property file="profile.properties" />
@@ -60,13 +60,20 @@
 			<fileset dir="${dir.build}/server">
 				<include name="**/*.js" />
 				<include name="**/*.json" />
-				<include name="**/*.sh" />
 			</fileset>
 		</copy>
 	</target>
 
 
-	<target name="spk" description="Build Synology Package">
+	<target name="tar" description="Build Generic Package" depends="build">
+		<tar destfile="${dir.dist}/${package}-${version}-generic.tar.bz2" compression="bzip2" longfile="gnu">
+			<tarfileset dir="${dir.dist}/generic" />
+			<tarfileset dir="${dir.package}/generic" includes="*.sh" filemode="755" />
+		</tar>
+	</target>
+
+
+	<target name="spk" description="Build Synology Package" depends="build">
 		<taskdef name="spk" classname="net.filebot.ant.spk.PackageTask" classpathref="jars.classpath" />
 
 		<spk destdir="${dir.dist}" name="${package}" version="${version}" arch="noarch">
@@ -101,11 +108,6 @@
 	</target>
 
 
-	<target name="package" depends="build, spk" description="Build all packages">
-
-	</target>
-
-
 	<target name="clean">
 		<delete includeEmptyDirs="true" failonerror="false">
 			<fileset defaultexcludes="false" dir="${dir.build}" />
@@ -115,10 +117,11 @@
 	</target>
 
 
-	<target name="deploy" depends="login, clean, package" description="Upload Synology Package">
+	<target name="deploy" depends="login, clean, tar, spk" description="Upload Synology Package">
 		<!-- prepare release packages -->
 		<copy todir="${dir.release}/${package}" verbose="yes">
 			<fileset dir="${dir.dist}">
+				<include name="*.tar.*" />
 				<include name="*.spk" />
 			</fileset>
 		</copy>
@@ -130,6 +133,7 @@
 			</fileset>
 		</scp>
 
+		<!-- wait until package is ready for download -->
 		<sleep minutes="5" />
 		<antcall target="update-spksrc" />
 	</target>
