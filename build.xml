@@ -30,6 +30,7 @@
 		<copy todir="${dir.build}/server" includeEmptyDirs="no">
 			<fileset dir="${dir.server}">
 				<exclude name="**/*.log" />
+				<exclude name="**/test/**" />
 			</fileset>
 		</copy>
 
