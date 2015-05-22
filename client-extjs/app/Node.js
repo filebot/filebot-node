@@ -2,16 +2,19 @@ Ext.define('FileBot.Node', {
     singleton: true,
 
     init: function() {
-        switch(Ext.manifest.server.authentication) {
-            case 'syno':
-                this.init_syno()
-                break
-        }
-        
         // add Login Cookie and CSRF token to all subsequent requests
         Ext.Ajax.on('beforerequest', function(conn, request) {
             this.authenticate(request.params)
         }, this)
+
+        // Task Scheduler Web API doesn't accept requests from localhost so we have to do it from the browser
+        FileBot.getApplication().on('auth', function(options) {
+            if (options.auth == 'SYNO')
+                this.init_syno()
+        }, this)
+
+        // request auth config
+        this.requestAuth()
     },
 
     getServerEndpoint: function(path) {
@@ -102,6 +105,9 @@ Ext.define('FileBot.Node', {
     },
 
     init_syno: function() {
+        if (this.CSRF_TOKEN_KEY == 'SynoToken')
+            return
+
         // Synology DSM require SynoToken (CSRF) and Cookie (USER) to authenticate a user request
         this.CSRF_TOKEN_KEY ='SynoToken'
         this.CSRF_TOKEN_VAL = null
@@ -115,7 +121,7 @@ Ext.define('FileBot.Node', {
                 var data = Ext.decode(response.responseText)
                 this.CSRF_TOKEN_VAL = data[this.CSRF_TOKEN_KEY]
 
-                this.requestAuth({'method': 'syno'}) // submit auth request once we have the CSRF token
+                this.requestAuth() // submit auth request once we have the CSRF token
             },
             failure: function (response) {
                 Ext.MessageBox.show({

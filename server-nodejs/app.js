@@ -198,7 +198,6 @@ function handleRequest(request, response) {
     var requestPath = requestParameters.pathname
     var options = querystring.parse(requestParameters.query)
 
-
     if (requestPath.indexOf(PUBLIC_HTML) == 0) {
         var requestedFile = requestPath == PUBLIC_HTML ? 'index.html' : requestPath.substring(PUBLIC_HTML.length)
         var ext = path.extname(requestedFile)
@@ -218,7 +217,10 @@ function handleRequest(request, response) {
     // console.log('AUTH: user='+user)
 
     if ('/auth' == requestPath) {
-        return ok(response, {'user': user})
+        if (user === undefined)
+            return unauthorized(response, true)
+        else
+            return ok(response, {'auth': AUTH, 'user': user})
     }
 
     // AUTHENTICATION REQUIRED BEYOND THIS POINT
@@ -325,8 +327,11 @@ function notFound(response) {
     response.end()
 }
 
-function unauthorized(response) {
+function unauthorized(response, authenticate) {
     response.statusCode = 401
+    if (authenticate) {
+        response.setHeader('WWW-Authenticate', 'Basic realm="filebot-node"')
+    }
     response.setHeader('Access-Control-Allow-Origin', '*')
     response.end()
 }
@@ -339,17 +344,30 @@ function error(response, exception) {
     response.end(JSON.stringify(result))
 }
 
-
-
 function auth(request, response, options) {
     switch (AUTH) {
         case 'SYNO':
             return auth_syno(request, response, options)
+        case 'BASIC':
+            return auth_basic_env(request, response, options)
         case 'NONE':
             return 'NONE'
         default:
             return null
     }
+}
+
+function auth_basic_env(request, response, options) {
+    var auth = require('basic-auth')
+    var user = auth(request)
+
+    if (user == undefined)
+        return undefined // REQUEST AUTH
+
+    if (user && user.name == process.env['FILEBOT_NODE_AUTH_USER'] && user.pass == process.env['FILEBOT_NODE_AUTH_PASS'])
+        return user.name // AUTH OK
+
+    return null // REQUEST FAIL
 }
 
 function auth_syno(request, response, options) {
