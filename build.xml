@@ -13,7 +13,7 @@
 	<property name="dir.dist" location="${basedir}/dist" />
 
 	<property name="dir.release" location="${basedir}/release" />
-	<property name="frs.release" value="web.sourceforge.net:/home/frs/project/f/fi/filebot/filebot/HEAD" />
+	<property name="frs.release" value="web.sourceforge.net:/home/frs/project/f/fi/filebot/filebot-node" />
 
 	<path id="jars.classpath">
 		<fileset dir="${dir.lib}" includes="**/*.jar" />
@@ -120,7 +120,7 @@
 
 	<target name="deploy" depends="login, clean, tar, spk" description="Upload Synology Package">
 		<!-- prepare release packages -->
-		<copy todir="${dir.release}/${package}" verbose="yes">
+		<copy todir="${dir.release}/${package}-${version}" verbose="yes">
 			<fileset dir="${dir.dist}">
 				<include name="*.tar.*" />
 				<include name="*.spk" />
@@ -144,7 +144,7 @@
 		<taskdef name="package-source" classname="net.filebot.ant.spk.RepositoryTask" classpathref="jars.classpath" />
 		<package-source file="${basedir}/spksrc.json">
 			<keyring file="${dir.package}/gpg/FileBot.pub" />
-			<spk file="${dir.build}/package-source/${package}-${version}-noarch.spk" url="http://downloads.sourceforge.net/project/filebot/filebot/HEAD/${package}/${package}-${version}-noarch.spk">
+			<spk file="${dir.build}/package-source/${package}-${version}-noarch.spk" url="http://downloads.sourceforge.net/project/filebot/${package}/${package}-${version}/${package}-${version}-noarch.spk">
 				<thumbnail url="http://i.imgur.com/bxHSJp9.png" />
 				<snapshot url="http://i.imgur.com/sCgINCR.png" />
 			</spk>
