@@ -83,6 +83,10 @@ function getCommandArguments(options) {
             args.push('--filter')
             args.push(options.filter)
         }
+        if (options.lang) {
+            args.push('--lang')
+            args.push(options.lang)
+        }
         args.push('--def')
         if (options.label) args.push('ut_label=' + options.label)
         args.push('music=y')

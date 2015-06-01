@@ -144,6 +144,19 @@ Ext.define('FileBot.view.task.Task', {
                 editable: true,
                 allowBlank: true,
                 minWidth: 320
+            }, {
+                xtype: 'combobox',
+                name: 'lang',
+                fieldLabel: 'Language',
+                displayField: 'label',
+                valueField: 'iso_639_1',
+                value: 'en',
+                store: {
+                    type: 'languages'
+                },
+                emptyText: 'subtitle language (e.g. eng)',
+                editable: false,
+                minWidth: 320
             }]
         }, {
             title: 'File Filters',
