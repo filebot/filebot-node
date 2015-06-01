@@ -128,7 +128,7 @@
 		</copy>
 
 		<!-- upload -->
-		<scp todir="${sf.user}:${sf.password}@${frs.release}" trust="yes" sftp="true">
+		<scp todir="${sf.user}:${sf.password}@${frs.release}" trust="yes" sftp="true" verbose="yes">
 			<fileset dir="${dir.release}">
 				<include name="**/*" />
 			</fileset>
