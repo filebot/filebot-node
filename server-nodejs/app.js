@@ -428,7 +428,7 @@ function schedule_syno(request, response, options) {
     // Syno Web API rejects requests from localhost, so we have to send the request from the client
     var clientSideRequest = {
         method: 'POST',
-        url: process.env['REQUEST_URI'],
+        url: '/webapi/_______________________________________________________entry.cgi',
         params: {
             name: JSON.stringify('FileBot Task'),
             owner: JSON.stringify('admin'),
