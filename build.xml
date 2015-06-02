@@ -134,8 +134,7 @@
 			</fileset>
 		</scp>
 
-		<!-- wait until package is ready for download -->
-		<sleep minutes="5" />
+		<!-- update package source descriptor -->
 		<antcall target="update-spksrc" />
 	</target>
 
@@ -144,7 +143,8 @@
 		<taskdef name="package-source" classname="net.filebot.ant.spk.RepositoryTask" classpathref="jars.classpath" />
 		<package-source file="${basedir}/spksrc.json">
 			<keyring file="${dir.package}/gpg/FileBot.pub" />
-			<spk file="${dir.build}/package-source/${package}-${version}-noarch.spk" url="http://downloads.sourceforge.net/project/filebot/${package}/${package}-${version}/${package}-${version}-noarch.spk">
+			<spk file="${dir.dist}/${package}-${version}-noarch.spk">
+				<info name="link" value="http://downloads.sourceforge.net/project/filebot/${package}/${package}-${version}/${package}-${version}-noarch.spk" />
 				<thumbnail url="http://app.filebot.net/syno/filebot-node-thumbnail.png" />
 				<snapshot url="http://app.filebot.net/syno/filebot-node-snapshot.png" />
 			</spk>
