@@ -16,7 +16,7 @@ export FILEBOT_CMD_CWD="$SYNOPKG_PKGDEST_VOL"
 export FILEBOT_CMD_UID=`id -u $SYNO_WEBAPI_USERNAME`
 export FILEBOT_CMD_GID=`cat /etc/group | grep 'administrators' | cut -d: -f3` # cannot use `id -u $SYNO_WEBAPI_USERNAME` because the result is 100:users but we need 101:administrators because users don't have execute permissions
 
-export FILEBOT_NODE_CLIENT="client"
+export FILEBOT_NODE_CLIENT="" # serve client-side code via DSM only
 
 # set user
 export USER="$SYNO_WEBAPI_USERNAME"

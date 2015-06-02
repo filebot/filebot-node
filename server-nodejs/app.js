@@ -207,7 +207,7 @@ function handleRequest(request, response) {
         var ext = path.extname(requestedFile)
         var contentType = MIME_TYPES[ext]
 
-        if (contentType) {
+        if (contentType && CLIENT) {
             // resolve against CLIENT folder
             return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true, false) 
         } else {
@@ -217,7 +217,6 @@ function handleRequest(request, response) {
 
     // require user authentication for all handlers below
     var user = auth(request, response, options)
-    // console.log('AUTH: user='+user)
 
     if ('/auth' == requestPath) {
         if (user === undefined)
