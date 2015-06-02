@@ -19,7 +19,7 @@ var FILEBOT_CMD_CWD = process.env['FILEBOT_CMD_CWD']
 var FILEBOT_CMD_UID = parseInt(process.env['FILEBOT_CMD_UID'], 10)
 var FILEBOT_CMD_GID = parseInt(process.env['FILEBOT_CMD_GID'], 10)
 
-var PUBLIC_HTML = '/filebot/'
+var PUBLIC_HTML = CLIENT ? '/filebot/' : ''
 var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
 var DASHLINE = '------------------------------------------'
 var SIGKILL_EXIT_CODE = 137
@@ -202,14 +202,13 @@ function handleRequest(request, response) {
     var requestPath = requestParameters.pathname
     var options = querystring.parse(requestParameters.query)
 
-    if (requestPath.indexOf(PUBLIC_HTML) == 0) {
+    if (PUBLIC_HTML && requestPath.indexOf(PUBLIC_HTML) == 0) {
         var requestedFile = requestPath == PUBLIC_HTML ? 'index.html' : requestPath.substring(PUBLIC_HTML.length)
         var ext = path.extname(requestedFile)
         var contentType = MIME_TYPES[ext]
 
-        if (contentType && CLIENT) {
-            // resolve against CLIENT folder
-            return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true, false) 
+        if (contentType) {
+            return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true, false) // resolve against CLIENT folder
         } else {
             return unauthorized(response)
         }
