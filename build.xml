@@ -145,8 +145,8 @@
 		<package-source file="${basedir}/spksrc.json">
 			<keyring file="${dir.package}/gpg/FileBot.pub" />
 			<spk file="${dir.build}/package-source/${package}-${version}-noarch.spk" url="http://downloads.sourceforge.net/project/filebot/${package}/${package}-${version}/${package}-${version}-noarch.spk">
-				<thumbnail url="http://i.imgur.com/bxHSJp9.png" />
-				<snapshot url="http://i.imgur.com/sCgINCR.png" />
+				<thumbnail url="http://app.filebot.net/syno/filebot-node-thumbnail.png" />
+				<snapshot url="http://app.filebot.net/syno/filebot-node-snapshot.png" />
 			</spk>
 		</package-source>
 	</target>
