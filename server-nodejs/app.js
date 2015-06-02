@@ -207,8 +207,7 @@ function handleRequest(request, response) {
         var ext = path.extname(requestedFile)
         var contentType = MIME_TYPES[ext]
 
-        // relative path must not contain '..'
-        if (contentType && requestedFile.indexOf('..') < 0) {
+        if (contentType) {
             // resolve against CLIENT folder
             return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true, false) 
         } else {
