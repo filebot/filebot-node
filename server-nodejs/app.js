@@ -79,6 +79,10 @@ function getCommandArguments(options) {
         if (options.strict != 'on') {
             args.push('-non-strict')
         }
+        if (options.conflict) {
+            args.push('--conflict')
+            args.push(options.conflict)
+        }
         if (options.filter) {
             args.push('--filter')
             args.push(options.filter)

@@ -17,7 +17,8 @@ Ext.define('FileBot.view.task.Task', {
         'FileBot.store.LogLevels',
         'FileBot.store.VideoLengthFilters',
         'FileBot.store.FileSizeFilters',
-        'FileBot.store.Languages'
+        'FileBot.store.Languages',
+        'FileBot.store.ConflictActions'
     ],
 
     xtype: 'section-task',
@@ -166,6 +167,18 @@ Ext.define('FileBot.view.task.Task', {
                 queryMode: 'local'
             },
             items: [{
+                xtype: 'combobox',
+                name: 'conflict',
+                fieldLabel: 'Conflict',
+                displayField: 'label',
+                valueField: 'value',
+                value: 'auto',
+                store: {
+                    type: 'conflict-actions'
+                },
+                editable: false,
+                minWidth: 320
+            }, {
                 xtype: 'checkboxfield',
                 name: 'skipExtract',
                 fieldLabel: 'Archives',
