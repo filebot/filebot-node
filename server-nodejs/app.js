@@ -93,13 +93,16 @@ function getCommandArguments(options) {
         }
         args.push('--def')
         if (options.label) args.push('ut_label=' + options.label)
-        args.push('music=y')
-        args.push('unsorted=y')
+        if (options.music != 'no') args.push('music=y')
+        if (options.unsorted != 'no') args.push('unsorted=y')
         if (options.artwork == 'on') args.push('artwork=y')
         if (options.subtitles) args.push('subtitles=' + options.subtitles)
         if (options.clean == 'on') args.push('clean=y')
-        if (options.skipExtract == 'on') args.push('skipExtract=y')
-        args.push('deleteAfterExtract=y')
+        if (options.skipExtract == 'on') {
+            args.push('skipExtract=y')
+        } else {
+            args.push('deleteAfterExtract=y')
+        }
         if (options.ignore) args.push('ignore=' + options.ignore)
         if (options.minLengthMS) args.push('minLengthMS=' + options.minLengthMS)
         if (options.minFileSize) args.push('minFileSize=' + options.minFileSize)

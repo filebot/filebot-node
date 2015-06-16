@@ -182,7 +182,21 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'checkboxfield',
                 name: 'skipExtract',
                 fieldLabel: 'Archives',
-                boxLabel: 'skip and ignore archives',
+                boxLabel: 'skip archives',
+                checked: false
+            }, {
+                xtype: 'checkboxfield',
+                name: 'music',
+                fieldLabel: 'Music',
+                boxLabel: 'skip music files',
+                inputValue: 'no',
+                checked: false
+            }, {
+                xtype: 'checkboxfield',
+                name: 'unsorted',
+                fieldLabel: 'Other Files',
+                boxLabel: 'skip non-media files',
+                inputValue: 'no',
                 checked: false
             }, {
                 xtype: 'textfield',
@@ -244,7 +258,7 @@ Ext.define('FileBot.view.task.Task', {
                 name: 'musicFormat',
                 emptyText: 'Music/{n}/{fn}'
             }, {
-                fieldLabel: 'File Format',
+                fieldLabel: 'Unsorted Format',
                 name: 'unsortedFormat',
                 emptyText: 'Unsorted/{fn}'
             }]
