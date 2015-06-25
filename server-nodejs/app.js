@@ -473,6 +473,9 @@ function server(request, response) {
     }
 }
 
+// LOGGING
+console.log("ENVIRONMENT", process.env)
+console.log("USER", { UID: FILEBOT_CMD_UID, GID: FILEBOT_CMD_GID })
 
 // HTTP
 if ('YES' == process.env['FILEBOT_NODE_HTTP']) {
