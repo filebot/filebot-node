@@ -198,6 +198,31 @@ function kill(options) {
     }
 }
 
+function listFolders(options) {
+    var folder = options.q
+    var file = null
+
+    folder = folder && folder[0] == '/' ? folder : '/'
+    while(!fs.existsSync(folder)) {
+        file = path.basename(folder)
+        folder = path.dirname(folder)
+    }
+
+    var folders = []
+    if (folder) {
+        fs.readdirSync(folder).forEach(function(s) {
+                if (s[0] != '.' && (file == null || s.indexOf(file) == 0)) {
+                    var f = path.resolve(folder, s)
+                    if (fs.statSync(f).isDirectory()) {
+                        folders.push({path: f})
+                    }
+                }
+            }
+        )
+    }
+    return folders
+}
+
 function listLogs() {
     return fs.readdirSync(LOG_FOLDER).map(function (s) {
         return s.substr(0, s.lastIndexOf('.'))
@@ -242,6 +267,11 @@ function handleRequest(request, response) {
         } else {
             return notModified(response)
         }
+    }
+
+    if ('/folders' == requestPath) {
+        var data = listFolders(options)
+        return ok(response, data)
     }
 
     if ('/log' == requestPath) {

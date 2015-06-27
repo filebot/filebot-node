@@ -8,6 +8,7 @@
 Ext.define('FileBot.view.task.Task', {
     extend: 'Ext.container.Container',
     requires: [
+        'FileBot.Node',
         'FileBot.view.task.TaskController',
         'FileBot.view.task.TaskModel',
         'FileBot.view.taskmanager.TaskManager',
@@ -71,11 +72,24 @@ Ext.define('FileBot.view.task.Task', {
                 value: 'amc',
                 hidden: true
             }, {
-                xtype: 'textfield',
+                xtype: 'combobox',
                 name: 'input',
                 fieldLabel: 'Input Folder',
                 emptyText: '/path/to/input',
                 value: Ext.manifest.server.form.input,
+                store: Ext.create('Ext.data.Store', {
+                    fields: ['path'],
+                    proxy: FileBot.Node.getDataProxy('folders'),
+                    pageSize: 0
+                }),
+                displayField: 'path',
+                valueField: 'path',
+                minChars: 0, // forcing the query to run every time by setting minChars to 0
+                queryCaching: true,
+                queryParam: 'q',
+                queryMode: 'remote',
+                forceSelection: false,
+                editable: true,
                 anchor: '100%'
             }, {
                 xtype: 'combobox',
@@ -106,11 +120,24 @@ Ext.define('FileBot.view.task.Task', {
                 },
                 editable: false
             }, {
-                xtype: 'textfield',
+                xtype: 'combobox',
                 name: 'output',
                 fieldLabel: 'Output Folder',
                 emptyText: '/path/to/output',
                 value: Ext.manifest.server.form.output,
+                store: Ext.create('Ext.data.Store', {
+                    fields: ['path'],
+                    proxy: FileBot.Node.getDataProxy('folders'),
+                    pageSize: 0
+                }),
+                displayField: 'path',
+                valueField: 'path',
+                minChars: 0, // forcing the query to run every time by setting minChars to 0
+                queryCaching: true,
+                queryParam: 'q',
+                queryMode: 'remote',
+                forceSelection: false,
+                editable: true,
                 anchor: '100%'
             }, {
                 xtype: 'checkboxfield',
