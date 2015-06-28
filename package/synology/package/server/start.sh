@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export FILEBOT_NODE_HOST="$SERVER_ADDR"
+export FILEBOT_NODE_HOST="0.0.0.0" # bind to all interfaces
 export FILEBOT_NODE_AUTH="SYNO"
 
 export FILEBOT_NODE_HTTP="YES"
