@@ -21,6 +21,7 @@ var FILEBOT_CMD_GID = parseInt(process.env['FILEBOT_CMD_GID'], 10)
 
 var PUBLIC_HTML = CLIENT ? '/filebot/' : ''
 var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
+var SYSTEM_FILES = /^([.@].+|bin|initrd|opt|sbin|var|dev|lib|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr)$/
 var DASHLINE = '------------------------------------------'
 var SIGKILL_EXIT_CODE = 137
 var SCHEDULED_TASK_CODE = 1000
@@ -211,7 +212,7 @@ function listFolders(options) {
     var folders = []
     if (folder) {
         fs.readdirSync(folder).forEach(function(s) {
-                if (s[0] != '.' && (file == null || s.indexOf(file) == 0)) {
+                if (!SYSTEM_FILES.test(s) && (file == null || s.indexOf(file) == 0)) {
                     var f = path.resolve(folder, s)
                     if (fs.statSync(f).isDirectory()) {
                         folders.push({path: f})
