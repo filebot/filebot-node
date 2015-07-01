@@ -12,7 +12,7 @@ export FILEBOT_NODE_HTTPS_KEY="/usr/syno/etc/ssl/ssl.key/server.key"
 export FILEBOT_NODE_HTTPS_CRT="/usr/syno/etc/ssl/ssl.crt/server.crt"
 
 # set user
-export USER="$SYNO_WEBAPI_USERNAME" # set USER = admin
+export USER="admin"
 
 export FILEBOT_CMD="filebot"
 export FILEBOT_CMD_CWD="$SYNOPKG_PKGDEST_VOL"
