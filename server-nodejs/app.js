@@ -21,7 +21,7 @@ var FILEBOT_CMD_GID = parseInt(process.env['FILEBOT_CMD_GID'], 10)
 
 var PUBLIC_HTML = CLIENT ? '/filebot/' : ''
 var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
-var SYSTEM_FILES = /^([.@].+|bin|initrd|opt|sbin|var|dev|lib|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr)$/
+var SYSTEM_FILES = /^([.@].+|bin|initrd|opt|sbin|var|dev|lib|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr|System.Volume.Information)$/
 var DASHLINE = '------------------------------------------'
 var SIGKILL_EXIT_CODE = 137
 var SCHEDULED_TASK_CODE = 1000
