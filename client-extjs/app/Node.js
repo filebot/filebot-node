@@ -150,7 +150,7 @@ Ext.define('FileBot.Node', {
                 success: function (response) {
                     Ext.MessageBox.show({
                         title: 'Task Scheduler',
-                        msg: 'Your task as been added to Task Scheduler. Please use Control Panel ► System ► Task Scheduler to modify or delete tasks.',
+                        msg: 'Your task has been added to Task Scheduler. Please use Control Panel ► System ► Task Scheduler to modify or delete tasks.',
                         buttons: Ext.MessageBox.OK,
                         icon: Ext.MessageBox.INFO
                     })
