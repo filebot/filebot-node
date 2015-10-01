@@ -5,7 +5,7 @@
     "packages":[
         {
             "package":"filebot-node",
-            "version":"0.1.6",
+            "version":"0.1.7",
             "dname":"FileBot Node",
             "desc":"FileBot Node allows you to execute filebot calls via Synology DSM.",
             "maintainer":"rednoah",
@@ -23,8 +23,8 @@
             "snapshot":[
                 "http://app.filebot.net/syno/filebot-node-snapshot.png"
             ],
-            "link":"http://downloads.sourceforge.net/project/filebot/filebot-node/filebot-node-0.1.6/filebot-node-0.1.6-noarch.spk",
-            "md5":"47b5b32cb2663c451afa2c8fd024a79a",
+            "link":"http://downloads.sourceforge.net/project/filebot/filebot-node/filebot-node-0.1.7/filebot-node-0.1.7-noarch.spk",
+            "md5":"7e3016c07d8edd5042f3122bdce09575",
             "size":778240
         }
     ]
