@@ -100,8 +100,9 @@
 
 			<!-- override generic server/start.sh with synology-specific configuration -->
 			<package dir="${dir.dist}/generic" />
+			<package dir="${dir.package}/synology" includes="etc/**" />
 			<package dir="${dir.package}/synology/package" includes="client/**" />
-			<package dir="${dir.package}/synology/package" includes="server/*.sh" filemode="755" />
+			<package dir="${dir.package}/synology/package" includes="server/**" filemode="755" />
 			<scripts dir="${dir.package}/synology/scripts" filemode="755" />
 
 			<codesign keyid="${gpg.key}" password="${gpg.pwd}" pubring="${dir.package}/gpg/pubring.gpg" secring="${dir.package}/gpg/secring.gpg" />
