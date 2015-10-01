@@ -3,5 +3,8 @@
 # create /usr/local/[package] link
 ln -s "/var/packages/$SYNOPKG_PKGNAME/target" "/usr/local/$SYNOPKG_PKGNAME"
 
+# install DSM firewall profile
+/usr/syno/bin/servicetool --install-configure-file --package "$SYNOPKG_PKGDEST/etc/$SYNOPKG_PKGNAME.sc"
+
 # return successfully
 exit 0

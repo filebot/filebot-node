@@ -3,5 +3,10 @@
 # remove /usr/local/[package] link
 rm "/usr/local/$SYNOPKG_PKGNAME"
 
+# remove service configure file only when uninstalling the package
+if ["UNINSTALL" = "$SYNOPKG_PKG_STATUS" ]; then
+	/usr/syno/bin/servicetool --remove-configure-file --package "$SYNOPKG_PKGNAME.sc"
+fi
+
 # return successfully
 exit 0
