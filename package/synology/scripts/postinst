@@ -5,6 +5,7 @@ ln -s "/var/packages/$SYNOPKG_PKGNAME/target" "/usr/local/$SYNOPKG_PKGNAME"
 
 # install DSM firewall profile
 /usr/syno/bin/servicetool --install-configure-file --package "$SYNOPKG_PKGDEST/etc/$SYNOPKG_PKGNAME.sc"
+[ $? -ne 0 ] && echo "Failed to install firewall profile" >> "$SYNOPKG_TEMP_LOGFILE"
 
 # return successfully
 exit 0

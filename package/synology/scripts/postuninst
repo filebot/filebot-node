@@ -1,2 +1,10 @@
 #!/bin/sh
+
+# uninstall firewall profile only when package is removed
+if [ "$SYNOPKG_PKG_STATUS" != "UPGRADE" ]; then
+	/usr/syno/bin/servicetool --remove-configure-file --package "$SYNOPKG_PKGNAME.sc"
+	[ $? -ne 0 ] && echo "Failed to remove firewall profile" >> "$SYNOPKG_TEMP_LOGFILE"
+fi
+
+# return successfully
 exit 0
