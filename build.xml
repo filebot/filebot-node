@@ -92,7 +92,7 @@
 			<info name="thirdparty" value="yes" />
 			<info name="dsmappname" value="net.filebot.NodeClient" />
 			<info name="dsmuidir" value="client" />
-			<info name="firmware" value="5.0-4360" />
+			<info name="firmware" value="5.0" />
 			<info name="install_dep_packages" value="Node.js>=0.10.36:filebot>=4.6" />
 
 			<icon size="72" file="${dir.package}/synology/package/client/images/filebot_node_72.png" />
@@ -142,6 +142,7 @@
 
 	<target name="update-spksrc" description="Update Synology Package Source">
 		<taskdef name="package-source" classname="net.filebot.ant.spk.RepositoryTask" classpathref="jars.classpath" />
+
 		<package-source file="${basedir}/spksrc.json">
 			<keyring file="${dir.package}/gpg/FileBot.pub" />
 			<spk file="${dir.dist}/${package}-${version}-noarch.spk">
