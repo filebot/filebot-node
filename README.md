@@ -9,7 +9,7 @@ FileBot Node is a server-side Node.js application that allows you to make `fileb
 FileBot Node is available as Synology package via the [FileBot Package Source](https://www.filebot.net/forums/viewtopic.php?f=3&t=1802#p10572) and as generic Linux package for all other devices. Please refer to the [How To](https://www.filebot.net/forums/viewtopic.php?f=13&t=2733) manual if you need help getting started.
 
 ## Installation
-Add the following __Package Source__ to __Synology DSM__ ► Package Center ► Settings ► Package Sources:
+Add the following __Package Source__ to Synology DSM ► Package Center ► Settings ► Package Sources:
 
 https://app.filebot.net/syno/
 
