@@ -13,9 +13,7 @@ Add the following __Package Source__ to Synology DSM ► Package Center ► Sett
 
 https://app.filebot.net/syno/
 
-FileBot Node will work on any Linux device that can run `filebot` and `node` but some tinkering may be required. You will need to download and unpack the `*.tar.bz2` package and start the node service yourself. See `start.sh` for details.
-
-http://sourceforge.net/projects/filebot/files/filebot-node/
+FileBot Node will work on any Linux device that can run `filebot` and `node` but some tinkering may be required. You will need to [download](http://sourceforge.net/projects/filebot/files/filebot-node/) and unpack the `*.tar.bz2` package and start the node service yourself. See `start.sh` for details.
 
 ## Notes
 * Node.js is required for the server-side process
