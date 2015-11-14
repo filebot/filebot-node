@@ -15,6 +15,8 @@ https://app.filebot.net/syno/
 
 FileBot Node will work on any Linux device that can run `filebot` and `node` but some tinkering may be required. You will need to download and unpack the `*.tar.bz2` package and start the node service yourself. See `start.sh` for details.
 
+http://sourceforge.net/projects/filebot/files/filebot-node/
+
 ## Notes
 * Node.js is required for the server-side process
 * Support for system authentication is only implemented for Synology DSM
