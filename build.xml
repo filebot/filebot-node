@@ -80,7 +80,8 @@
 		<spk destdir="${dir.dist}" name="${package}" version="${version}" arch="noarch">
 			<info name="displayname" value="FileBot Node" />
 			<info name="description" value="FileBot Node allows you to execute filebot calls via Synology DSM." />
-			<info name="maintainer" value="rednoah" />
+			<info name="maintainer" value="FileBot" />
+			<info name="maintainer_url" value="http://www.filebot.net/" />
 			<info name="distributor" value="FileBot" />
 			<info name="distributor_url" value="http://www.filebot.net/" />
 			<info name="support_url" value="https://github.com/filebot/filebot-node/issues" />
