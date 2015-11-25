@@ -55,6 +55,7 @@
                         # generate json file
                         microload
                             -operation=manifest
+                            -fashion=${use.fashion}
                             -tpl=${build.microloader.json.tpl.embedded}
                             -out=${build.microloader.path}
                             -resourcePath=${build.out.base.path}
@@ -76,6 +77,7 @@
                         # generate json file
                         microload
                             -operation=manifest
+                            -fashion=${use.fashion}
                             -tpl=${build.microloader.json.tpl.standalone}
                             -out=${build.out.json.path}
                             -resourcePath=${build.out.base.path}
@@ -83,6 +85,7 @@
                         and
                         microload
                             -operation=manifest
+                            -fashion=${use.fashion}
                             -tpl=${build.microloader.json.tpl.external}
                             -out=${build.microloader.path}
                             -resourcePath=${build.out.base.path}
@@ -189,6 +192,7 @@
                     # generate json file
                     microload
                         -operation=manifest
+                        -fashion=${use.fashion}
                         -tpl=${build.microloader.json.tpl.embedded}
                         -out=${build.microloader.path}
                         -resourcePath=${build.out.base.path}
@@ -249,47 +253,54 @@
         </x-compile>
     </target>
 
-    <target name="-generate-deltas" depends="-init-compiler">
-        <x-run-if-true value="${app.output.deltas.enable}">
-            <if>
-                <and>
-                    <x-is-true value="${enable.deltas}"/>
-                    <x-is-false value="${build.output.markuponly}"/>
-                </and>
-                <then>
-                    <x-compile refid="${compiler.ref.id}">
-                        <![CDATA[
-                        deltas
-                            -archivePath=${build.out.archive.path}
-                            -deltaPath=${build.out.delta.path}
-                            -resourcePath=${build.out.base.path}
-                        ]]>
-                    </x-compile>
-                </then>
-            </if>
+    <target name="-apply-version-stamps" depends="-init-compiler">
+        <x-run-if-true value="${app.cache.enable}">
+            <x-compile refid="${compiler.ref.id}">
+                <![CDATA[
+                versions
+                    -resourcePath=${build.out.base.path}
+                ]]>
+            </x-compile>
         </x-run-if-true>
     </target>
 
+    <target name="-generate-deltas" depends="-apply-version-stamps">
+        <if>
+            <and>
+                <x-is-false value="${skip.deltas}"/>
+                <x-is-false value="${build.output.markuponly}"/>
+            </and>
+            <then>
+                <x-compile refid="${compiler.ref.id}">
+                    <![CDATA[
+                    deltas
+                        -archivePath=${build.out.archive.path}
+                        -deltaPath=${build.out.deltas.path}
+                        -resourcePath=${build.out.base.path}
+                    ]]>
+                </x-compile>
+            </then>
+        </if>
+    </target>
+
     <target name="-generate-cache-manifest" depends="-init-compiler">
-        <x-run-if-true value="${app.output.cache.enable}">
-            <if>
-                <and>
-                    <x-is-true value="${enable.cache.manifest}"/>
-                    <x-is-false value="${build.output.markuponly}"/>
-                </and>
-                <then>
-                    <x-compile refid="${compiler.ref.id}">
-                        <![CDATA[
-                        cache-manifest
-                            -cacheManifestPath=${build.manifest.path}
-                        ]]>
-                    </x-compile>
-                    <replace file="${build.out.page.path}"
-                             token="&lt;html manifest=&quot;&quot;"
-                             value="&lt;html manifest=&quot;${build.manifest.name}&quot;"/>
-                </then>
-            </if>
-        </x-run-if-true>
+        <if>
+            <and>
+                <x-is-false value="${skip.appCache}"/>
+                <x-is-false value="${build.output.markuponly}"/>
+            </and>
+            <then>
+                <x-compile refid="${compiler.ref.id}">
+                    <![CDATA[
+                    cache-manifest
+                        -cacheManifestPath=${build.manifest.path}
+                    ]]>
+                </x-compile>
+                <replace file="${build.out.page.path}"
+                         token="&lt;html manifest=&quot;&quot;"
+                         value="&lt;html manifest=&quot;${build.out.appCache.name}&quot;"/>
+            </then>
+        </if>
         <!--remove manifest placeholder if present-->
         <replace file="${build.out.page.path}"
                  token="&lt;html manifest=&quot;&quot;"

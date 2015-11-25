@@ -2,16 +2,6 @@
     
     <target name="-before-web-start"/>
     <target name="-web-start">
-        <property name="enable.background.server" value="false"/>
-        <x-sencha-command>
-            <![CDATA[
-            web
-                -port=${build.web.port}
-                -background=${enable.background.server}
-                start
-                    -map=${build.web.root}
-            ]]>
-        </x-sencha-command>
         <if>
             <x-is-true value="enable.browser.launch"/>
             <then>
@@ -25,18 +15,7 @@
 
     <target name="-before-web-stop"/>
     <target name="-web-stop">
-        <!--
-        This needs to be in it's own process due to threading issues when called from a
-        target.
-        -->
-        <java fork="true"
-              dir="${app.dir}"
-              jar="${cmd.dir}/sencha.jar"
-              failonerror="true">
-            <arg value="web"/>
-            <arg value="-port=${build.web.port}"/>
-            <arg value="stop"/>
-        </java>
+        <x-web-server stop="true" port="${build.web.port}"/>
     </target>
     <target name="-after-web-stop"/>
     <target name="web-stop"

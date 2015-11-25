@@ -8,7 +8,9 @@
     </target>
 
     <target name="-watch-compiler">
-        <x-watch compilerRef="${compiler.ref.id}" targets="-watch-impl"/>
+        <x-watch compilerRef="${compiler.ref.id}"
+                 targets="-watch-impl"
+                 webServerRefId="app.web.server"/>
     </target>
 
     <target name="-watch-theme-package-css">

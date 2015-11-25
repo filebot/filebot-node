@@ -1,9 +1,14 @@
 {
     /**
+     * The toolkit to use. Select either "classic" or "modern".
+     */
+    "toolkit": "classic",
+
+    /**
      * The application's namespace.
      */
     "name": "FileBot",
-    
+
     /**
      * The version of the application.
      */
@@ -55,7 +60,7 @@
      * The name of the theme for this application.
      */
     "theme": "ext-theme-crisp",
-    
+
     /**
      * The list of required packages (with optional versions; default is "latest").
      *
@@ -187,14 +192,14 @@
        //
        "cacheParam": "_dc"
     },
-    
+
     /**
      * override objects for setting build environment specific 
      * settings.
      */
     "production": {
     },
-    
+
     "testing": {
 
     },

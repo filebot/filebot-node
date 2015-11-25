@@ -172,6 +172,7 @@ this file in most cases.
     ===============================================================
     -->
     <import file="${basedir}/.sencha/app/init-impl.xml"/>
+    <import file="${basedir}/.sencha/app/resolve-impl.xml"/>
     <target name="init"
             depends="init-local,
                      init-cmd,
@@ -182,7 +183,8 @@ this file in most cases.
                      -init-defaults,
                      -after-init-defaults,
                      -init-compiler,
-                     -init-native-package"/>
+                     -init-native-package,
+                     -init-web-server"/>
     
     <!--
     ===============================================================
@@ -198,8 +200,8 @@ this file in most cases.
                      resolve,
                      js,
                      resources,
-                     sass,
                      slice,
+                     sass,
                      page,
                      native-package"/>
     <target name="-after-build"/>
@@ -285,6 +287,7 @@ this file in most cases.
             <target name="-before-sass"/>
             <target name="-sass"/>
             <target name="-after-sass"/>
+            <target name="refresh"/>
         </x-ant-call>
     </target>
 
@@ -407,7 +410,6 @@ this file in most cases.
     dependencies using phantomjs
     ===============================================================
     -->
-    <import file="${basedir}/.sencha/app/resolve-impl.xml"/>
     <target name="resolve"
             depends="init"
             description="Resolve application dependencies dynamically.">
@@ -443,24 +445,24 @@ this file in most cases.
     <target name="-before-publish"/>
     <target name="-after-publish"/>
     <target name="-publish">
-        <property name="app.space.file" value="${app.output.base}"/>
+        <property name="app.manager.file" value="${app.output.base}"/>
         <x-sencha-command>
             <![CDATA[
-            space
+            manager
                 version
                     create
-                        -id=${app.space.id}
+                        -id=${app.manager.id}
                         -name=${app.version}
-                        -host=${app.space.host}
-                        -secret=${app.space.secret}
-                        -apiKey=${app.space.apiKey}
-                        -file=${app.space.file}
+                        -host=${app.manager.host}
+                        -secret=${app.manager.secret}
+                        -apiKey=${app.manager.apiKey}
+                        -file=${app.manager.file}
             ]]>
         </x-sencha-command>
     </target>
     <target name="publish"
             depends="init,-before-publish,-publish,-after-publish"
-            description="publish app to sencha space"/>
+            description="Publish app to Sencha Web Application Manager"/>
 
 
     <!--

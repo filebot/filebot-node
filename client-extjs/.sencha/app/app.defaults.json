@@ -57,9 +57,6 @@
      */
     "js": [
         {
-            "path": "${ext.dir}/build/ext-all-rtl-debug.js"
-        },
-        {
             "path": "app.js",
             "bundle": true
         }
@@ -92,8 +89,11 @@
      */
     "css": [
         {
-            "path": "bootstrap.css",
-            "bootstrap": true
+            // this entry uses an ant variable that is the calculated
+            // value of the generated output css file for the app,
+            // defined in .sencha/app/defaults.properties
+            "path": "${build.out.css.path}",
+            "bundle": true
         }
     ],
 
@@ -140,14 +140,6 @@
     },
 
     "testing": {
-        "output": {
-            "deltas": {
-                "enable": false
-            },
-            "cache": {
-                "enable": false
-            }
-        }
     },
 
     "development": {
@@ -222,21 +214,43 @@
      *          "slicer": {
      *              "path": "${app.output.resources}/images",
      *              "enable": false
+     *          },
+     *          // Setting the "enable" property of this object to a Truthy value will cause a Application Cache
+     *          // manifest file to be generated based on this files appCache object. This file will then be injected
+     *          // into the index.html file of the built application
+     *          "appCache":{
+     *              "enable": false"
      *          }
      *      }
-     *
      */
     "output": {
         "base": "${workspace.build.dir}/${build.environment}/${app.name}",
-        "deltas": {
-            "enable": false
-        },
-        "cache": {
+        "appCache": {
             "enable": false
         },
         "microloader": {
             "enable": true
         }
+    },
+
+    /**
+    * Controls for localStorage caching
+    *   "cache": {
+    *       // This property controls whether localStorage caching of this manifest file is on or off.
+    *       // if disabled no deltas will be generated during a build and full updates will be disabled
+    *       "enable": false,
+    *
+    *       // This property allows for global toggle of deltas.
+    *       // If set to a string the value will be used as the path to where deltas will be generated relative to you build.
+    *       // If set to a Truthy Value the default path ok "deltas" will be used
+    *       // If set to a Falsey value or if this property is not present deltas will be disabled and not generated.
+    *       //
+    *       "deltas": "deltas"
+    *   }
+    */
+    "cache": {
+        "enable": false,
+        "deltas": "deltas"
     },
 
     /**
@@ -293,12 +307,14 @@
         "microloader": "${app.config.dir}/Microloader.js",
         "output": {
             "base": "${app.cordova.config.path}/www",
-            "deltas": {
-                "enable": false
-            },
-            "cache": {
+            "page": "index.html",
+            "manifest": "${build.id}.json",
+            "appCache": {
                 "enable": false
             }
+        },
+        "cache": {
+            "enable": false
         }
     },
 
@@ -354,12 +370,14 @@
         "microloader": "${app.config.dir}/Microloader.js",
         "output": {
             "base": "${app.phonegap.config.path}/www",
-            "deltas": {
-                "enable": false
-            },
-            "cache": {
+            "page": "index.html",
+            "manifest": "${build.id}.json",
+            "appCache": {
                 "enable": false
             }
+        },
+        "cache": {
+            "enable": false
         }
     },
 
@@ -372,12 +390,29 @@
                 "path": "${app.dir}/sass/example/custom.js",
                 "isWidgetManifest": true
             }
-        ]
+        ],
+        "output": {
+            "appCache": {
+                "enable": false
+            }
+        },
+        "cache": {
+            "enable": false
+        }
+    },
+
+    /**
+     *
+     */
+    "fashion": {
+        "inliner": {
+            "enable": false
+        }
     }
 
     /**
-     * The space config object is used by the sencha app publish command to deploy this application to sencha space
-     * "space": {
+     * The manager config object is used by the sencha app publish command to deploy this application to sencha web application manager
+     * "manager": {
      *     // the space id for this application
      *     "id": 12345,
      *     // name of app in space deployments
