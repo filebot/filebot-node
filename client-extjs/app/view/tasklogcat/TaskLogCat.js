@@ -2,7 +2,7 @@
  * Created by reinhard on 4/29/15.
  */
 Ext.define('FileBot.view.tasklogcat.TaskLogCat', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Ext.container.Container',
     requires: [
         'FileBot.view.tasklogcat.TaskLogCatController'
     ],
@@ -23,7 +23,9 @@ Ext.define('FileBot.view.tasklogcat.TaskLogCat', {
         emptyText: '$ logcat',
         scrollable: true,
         focusable: false,
-        editable: false
+        editable: false,
+        cols: '80',
+        rows: '25'
     }]
 
 });
