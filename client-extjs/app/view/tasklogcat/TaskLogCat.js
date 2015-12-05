@@ -24,8 +24,10 @@ Ext.define('FileBot.view.tasklogcat.TaskLogCat', {
         scrollable: true,
         focusable: false,
         editable: false,
-        cols: '80',
-        rows: '25'
+        grow: true,
+        minWidth: 300,
+        minHeight: 150,
+        anchor: '100%'
     }]
 
 });
