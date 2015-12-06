@@ -66,13 +66,10 @@ textarea.logcatviewer {
 	font-size: 8pt								!important;
 	background: #300A24							!important;
 	color: #FFFFFF								!important;
-	padding: 5px								!important;
-	overflow: hidden							!important;
 	cursor: text								!important;
 	line-height: 1.2em							!important;
 	white-space: pre							!important;
 	word-wrap: normal							!important;
-	overflow: auto								!important;
 }
 
 div.paypal {
