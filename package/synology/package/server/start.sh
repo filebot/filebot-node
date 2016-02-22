@@ -27,4 +27,4 @@ cd "$SYNOPKG_PKGDEST"
 # --max_executable_size (max size of executable memory (in Mbytes))
 # (NOT YET SUPPORTED SYNO NODE.JS) --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
 # --use_idle_notification (Use idle notification to reduce memory footprint.)
-/usr/bin/node --max_executable_size=16 --use_idle_notification "server/app.js"
+node --max_executable_size=16 --use_idle_notification "server/app.js"
