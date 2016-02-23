@@ -116,6 +116,7 @@ function getCommandArguments(options) {
         if (options.animeFormat) args.push('animeFormat=' + options.animeFormat)
         if (options.movieFormat) args.push('movieFormat=' + options.movieFormat)
         if (options.musicFormat) args.push('musicFormat=' + options.musicFormat)
+        if (options.unsortedFormat) args.push('unsortedFormat=' + options.unsortedFormat)
         if (options.excludeList) args.push('excludeList=' + options.excludeList)
         args.push('--log')
         args.push(options.log)
