@@ -8,8 +8,8 @@ export FILEBOT_NODE_HTTP_PORT="5452"
 
 export FILEBOT_NODE_HTTPS="YES"
 export FILEBOT_NODE_HTTPS_PORT="5453"
-export FILEBOT_NODE_HTTPS_KEY="/usr/syno/etc/ssl/ssl.key/server.key"
-export FILEBOT_NODE_HTTPS_CRT="/usr/syno/etc/ssl/ssl.crt/server.crt"
+export FILEBOT_NODE_HTTPS_KEY="/usr/syno/etc/certificate/system/default/privkey.pem"
+export FILEBOT_NODE_HTTPS_CRT="/usr/syno/etc/certificate/system/default/cert.pem"
 
 
 export USER="admin"                                                                           # set admin as filebot user

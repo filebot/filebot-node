@@ -93,7 +93,7 @@
 			<info name="thirdparty" value="yes" />
 			<info name="dsmappname" value="net.filebot.NodeClient" />
 			<info name="dsmuidir" value="client" />
-			<info name="firmware" value="5.0" />
+			<info name="firmware" value="6.0" />
 			<info name="install_dep_packages" value="Node.js:filebot" />
 
 			<icon size="72" file="${dir.package}/synology/package/client/images/filebot_node_72.png" />
