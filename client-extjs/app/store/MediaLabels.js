@@ -6,7 +6,7 @@ Ext.define('FileBot.store.MediaLabels', {
     fields: [
         'id', 'value', 'label'
     ],
-    
+
     data: [
         [0, '', 'autodetect'],
         [1, 'movie', 'Movies'],

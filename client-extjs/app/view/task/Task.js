@@ -154,7 +154,7 @@ Ext.define('FileBot.view.task.Task', {
             }, {
                 xtype: 'textfield',
                 name: 'filter',
-                fieldLabel: 'Autodetection Filter',
+                fieldLabel: 'Match Filter',
                 emptyText: 'restrict autodetection (e.g. age < 7)',
                 allowBlank: true,
                 anchor: '100%'
