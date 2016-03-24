@@ -20,10 +20,10 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
         type: 'print',
         callback: function() {
             var url = FileBot.Node.getLogAllEndpoint()
-            window.open(url, '_self')
+            window.open(url, '_blank')
         }
     }],
-    
+
     listeners: {
         select: function(view, record) {
             // broadcast event

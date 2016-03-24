@@ -5,7 +5,7 @@
 			"title": "FileBot Node",
 			"desc": "FileBot Node Client allows you to execute filebot calls via Synology DSM",
 			"icon": "images/filebot_node_{0}.png",
-			"url": "3rdparty/filebot-node/index.html"
+			"url": "/webman/3rdparty/filebot-node/index.html"
 		}
 	}
 }
