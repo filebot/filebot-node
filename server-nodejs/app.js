@@ -34,18 +34,28 @@ var TASKS = []
 // update task list via If-Last-Modified
 TASKS.lastModified = Date.now()
 
-var TASK_INDEX = path.resolve('schedule.ids')
-var LOG_FOLDER = path.resolve('log')
-var FILEBOT_LOG = path.resolve('filebot.log')
+var TASK_CMD = path.resolve('task.sh')
+
+var DATA_FOLDER = path.resolve('data')
+var LOG_FOLDER = path.resolve(DATA_FOLDER, 'log')
+var TASK_FOLDER = path.resolve(DATA_FOLDER, 'task')
+var TASK_INDEX = path.resolve(DATA_FOLDER, 'schedule.ids')
+var FILEBOT_LOG = path.resolve(DATA_FOLDER, 'filebot.log')
 
 // create folder if necessary
+if (!fs.existsSync(DATA_FOLDER)) {
+    fs.mkdirSync(DATA_FOLDER)
+}
+if (!fs.existsSync(TASK_FOLDER)) {
+    fs.mkdirSync(TASK_FOLDER)
+}
 if (!fs.existsSync(LOG_FOLDER)) {
     fs.mkdirSync(LOG_FOLDER)
-    fs.chownSync(LOG_FOLDER, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
+    fs.chownSync(LOG_FOLDER, FILEBOT_CMD_UID, FILEBOT_CMD_GID)  // FILEBOT USER MUST BE ABLE TO WRITE LOGS
 }
 if (!fs.existsSync(FILEBOT_LOG)) {
     fs.writeFileSync(FILEBOT_LOG, '# created on ' + (new Date()) + '\n')
-    fs.chownSync(FILEBOT_LOG, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
+    fs.chownSync(FILEBOT_LOG, FILEBOT_CMD_UID, FILEBOT_CMD_GID) // FILEBOT USER MUST BE ABLE TO WRITE LOGS
 }
 
 if (fs.existsSync(TASK_INDEX)) {
@@ -55,6 +65,7 @@ if (fs.existsSync(TASK_INDEX)) {
         }
     })
 }
+
 
 // HELPER FUNCTIONS
 
@@ -447,19 +458,21 @@ function schedule(request, response, options) {
 function schedule_syno(request, response, options) {
     var id = Date.now()
     var logFile = getLogFile(id)
-    var command = shellescape([getCommand()].concat(getCommandArguments(options)))
+
+    var command = shellescape([TASK_CMD, id])
+    var options = getCommandArguments(options)
 
     // each log contains the original command (as JSON) in the first line
-    fs.writeFileSync(logFile, command + '\n\n' + DASHLINE + '\n\n')
+    fs.writeFileSync(logFile, command + ' # ' + options + '\n\n' + DASHLINE + '\n\n')
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
+
+    var argsFile = path.resolve(TASK_FOLDER, id+'.args')
+    fs.writeFileSync(argsFile, options.join('\n'))
 
     // update scheduled tasks index
     fs.appendFileSync(TASK_INDEX, id + '\n')
     TASKS.push({id: id, status: SCHEDULED_TASK_CODE})
     TASKS.lastModified = Date.now()
-
-    // IO redirection to log folder
-    var script = command + ' >> ' + shellescape([logFile]) + ' 2>&1'
 
     // Syno Web API rejects requests from localhost, so we have to send the request from the client
     var clientSideRequest = {
@@ -470,7 +483,7 @@ function schedule_syno(request, response, options) {
             owner: JSON.stringify('admin'),
             enable: true,
             schedule: JSON.stringify({"date_type":0,"week_day":"0,1,2,3,4,5,6","hour":4,"minute":0,"repeat_hour":0,"repeat_min":0,"last_work_hour":0,"repeat_min_store_config":[1,5,10,15,20,30],"repeat_hour_store_config":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]}),
-            extra: JSON.stringify({"script":script}),
+            extra: JSON.stringify({"script":command}),
             type: JSON.stringify('script'),
             api: 'SYNO.Core.TaskScheduler',
             method: 'create',
