@@ -14,7 +14,7 @@ export FILEBOT_NODE_HTTPS_CRT="/usr/syno/etc/certificate/system/default/cert.pem
 export USER="admin"                                                                           # set admin as filebot user
 export JAVA_OPTS=`free | awk -vm=1024 -vp=0.7 '/Mem:/ {printf "-Xmx%dm", ($2*p)/m; exit}'`    # set -Xmx to 0.7 of physical memory
 
-export FILEBOT_TASK_CMD="/usr/local/filebot-node/task.sh"
+export FILEBOT_TASK_CMD="/usr/local/filebot-node/task"
 
 export FILEBOT_CMD="filebot"
 export FILEBOT_CMD_CWD="/volume1"
