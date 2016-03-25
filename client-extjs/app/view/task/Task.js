@@ -330,7 +330,7 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Log Level',
                 displayField: 'label',
                 valueField: 'value',
-                value: 'info',
+                value: 'all',
                 store: {
                     type: 'log-levels'
                 },
