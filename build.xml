@@ -69,7 +69,7 @@
 	<target name="tar" description="Build Generic Package" depends="build">
 		<tar destfile="${dir.dist}/${package}-${version}-generic.tar.bz2" compression="bzip2" longfile="gnu">
 			<tarfileset dir="${dir.dist}/generic" />
-			<tarfileset dir="${dir.package}/generic" includes="*.sh" filemode="755" />
+			<tarfileset dir="${dir.package}/generic" includes="*" filemode="755" />
 		</tar>
 	</target>
 
@@ -79,7 +79,7 @@
 
 		<spk destdir="${dir.dist}" name="${package}" version="${version}" arch="noarch">
 			<info name="displayname" value="FileBot Node" />
-			<info name="description" value="FileBot Node allows you to execute filebot calls via Synology DSM." />
+			<info name="description" value="FileBot Node allows you to execute and schedule filebot calls via Synology DSM." />
 			<info name="maintainer" value="FileBot" />
 			<info name="maintainer_url" value="http://www.filebot.net/" />
 			<info name="distributor" value="FileBot" />
