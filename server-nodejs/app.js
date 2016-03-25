@@ -14,6 +14,7 @@ var shellescape = require('shell-escape')
 // CONFIGURATION AND GLOBAL VARIABLES
 var AUTH = process.env['FILEBOT_NODE_AUTH']
 var CLIENT = process.env['FILEBOT_NODE_CLIENT']
+var TASK_CMD = process.env['FILEBOT_TASK_CMD']
 var FILEBOT_CMD = process.env['FILEBOT_CMD']
 var FILEBOT_CMD_CWD = process.env['FILEBOT_CMD_CWD']
 var FILEBOT_CMD_UID = parseInt(process.env['FILEBOT_CMD_UID'], 10)
@@ -33,8 +34,6 @@ var TASKS = []
 
 // update task list via If-Last-Modified
 TASKS.lastModified = Date.now()
-
-var TASK_CMD = path.resolve('task.sh')
 
 var DATA_FOLDER = path.resolve('data')
 var LOG_FOLDER = path.resolve(DATA_FOLDER, 'log')
@@ -459,15 +458,15 @@ function schedule_syno(request, response, options) {
     var id = Date.now()
     var logFile = getLogFile(id)
 
-    var command = shellescape([TASK_CMD, id])
-    var options = getCommandArguments(options)
+    var command = TASK_CMD + ' "' + id + '"'
+    var args = getCommandArguments(options)
 
     // each log contains the original command (as JSON) in the first line
-    fs.writeFileSync(logFile, command + ' # ' + options + '\n\n' + DASHLINE + '\n\n')
+    fs.writeFileSync(logFile, command + ' # ' + shellescape(args) + '\n\n' + DASHLINE + '\n\n')
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
     var argsFile = path.resolve(TASK_FOLDER, id+'.args')
-    fs.writeFileSync(argsFile, options.join('\n'))
+    fs.writeFileSync(argsFile, args.join('\n'))
 
     // update scheduled tasks index
     fs.appendFileSync(TASK_INDEX, id + '\n')

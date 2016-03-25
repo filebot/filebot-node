@@ -14,6 +14,8 @@ export FILEBOT_NODE_HTTPS_PORT="5453"
 export FILEBOT_NODE_HTTPS_KEY="/path/to/server.key"
 export FILEBOT_NODE_HTTPS_CRT="/path/to/server.crt"
 
+export FILEBOT_TASK_CMD=`realpath task.sh`
+
 export FILEBOT_CMD="filebot"
 export FILEBOT_CMD_CWD="$PWD"
 export FILEBOT_CMD_UID=`id -u $USER`
