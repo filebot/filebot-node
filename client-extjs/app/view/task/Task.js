@@ -299,7 +299,7 @@ Ext.define('FileBot.view.task.Task', {
             items: [{
                 name: 'exec',
                 fieldLabel: 'Run Program',
-                emptyText: "touch '{file}'"
+                emptyText: "synoindex -a \"{file}\""
             }, {
                 name: 'plex',
                 fieldLabel: 'Plex',
