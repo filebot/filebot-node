@@ -1,10 +1,13 @@
 #!/bin/sh
 
 # create /usr/local/[package] link
-ln -s "/var/packages/$SYNOPKG_PKGNAME/target" "/usr/local/$SYNOPKG_PKGNAME"
+ln -sf "/var/packages/$SYNOPKG_PKGNAME/target" "/usr/local/$SYNOPKG_PKGNAME"
+
+# install initctl service
+cp "/var/packages/$SYNOPKG_PKGNAME/target/etc/$SYNOPKG_PKGNAME.conf" "/etc/init/$SYNOPKG_PKGNAME.conf"
 
 # install DSM firewall profile
-/usr/syno/bin/servicetool --install-configure-file --package "$SYNOPKG_PKGDEST/etc/$SYNOPKG_PKGNAME.sc"
+servicetool --install-configure-file --package "$SYNOPKG_PKGDEST/etc/$SYNOPKG_PKGNAME.sc"
 
 # return successfully
 exit 0

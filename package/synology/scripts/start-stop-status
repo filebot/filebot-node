@@ -2,17 +2,17 @@
 
 case "$1" in
 	start)
-		"$SYNOPKG_PKGDEST/start" > "$SYNOPKG_PKGDEST/node.log" 2>&1
-		exit $?
+		initctl start "$SYNOPKG_PKGNAME"
+		exit 0
 	;;
 
 	stop)
-		killall "$SYNOPKG_PKGNAME"
-		exit $?
+		initctl stop "$SYNOPKG_PKGNAME"
+		exit 0
 	;;
 
 	status)
-		ps | grep "$SYNOPKG_PKGNAME" | grep -v 'grep'
+		initctl status "$SYNOPKG_PKGNAME" | grep "running"
 		exit $?
 	;;
 
@@ -22,6 +22,6 @@ case "$1" in
 	;;
 
 	*)
-		exit 1
+		exit 0
 	;;
 esac
