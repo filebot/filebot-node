@@ -2,7 +2,7 @@
 
 case "$1" in
 	start)
-		"$SYNOPKG_PKGDEST/start" > "$SYNOPKG_PKGDEST/node.log" 2>&1 &
+		"$SYNOPKG_PKGDEST/start" > "$SYNOPKG_PKGDEST/node.log" 2>&1
 		exit $?
 	;;
 
