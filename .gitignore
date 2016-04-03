@@ -99,6 +99,7 @@ node_modules
 *.sublime-project
 *.sublime-workspace
 *.properties
+*.key
 .idea/
 .sencha/
 overrides/

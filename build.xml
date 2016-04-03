@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <project name="filebot-node" default="tar" xmlns:syno="antlib:net.filebot.ant.spk">
-	<!-- include default inputs (optional) -->
-	<property file="package.properties" />
 	<property file="profile.properties" />
+	<property file="package.properties" />
 
 	<!-- define source dirs -->
 	<property name="dir.client" location="${basedir}/client-extjs" />
@@ -10,9 +9,7 @@
 	<property name="dir.package" location="${basedir}/package" />
 	<property name="dir.build" location="${basedir}/build" />
 	<property name="dir.dist" location="${basedir}/dist" />
-
 	<property name="dir.release" location="${basedir}/release" />
-	<property name="frs.release" value="web.sourceforge.net:/home/frs/project/f/fi/filebot/filebot-node" />
 
 
 	<target name="build">
@@ -125,7 +122,9 @@
 	</target>
 
 
-	<target name="deploy" depends="login, tar, spk" description="Upload Synology Package">
+	<target name="deploy" depends="tar, spk" description="Upload Synology Package">
+		<property prefix="deploy" file="deploy.properties" />
+
 		<!-- prepare release packages -->
 		<copy todir="${dir.release}/${package}-${version}" verbose="yes">
 			<fileset dir="${dir.dist}">
@@ -135,18 +134,12 @@
 		</copy>
 
 		<!-- upload -->
-		<scp todir="${sf.user}:${sf.password}@${frs.release}" trust="yes" sftp="true" verbose="yes">
+		<scp todir="${deploy.release}" trust="yes" verbose="true" sftp="true" keyfile="${deploy.keyfile}">
 			<fileset dir="${dir.release}">
 				<include name="**/*" />
 			</fileset>
 		</scp>
 	</target>
 
-
-	<target name="login">
-		<!-- ask for sourceforge password -->
-		<input message="Please enter sourceforge username:" addproperty="sf.user" />
-		<input message="Please enter sourceforge password:" addproperty="sf.password" />
-	</target>
 
 </project>
