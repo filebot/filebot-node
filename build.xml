@@ -123,8 +123,6 @@
 
 
 	<target name="deploy" depends="tar, spk" description="Upload Synology Package">
-		<property prefix="deploy" file="deploy.properties" />
-
 		<!-- prepare release packages -->
 		<copy todir="${dir.release}/${package}-${version}" verbose="yes">
 			<fileset dir="${dir.dist}">
