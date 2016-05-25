@@ -17,7 +17,7 @@ case "$1" in
 	;;
 
 	log)
-		echo "$SYNOPKG_PKGDEST/node.log"
+		echo "/var/log/upstart/$SYNOPKG_PKGDEST.log"
 		exit 0
 	;;
 
