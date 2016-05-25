@@ -17,7 +17,7 @@ case "$1" in
 	;;
 
 	log)
-		echo "/var/log/upstart/$SYNOPKG_PKGDEST.log"
+		echo "/var/log/upstart/$SYNOPKG_PKGNAME.log"
 		exit 0
 	;;
 
