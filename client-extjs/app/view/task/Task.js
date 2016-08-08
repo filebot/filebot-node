@@ -101,7 +101,8 @@ Ext.define('FileBot.view.task.Task', {
                 store: {
                     type: 'media-labels'
                 },
-                editable: false
+                editable: false,
+                minWidth: 280
             }, {
                 xtype: 'checkboxfield',
                 name: 'strict',
@@ -118,7 +119,8 @@ Ext.define('FileBot.view.task.Task', {
                 store: {
                     type: 'rename-actions'
                 },
-                editable: false
+                editable: false,
+                minWidth: 280
             }, {
                 xtype: 'combobox',
                 name: 'output',
