@@ -202,13 +202,24 @@
                                     toFile="${app.out.css}"/>
                         </then>
                         <else>
-                            <x-sass-build input="${app.out.scss}"
-                                          output="${app.out.css}"
-                                          refId="app.web.server"
-                                          split="${build.css.selector.limit}"
-                                          compress="${build.css.compress}"
-                                          updateSplitFiles="true"
-                                          compilerRefId="${compiler.ref.id}"/>
+                            <x-fashion-live-update input="${app.out.scss}"
+                                                   output="${app.out.css}"
+                                                   refId="app.web.server"
+                                                   split="${build.css.selector.limit}"
+                                                   compress="${build.css.compress}"
+                                                   compilerRefId="${compiler.ref.id}"/>
+
+                            <x-sencha-command>
+                                fashion
+                                    -compress=${build.css.compress}
+                                    -split=${build.css.selector.limit}
+                                    -saveFile=${app.dir}/${app.sass.save}
+                                    ${app.out.scss}
+                                    ${app.out.css}
+                            </x-sencha-command>
+
+                            <x-update-css-array input="${app.out.css}"
+                                                compilerRefId="${compiler.ref.id}"/>
                         </else>
                     </if>
                 </then>

@@ -183,8 +183,7 @@ this file in most cases.
                      -init-defaults,
                      -after-init-defaults,
                      -init-compiler,
-                     -init-native-package,
-                     -init-web-server"/>
+                     -init-native-package"/>
     
     <!--
     ===============================================================
