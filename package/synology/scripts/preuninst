@@ -1,7 +1,2 @@
 #!/bin/sh
-
-# remove /usr/local/[package] link
-rm "/usr/local/$SYNOPKG_PKGNAME"
-
-# return successfully
 exit 0

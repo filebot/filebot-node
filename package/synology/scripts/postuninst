@@ -6,5 +6,11 @@ if [ "$SYNOPKG_PKG_STATUS" != "UPGRADE" ]; then
 	servicetool --remove-configure-file --package "$SYNOPKG_PKGNAME.sc"
 fi
 
+# remove /usr/local/[package] link
+rm "/usr/local/$SYNOPKG_PKGNAME"
+
+# remove log
+rm "/var/log/upstart/$SYNOPKG_PKGNAME.log"
+
 # return successfully
 exit 0
