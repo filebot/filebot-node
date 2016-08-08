@@ -3,4 +3,5 @@
 # store data files
 cd "$SYNOPKG_PKGDEST" && tar -cvzf "/tmp/$SYNOPKG_PKGNAME.data.tgz" "data/"
 
+# return successfully
 exit 0

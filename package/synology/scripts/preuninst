@@ -1,2 +1,10 @@
 #!/bin/sh
+
+# remove /usr/local/[package] link
+rm "/usr/local/$SYNOPKG_PKGNAME"
+
+# remove log
+rm "/var/log/upstart/$SYNOPKG_PKGNAME.log"
+
+# return successfully
 exit 0
