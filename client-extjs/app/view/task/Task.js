@@ -307,7 +307,7 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Plex',
                 emptyText: 'host:token'
             }, {
-                name: 'xbmc',
+                name: 'kodi',
                 fieldLabel: 'Kodi',
                 emptyText: 'host'
             }, {

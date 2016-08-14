@@ -119,7 +119,7 @@ function getCommandArguments(options) {
         if (options.minFileSize) args.push('minFileSize=' + options.minFileSize)
         if (options.exec) args.push('exec=' + options.exec)
         if (options.plex) args.push('plex=' + options.plex)
-        if (options.xbmc) args.push('xbmc=' + options.xbmc)
+        if (options.kodi) args.push('kodi=' + options.kodi)
         if (options.pushover) args.push('pushover=' + options.pushover)
         if (options.pushbullet) args.push('pushbullet=' + options.pushbullet)
         if (options.seriesFormat) args.push('seriesFormat=' + options.seriesFormat)
