@@ -81,7 +81,7 @@ function getCommandArguments(options) {
     var args = []
     if (options.fn == 'amc') {
         args.push('-script')
-        args.push('fn:amc')
+        args.push(options.channel == 'fn' ? 'fn:amc' : 'dev:amc')
         args.push(options.input)
         args.push('--output')
         args.push(options.output)

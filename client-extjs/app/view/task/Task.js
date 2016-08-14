@@ -320,13 +320,24 @@ Ext.define('FileBot.view.task.Task', {
                 emptyText: 'apikey'
             }]
         }, {
-            title: 'Logging',
+            title: 'Developer Options',
             defaults: {
                 allowBlank: true,
                 forceSelection: true,
                 queryMode: 'local'
             },
             items: [{
+                xtype: 'combobox',
+                name: 'channel',
+                fieldLabel: 'Script Channel',
+                displayField: 'label',
+                valueField: 'value',
+                value: 'fn',
+                store: {
+                    type: 'script-sources'
+                },
+                editable: false
+            }, {
                 xtype: 'combobox',
                 name: 'log',
                 fieldLabel: 'Log Level',
