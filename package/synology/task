@@ -12,6 +12,6 @@ export JAVA_OPTS=`free | awk -vm=1024 -vp=0.7 '/Mem:/ {printf "-Xmx%dm", ($2*p)/
 
 echo "filebot @$DATA/task/$TASK.args" # log arguments
 
-filebot @"$DATA/task/$TASK.args" 2>&1 | tee -a "$DATA/log/$TASK.log"
+filebot "@$DATA/task/$TASK.args" 2>&1 | tee -a "$DATA/log/$TASK.log"
 
 exit ${PIPESTATUS[0]} # return filebot exit code (and not tee exit code)
