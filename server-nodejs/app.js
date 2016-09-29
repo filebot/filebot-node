@@ -458,7 +458,7 @@ function schedule_syno(request, response, options) {
     var id = Date.now()
     var logFile = getLogFile(id)
 
-    var command = TASK_CMD + ' "' + id + '"'
+    var command = TASK_CMD + ' ' + id
     var args = getCommandArguments(options)
 
     // each log contains the original command (as JSON) in the first line
