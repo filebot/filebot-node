@@ -1,9 +1,10 @@
 #!/bin/sh
 
-if [ `whoami` != 'admin' ]; then
-	echo "task must be called as admin"
+if [ `id -u` != 0 ]; then
+	echo "task must not be called as root"
 	exit 1
 fi
+
 
 export DATA="/usr/local/filebot-node/data"
 export TASK="$1"
