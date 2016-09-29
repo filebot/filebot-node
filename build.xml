@@ -75,7 +75,7 @@
 			<info name="distributor" value="FileBot" />
 			<info name="distributor_url" value="http://www.filebot.net/" />
 			<info name="support_url" value="https://github.com/filebot/filebot-node/issues" />
-			<info name="helpurl" value="https://www.filebot.net/forums/viewforum.php?f=13" />
+			<info name="helpurl" value="http://www.filebot.net/syno/support.html" />
 			<info name="startable" value="yes" />
 			<info name="silent_install" value="yes" />
 			<info name="silent_upgrade" value="yes" />
@@ -84,7 +84,9 @@
 			<info name="dsmappname" value="net.filebot.NodeClient" />
 			<info name="dsmuidir" value="client" />
 			<info name="firmware" value="6.0" />
-			<info name="install_dep_packages" value="filebot:Node.js_v4" />
+
+			<!-- Dependencies are troublesome for some users because they cannot be skipped or ignored (i.e. DSM does not support optional or recommended dependencies) -->
+			<!-- <info name="install_dep_packages" value="filebot:Node.js_v4" /> -->
 
 			<icon size="72" file="${dir.package}/synology/package/client/images/filebot_node_72.png" />
 			<icon size="256" file="${dir.package}/synology/package/client/images/filebot_node_256.png" />
