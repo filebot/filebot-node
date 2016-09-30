@@ -30,7 +30,7 @@ Ext.define('FileBot.view.tasklogcat.TaskLogCat', {
         xtype: 'textarea',
         id: 'logcatviewer',
         fieldCls: 'logcatviewer',
-        emptyText: '$ logcat',
+        emptyText: '$',
         scrollable: false,
         focusable: false,
         editable: false,

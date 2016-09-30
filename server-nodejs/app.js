@@ -187,6 +187,19 @@ function spawnChildProcess(command, arguments) {
     return pd
 }
 
+function version() {
+    var child = child_process.spawnSync(getCommand(), ['-version'], {
+            stdio: ['ignore', 'pipe', 'pipe'],
+            encoding: 'UTF-8',
+            env: process.env,
+            cwd: FILEBOT_CMD_CWD,
+            uid: FILEBOT_CMD_UID,
+            gid: FILEBOT_CMD_GID
+        }
+    )
+    return [child.stdout, child.stderr].join('\n').trim()
+}
+
 
 // ROUTES
 
@@ -271,6 +284,11 @@ function handleRequest(request, response) {
     // AUTHENTICATION REQUIRED BEYOND THIS POINT
     if (!user) {
         return unauthorized(response)
+    }
+
+    if ('/version' == requestPath) {
+        var data = version()
+        return ok(response, data)
     }
 
     if ('/tasks' == requestPath) {

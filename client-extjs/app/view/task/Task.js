@@ -19,7 +19,8 @@ Ext.define('FileBot.view.task.Task', {
         'FileBot.store.VideoLengthFilters',
         'FileBot.store.FileSizeFilters',
         'FileBot.store.Languages',
-        'FileBot.store.ConflictActions'
+        'FileBot.store.ConflictActions',
+        'FileBot.store.ScriptSources'
     ],
 
     xtype: 'section-task',

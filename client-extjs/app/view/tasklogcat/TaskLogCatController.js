@@ -36,6 +36,12 @@ Ext.define('FileBot.view.tasklogcat.TaskLogCatController', {
             	this.refreshJob.start()
             }
         }, this)
+
+        FileBot.getApplication().on('version', function(message) {
+            var val = ['$ filebot -version', message].join('\n')
+            var cmp = Ext.getCmp('logcatviewer')
+            cmp.setValue(val)
+        }, this)
     },
 
     refresh: function() {

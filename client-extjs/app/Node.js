@@ -9,8 +9,12 @@ Ext.define('FileBot.Node', {
 
         // Task Scheduler Web API doesn't accept requests from localhost so we have to do it from the browser
         FileBot.getApplication().on('auth', function(options) {
-            if (options.auth == 'SYNO')
+            if (options.auth == 'SYNO') {
                 this.init_syno()
+            }
+
+            // display filebot version output after successful initialization
+            this.requestVersion()
         }, this)
 
         // request auth config
@@ -48,7 +52,11 @@ Ext.define('FileBot.Node', {
     fetchLog: function(parameters, responseHandler) {
         this.fetchResource('log', parameters, responseHandler)
     },
-    
+
+    requestVersion: function () {
+        this.dispatchRequest('version')
+    },
+
     dispatchRequest: function(path, parameters) {
         Ext.Ajax.request({
             method: 'GET',
