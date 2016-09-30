@@ -1,6 +1,8 @@
 .architect
+.sencha
 bootstrap.js
-boostrap.json
+bootstrap.json
+bootstrap.jsonp
 bootstrap.css
 build/
 ext/
