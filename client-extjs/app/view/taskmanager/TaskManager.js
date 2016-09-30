@@ -46,6 +46,7 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
         text: 'Status',
         dataIndex: 'status',
         width: 100,
+        align: 'left',
         renderer: function(val) {
             if (val == '')
                 return 'Running'
@@ -63,6 +64,8 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
         sortable: false,
         xtype: 'actioncolumn',
         focusable: false,
+        width: 50,
+        align: 'center',
         items: [{
             getClass: function(v, meta, rec) {
                 var val = rec.get('status')
