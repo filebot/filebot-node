@@ -9,7 +9,7 @@ Ext.define('FileBot.view.main.MainController', {
     extend: 'Ext.app.ViewController',
 
     requires: [
-        
+
     ],
 
     alias: 'controller.main',

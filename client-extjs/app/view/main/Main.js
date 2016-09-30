@@ -28,5 +28,5 @@ Ext.define('FileBot.view.main.Main', {
     items: [{
         region: 'center',
         xtype: 'section-task'
-    }]  
+    }]
 });

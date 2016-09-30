@@ -7,9 +7,9 @@ Ext.application({
     name: 'FileBot',
 
     extend: 'FileBot.Application',
-    
+
     autoCreateViewport: 'FileBot.view.main.Main'
-	
+
     //-------------------------------------------------------------------------
     // Most customizations should be made to FileBot.Application. If you need to
     // customize this file, doing so below this section reduces the likelihood

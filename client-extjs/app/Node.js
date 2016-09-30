@@ -40,7 +40,7 @@ Ext.define('FileBot.Node', {
     requestExecute: function (parameters) {
         this.dispatchRequest('execute', parameters)
     },
-    
+
     requestSchedule: function (parameters) {
         this.dispatchRequest('schedule', parameters)
     },

@@ -10,30 +10,30 @@ Ext.define('FileBot.view.tasklogcat.TaskLogCatController', {
     ],
     alias: 'controller.tasklogcat',
 
-	// task that is corrently locked on for log viewing
+    // task that is corrently locked on for log viewing
     task: null,
 
     // run this task repeatedly until process has finished producing output
     refreshJob: null,
 
     init: function() {
-    	this.refreshJob = Ext.util.TaskManager.newTask({
-	    	run: this.refresh,
-	    	interval: Ext.manifest.server.refresh,
-	    	scope: this
-   		})
+        this.refreshJob = Ext.util.TaskManager.newTask({
+            run: this.refresh,
+            interval: Ext.manifest.server.refresh,
+            scope: this
+        })
 
-    	// watch log of the newly selected task
-    	FileBot.getApplication().on('selectTask', function(record) {
-    		// stop existing refresh job if any
-    		this.refreshJob.stop()
+        // watch log of the newly selected task
+        FileBot.getApplication().on('selectTask', function(record) {
+            // stop existing refresh job if any
+            this.refreshJob.stop()
 
             this.task = record
             this.refresh()
 
             // if task has not completed yet keep watching for new output
             if (this.task.status == '') {
-            	this.refreshJob.start()
+                this.refreshJob.start()
             }
         }, this)
 
@@ -45,21 +45,21 @@ Ext.define('FileBot.view.tasklogcat.TaskLogCatController', {
     },
 
     refresh: function() {
-		// fetch new log and update textarea
-		FileBot.Node.fetchLog(this.task, function(response) {
-			console.log(response)
-			var val = response.responseText
-			var cmp = Ext.getCmp('logcatviewer')
-			
-			if (val != cmp.getValue()) {
-				cmp.setValue(val)
+        // fetch new log and update textarea
+        FileBot.Node.fetchLog(this.task, function(response) {
+            console.log(response)
+            var val = response.responseText
+            var cmp = Ext.getCmp('logcatviewer')
 
-				// stop checking for updates once the task is done
-				if (val.match(/\[Process (?:completed|error|killed)\]/g)) {
-					this.refreshJob.stop()
-				}
-			}
-		}.bind(this))
+            if (val != cmp.getValue()) {
+                cmp.setValue(val)
+
+                // stop checking for updates once the task is done
+                if (val.match(/\[Process (?:completed|error|killed)\]/g)) {
+                    this.refreshJob.stop()
+                }
+            }
+        }.bind(this))
     }
 
 });

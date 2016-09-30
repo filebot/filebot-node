@@ -170,7 +170,7 @@ function spawnChildProcess(command, arguments) {
             gid: FILEBOT_CMD_GID
         }
     )
-    
+
     child.on('close', function (code) {
         // remove process object reference
         delete ACTIVE_PROCESSES[id]
@@ -449,8 +449,8 @@ function auth_syno(request, response, options) {
     // authenticate.cgi requires these and some other environment variables for authentication
     var pd = child_process.spawn('/usr/syno/synoman/webman/modules/authenticate.cgi', [], {
         env: {
-                'HTTP_COOKIE': options.Cookie, 
-                'HTTP_X_SYNO_TOKEN': options.SynoToken, 
+                'HTTP_COOKIE': options.Cookie,
+                'HTTP_X_SYNO_TOKEN': options.SynoToken,
                 'REMOTE_ADDR': request.connection.remoteAddress
         }
     })
@@ -518,7 +518,7 @@ function schedule_syno(request, response, options) {
 // START SERVER
 
 
-function server(request, response) { 
+function server(request, response) {
     // request logging and uncaught exceptions for development
     if (AUTH == 'NONE') {
         console.log(DASHLINE)
@@ -544,7 +544,7 @@ if ('YES' == process.env['FILEBOT_NODE_HTTP']) {
     var host = process.env['FILEBOT_NODE_HOST']
     var port = process.env['FILEBOT_NODE_HTTP_PORT']
     http.createServer(server).listen(port, host)
-    console.log(process.title + ' listening at http://' + host + ':' + port + PUBLIC_HTML)  
+    console.log(process.title + ' listening at http://' + host + ':' + port + PUBLIC_HTML)
 }
 
 // HTTPS
@@ -556,5 +556,5 @@ if ('YES' == process.env['FILEBOT_NODE_HTTPS']) {
         cert: fs.readFileSync(process.env['FILEBOT_NODE_HTTPS_CRT'])
     }
     https.createServer(options, server).listen(port, host)
-    console.log(process.title + ' listening at https://' + host + ':' + port + PUBLIC_HTML)  
+    console.log(process.title + ' listening at https://' + host + ':' + port + PUBLIC_HTML)
 }

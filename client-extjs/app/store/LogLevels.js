@@ -6,7 +6,7 @@ Ext.define('FileBot.store.LogLevels', {
     fields: [
         'id', 'value', 'label'
     ],
-    
+
     data: [
         [0, 'info', 'only results and errors'],
         [1, 'fine', 'all important messages'],

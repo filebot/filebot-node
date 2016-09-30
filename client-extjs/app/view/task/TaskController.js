@@ -19,7 +19,7 @@ Ext.define('FileBot.view.task.TaskController', {
     init: function() {
 
     },
-    
+
     restoreState: function() {
         var values = Ext.state.Manager.get('formOrganizeFiles')
         if (values) {
@@ -93,7 +93,7 @@ Ext.define('FileBot.view.task.TaskController', {
                 }]
             }],
             buttons: [
-                { text:'Register', handler: function(btn) { 
+                { text:'Register', handler: function(btn) {
                     window.open(Ext.manifest.server.url.osdb_register, '_blank')
                 }},
                 { text:'Login', handler: function(btn) {

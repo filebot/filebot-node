@@ -13,12 +13,12 @@ Ext.define('FileBot.view.taskmanager.TaskManagerController', {
      * Called when the view is created
      */
     init: function() {
-    	var store = this.getViewModel().getStore('tasks')
+        var store = this.getViewModel().getStore('tasks')
 
         // refresh task state every few seconds
-    	Ext.util.TaskManager.start({ 
-            run: this.refresh, 
-            interval: Ext.manifest.server.refresh, 
+        Ext.util.TaskManager.start({
+            run: this.refresh,
+            interval: Ext.manifest.server.refresh,
             scope: this
         })
 
