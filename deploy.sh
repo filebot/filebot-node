@@ -1,2 +1,2 @@
 #/bin/sh
-ant clean deploy package-source -lib "lib"
+ant resolve && ant clean deploy package-source -lib "lib"
