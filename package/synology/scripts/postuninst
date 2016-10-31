@@ -1,9 +1,8 @@
 #!/bin/sh
 
-# uninstall the initctl and firewall profiles only if package is uninstalled
+# uninstall the initctl only if package is uninstalled
 if [ "$SYNOPKG_PKG_STATUS" != "UPGRADE" ]; then
 	rm "/etc/init/$SYNOPKG_PKGNAME.conf"
-	servicetool --remove-configure-file --package "$SYNOPKG_PKGNAME.sc"
 fi
 
 # return successfully
