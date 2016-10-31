@@ -1,2 +1,2 @@
 #/bin/sh
-ant resolve && ant spk -lib "lib"
+ant resolve && ant clean build spk -lib "lib"

@@ -59,7 +59,7 @@
 	</target>
 
 
-	<target name="tar" description="Build Generic Package" depends="build">
+	<target name="tar" description="Build Generic Package">
 		<tar destfile="${dir.dist}/${package}-${version}-generic.tar.bz2" compression="bzip2" longfile="gnu">
 			<tarfileset dir="${dir.dist}/generic" />
 			<tarfileset dir="${dir.package}/generic" includes="*" filemode="755" />
@@ -67,7 +67,7 @@
 	</target>
 
 
-	<target name="spk" description="Build Synology Package" depends="build">
+	<target name="spk" description="Build Synology Package">
 		<syno:spk destdir="${dir.dist}" name="${package}" version="${version}" arch="noarch" compression="xz">
 			<info name="displayname" value="FileBot Node" />
 			<info name="description" value="FileBot Node allows you to execute and schedule filebot calls via Synology DSM." />

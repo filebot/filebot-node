@@ -5,5 +5,11 @@ if [ "$SYNOPKG_PKG_STATUS" != "UPGRADE" ]; then
 	rm "/etc/init/$SYNOPKG_PKGNAME.conf"
 fi
 
+# remove /usr/local/[package] link
+rm "/usr/local/$SYNOPKG_PKGNAME"
+
+# remove log
+rm "/var/log/upstart/$SYNOPKG_PKGNAME.log"
+
 # return successfully
 exit 0
