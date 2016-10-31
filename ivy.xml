@@ -2,6 +2,6 @@
 <ivy-module version="2.0">
 	<info organisation="net.filebot" module="filebot-node" />
 	<dependencies>
-		<dependency org="net.filebot" name="ant-spk" rev="0.+" />
+		<dependency org="net.filebot" name="ant-spk" rev="latest.release" />
 	</dependencies>
 </ivy-module>
