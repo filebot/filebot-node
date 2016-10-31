@@ -10,11 +10,12 @@ Ext.define('FileBot.Node', {
         // Task Scheduler Web API doesn't accept requests from localhost so we have to do it from the browser
         FileBot.getApplication().on('auth', function(options) {
             if (options.auth == 'SYNO') {
+                // perform syno auth
                 this.init_syno()
+            } else {
+                // display filebot version output after successful initialization
+                this.requestVersion()
             }
-
-            // display filebot version output after successful initialization
-            this.requestVersion()
         }, this)
 
         // request auth config
@@ -77,7 +78,8 @@ Ext.define('FileBot.Node', {
                     buttons: Ext.MessageBox.OK,
                     icon: Ext.MessageBox.ERROR
                 })
-            }
+            },
+            scope: this
         })
     },
 
@@ -113,8 +115,9 @@ Ext.define('FileBot.Node', {
     },
 
     init_syno: function() {
-        if (this.CSRF_TOKEN_KEY == 'SynoToken')
+        if (this.CSRF_TOKEN_KEY == 'SynoToken') {
             return
+        }
 
         // Synology DSM require SynoToken (CSRF) and Cookie (USER) to authenticate a user request
         this.CSRF_TOKEN_KEY ='SynoToken'
@@ -129,7 +132,8 @@ Ext.define('FileBot.Node', {
                 var data = Ext.decode(response.responseText)
                 this.CSRF_TOKEN_VAL = data[this.CSRF_TOKEN_KEY]
 
-                this.requestAuth() // submit auth request once we have the CSRF token
+                // display filebot version output after successful initialization
+                this.requestVersion()
             },
             failure: function (response) {
                 Ext.MessageBox.show({
@@ -144,9 +148,11 @@ Ext.define('FileBot.Node', {
 
         // add Login Cookie and CSRF token to all subsequent requests
         this.authenticate = function(params) {
-            params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
-            params[this.COOKIE_KEY] = this.COOKIE_VAL
-        }
+            if (params) {
+                params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
+                params[this.COOKIE_KEY] = this.COOKIE_VAL
+            }
+        }.bind(this)
 
         // Task Scheduler Web API doesn't accept requests from localhost so we have to do it from the browser
         FileBot.getApplication().on('schedule', function(request) {
