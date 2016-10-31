@@ -12,10 +12,10 @@ Ext.define('FileBot.Node', {
             if (options.auth == 'SYNO') {
                 // perform syno auth
                 this.init_syno()
-            } else {
-                // display filebot version output after successful initialization
-                this.requestVersion()
             }
+
+            // display filebot version output after successful initialization
+            this.requestVersion()
         }, this)
 
         // request auth config
@@ -34,8 +34,8 @@ Ext.define('FileBot.Node', {
         return this.getServerEndpoint('log/all') + '?' + Ext.Object.toQueryString(params)
     },
 
-    requestAuth: function(parameters) {
-        this.dispatchRequest('auth', parameters)
+    requestAuth: function() {
+        this.dispatchRequest('auth', {})
     },
 
     requestExecute: function (parameters) {
@@ -55,7 +55,7 @@ Ext.define('FileBot.Node', {
     },
 
     requestVersion: function () {
-        this.dispatchRequest('version')
+        this.dispatchRequest('version', {})
     },
 
     dispatchRequest: function(path, parameters) {
@@ -132,8 +132,14 @@ Ext.define('FileBot.Node', {
                 var data = Ext.decode(response.responseText)
                 this.CSRF_TOKEN_VAL = data[this.CSRF_TOKEN_KEY]
 
-                // display filebot version output after successful initialization
-                this.requestVersion()
+                // add Login Cookie and CSRF token to all subsequent requests
+                this.authenticate = function(params) {
+                    params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
+                    params[this.COOKIE_KEY] = this.COOKIE_VAL
+                }.bind(this)
+
+                // request auth
+                this.requestAuth()
             },
             failure: function (response) {
                 Ext.MessageBox.show({
@@ -145,14 +151,6 @@ Ext.define('FileBot.Node', {
             },
             scope: this
         })
-
-        // add Login Cookie and CSRF token to all subsequent requests
-        this.authenticate = function(params) {
-            if (params) {
-                params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
-                params[this.COOKIE_KEY] = this.COOKIE_VAL
-            }
-        }.bind(this)
 
         // Task Scheduler Web API doesn't accept requests from localhost so we have to do it from the browser
         FileBot.getApplication().on('schedule', function(request) {
