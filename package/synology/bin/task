@@ -1,6 +1,6 @@
 #!/bin/sh -x
 
-if [ `id -u` != 0 ]; then
+if [ `id -u` -eq 0 ]; then
 	echo "task must not be called as root"
 	exit 1
 fi
