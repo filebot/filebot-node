@@ -3,6 +3,7 @@
 # uninstall the initctl only if package is uninstalled
 if [ "$SYNOPKG_PKG_STATUS" != "UPGRADE" ]; then
 	rm "/etc/init/$SYNOPKG_PKGNAME.conf"
+	rm "/usr/local/etc/nginx/conf.d/dsm.$SYNOPKG_PKGNAME.conf" && nginx -s reload
 fi
 
 # remove /usr/local/[package] link

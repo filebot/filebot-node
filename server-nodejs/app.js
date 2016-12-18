@@ -446,12 +446,18 @@ function auth_syno(request, response, options) {
         return user
     }
 
+    // X-Real-IP header is set by nginx server
+    var remoteAddress = request.headers['x-real-ip']
+    if (!remoteAddress) {
+        remoteAddress = request.connection.remoteAddress
+    }
+
     // authenticate.cgi requires these and some other environment variables for authentication
     var pd = child_process.spawn('/usr/syno/synoman/webman/modules/authenticate.cgi', [], {
         env: {
                 'HTTP_COOKIE': options.Cookie,
                 'HTTP_X_SYNO_TOKEN': options.SynoToken,
-                'REMOTE_ADDR': request.connection.remoteAddress
+                'REMOTE_ADDR': remoteAddress
         }
     })
     pd.stdout.on('data', function(data) {

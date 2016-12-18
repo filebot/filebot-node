@@ -4,7 +4,10 @@
 ln -sf "/var/packages/$SYNOPKG_PKGNAME/target" "/usr/local/$SYNOPKG_PKGNAME"
 
 # install initctl service
-cp "/var/packages/$SYNOPKG_PKGNAME/target/etc/$SYNOPKG_PKGNAME.conf" "/etc/init/$SYNOPKG_PKGNAME.conf"
+cp "/var/packages/$SYNOPKG_PKGNAME/target/etc/init/$SYNOPKG_PKGNAME.conf" "/etc/init/$SYNOPKG_PKGNAME.conf"
+
+# install reverse proxy and reload nginx configuration
+cp "/var/packages/$SYNOPKG_PKGNAME/target/etc/nginx/conf.d/dsm.$SYNOPKG_PKGNAME.conf" "/usr/local/etc/nginx/conf.d/dsm.$SYNOPKG_PKGNAME.conf" && nginx -s reload
 
 # return successfully
 exit 0
