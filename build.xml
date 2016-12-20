@@ -70,7 +70,7 @@
 	<target name="spk" description="Build Synology Package">
 		<syno:spk destdir="${dir.dist}" name="${package}" version="${version}" arch="noarch" compression="xz">
 			<info name="displayname" value="FileBot Node" />
-			<info name="description" value="FileBot Node allows you to execute and schedule filebot calls via Synology DSM." />
+			<info name="description" value="FileBot Node allows you to execute and schedule filebot calls via Synology DSM. FileBot Node requires Node.js and FileBot." />
 			<info name="maintainer" value="FileBot" />
 			<info name="maintainer_url" value="http://www.filebot.net/" />
 			<info name="distributor" value="FileBot" />
