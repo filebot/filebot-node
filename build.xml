@@ -60,7 +60,7 @@
 
 
 	<target name="tar" description="Build Generic Package">
-		<tar destfile="${dir.dist}/${package}-${version}-generic.tar.bz2" compression="bzip2" longfile="gnu">
+		<tar destfile="${dir.dist}/${package}-${version}-generic.tar.xz" compression="xz" longfile="posix" encoding="utf-8">
 			<tarfileset dir="${dir.dist}/generic" />
 			<tarfileset dir="${dir.package}/generic" includes="*" filemode="755" />
 		</tar>
