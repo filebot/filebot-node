@@ -13,7 +13,7 @@
 	<property name="dir.release" location="${basedir}/release" />
 
 
-	<target name="build">
+	<target name="build" description="Build">
 		<copy todir="${dir.build}/client" includeEmptyDirs="no">
 			<fileset dir="${dir.client}">
 				<exclude name="build/**" />

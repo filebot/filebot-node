@@ -2124,6 +2124,7 @@ Ext.Microloader = Ext.Microloader || (function () {
                             Boot.load(Manifest.url);
                         }
                         else {
+                            Manifest.url = url;
                             Boot.fetch(Microloader.applyCacheBuster(url), function(result) {
                                 Microloader.setManifest(result.content);
                             });
