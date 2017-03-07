@@ -12,16 +12,23 @@ case "$1" in
 	;;
 
 	status)
+		# check if service is installed
+		if [ ! -f "/etc/init/$SYNOPKG_PKGNAME.conf" ]; then
+			exit 150 # package is broken and should be reinstalled
+		fi
+
+		# check if reverse proxy is installed
+		if [ ! -f "/usr/local/etc/nginx/conf.d/dsm.$SYNOPKG_PKGNAME.conf" ]; then
+			exit 150 # package is broken and should be reinstalled
+		fi
+
+		# check if service is running
 		initctl status "$SYNOPKG_PKGNAME" | grep "running"
 		exit $?
 	;;
 
 	log)
 		echo "/var/log/upstart/$SYNOPKG_PKGNAME.log"
-		exit 0
-	;;
-
-	*)
 		exit 0
 	;;
 esac
