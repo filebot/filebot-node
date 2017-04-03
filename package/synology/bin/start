@@ -20,7 +20,7 @@ export FILEBOT_NODE_CLIENT=""                                                   
 
 
 # set working dir
-cd "$SYNOPKG_PKGDEST"
+cd "/usr/local/filebot-node"
 
 # --max_executable_size (max size of executable memory (in Mbytes))
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
