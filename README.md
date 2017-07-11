@@ -14,7 +14,7 @@ FileBot Node is available as Synology package via the [FileBot Package Source](h
 ## Installation
 Add the following __Package Source__ to Synology DSM ► Package Center ► Settings ► Package Sources:
 
-https://app.filebot.net/syno/
+https://get.filebot.net/syno/
 
 FileBot Node will work on any Linux device that can run `filebot` and `node` but some tinkering may be required. You will need to [download](http://sourceforge.net/projects/filebot/files/filebot-node/) and unpack the `tar` package and start the node service yourself. See `start.sh` for details.
 
