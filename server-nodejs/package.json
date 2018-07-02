@@ -16,12 +16,13 @@
     "dsm"
   ],
   "author": "Reinhard Pointner",
-  "license": "GPLv3",
+  "license": "GPL-3.0",
   "homepage": "https://github.com/filebot/filebot-node",
   "bugs": {
     "url": "https://github.com/filebot/filebot-node/issues"
   },
   "dependencies": {
+    "formidable": "^1.2.1",
     "shell-escape": "^0.2.0"
   }
 }

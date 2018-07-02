@@ -26,13 +26,23 @@
 	background-size: contain;
 }
 
-.donate-btn {
-	background-image: url('images/bitcoin.png');
+.configure-btn {
+	background-image: url('images/configure.png');
 	background-size: contain;
 }
 
-.configure-btn {
-	background-image: url('images/configure.png');
+.purchase-btn {
+	background-image: url('images/purchase.png');
+	background-size: contain;
+}
+
+.license-btn {
+	background-image: url('images/license.png');
+	background-size: contain;
+}
+
+.license-item {
+	background-image: url('images/license.png');
 	background-size: contain;
 }
 

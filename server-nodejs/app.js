@@ -10,6 +10,7 @@ var child_process = require('child_process')
 var fs = require('fs')
 var path = require('path')
 var shellescape = require('shell-escape')
+var formidable = require('formidable')
 
 // CONFIGURATION AND GLOBAL VARIABLES
 var AUTH = process.env['FILEBOT_NODE_AUTH']
@@ -181,7 +182,7 @@ function spawnChildProcess(command, arguments) {
         // store exit code
         pd.status = code != null ? code : SIGKILL_EXIT_CODE
         TASKS.lastModified = Date.now()
-        fs.appendFile(logFile, DASHLINE +'\n\n' + (code == null ? '[Process killed]' : code == 0 ? '[Process completed]' : '[Process error]'))
+        fs.appendFileSync(logFile, DASHLINE +'\n\n' + (code == null ? '[Process killed]' : code == 0 ? '[Process completed]' : '[Process error]'))
     })
 
     ACTIVE_PROCESSES[id] = child
@@ -225,6 +226,15 @@ function kill(options) {
     } else {
         throw new Error('No such process')
     }
+}
+
+function license(request, response) {
+    var form = new formidable.IncomingForm()
+    form.parse(request, function (error, fields, files) {
+        var args = ['--license', files.license.path]
+        var pd = spawnChildProcess(getCommand(), args)
+        ok(response, pd)
+    })
 }
 
 function listFolders(options) {
@@ -331,6 +341,10 @@ function handleRequest(request, response) {
 
     if ('/log/all' == requestPath) {
         return file(request, response, FILEBOT_LOG, MIME_TYPES['.log'], true, true)
+    }
+
+    if ('/license' == requestPath) {
+        return license(request, response) // PROCESS FILE UPLOAD ASYNC
     }
 
     return error(response, 'ILLEGAL REQUEST')

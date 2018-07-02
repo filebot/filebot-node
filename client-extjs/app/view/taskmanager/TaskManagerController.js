@@ -30,6 +30,14 @@ Ext.define('FileBot.view.taskmanager.TaskManagerController', {
             this.selectFirstRowOnUpdate = true
         }, this)
 
+        // same for filebot --license calls
+        FileBot.getApplication().on('license', function() {
+            this.refresh()
+
+            // auto-select first row after new rows have been loaded and rendered
+            this.selectFirstRowOnUpdate = true
+        }, this)
+
         // auto-select newly added tasks (on 'add' event doesn't work for grid)
         store.on('datachanged', this.updateFirstRowSelection, this)
     },

@@ -367,18 +367,12 @@ Ext.define('FileBot.view.task.Task', {
         buttons: [{
             xtype: 'button',
             scale: 'small',
-            iconCls: 'donate-btn',
-            text: 'Donate',
-            handler: 'onDonate',
-            style: 'left: 0em !important' // align this button to the left
-        }, {
-            xtype: 'button',
-            scale: 'small',
             iconCls: 'configure-btn',
             text: 'Tools',
             menu: new Ext.menu.Menu({
                 items: [
                     // these will render as dropdown menu items when the arrow is clicked:
+                    {text: 'License', handler: 'onLicense', iconCls: 'license-item' },
                     {text: 'Configure', handler: 'onConfigure', iconCls: 'configure-item' },
                     {text: 'System Info', handler: 'onInfo', iconCls: 'sysinfo-item' },
                     {text: 'Help', handler: 'onHelp', iconCls: 'help-item' }

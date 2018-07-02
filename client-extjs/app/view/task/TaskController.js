@@ -56,11 +56,43 @@ Ext.define('FileBot.view.task.TaskController', {
         }
     },
 
-    onDonate: function() {
+    onLicense: function() {
         Ext.create('Ext.window.Window', {
-            bodyCls: ['paypal'],
-            html: Ext.manifest.server.html.paypalForm,
-            title: '💰 Donate',
+            id: 'licenseWindow',
+            items: [{
+                xtype: 'form',
+                id: 'licenseForm',
+                items: [{
+                    xtype: 'filefield',
+                    name: 'license',
+                    fieldLabel: 'License File',
+                    allowBlank: false,
+                    emptyText: '*.psm'
+                }],
+                buttons: [
+                    { text:'Purchase', iconCls: 'purchase-btn', handler: function(btn) {
+                        window.open(Ext.manifest.server.url.license_purchase, '_blank')
+                    }},
+                    { text:'Activate', iconCls: 'license-btn', formBind: true, handler: function(btn) {
+                        var form = Ext.getCmp('licenseForm').getForm()
+                        if (form.isValid()) {
+                            form.submit({
+                                url: FileBot.Node.getServerEndpoint('license'),
+                                waitMsg: 'Uploading...',
+                                success: function() {
+                                    Ext.getCmp('licenseWindow').destroy()
+                                    FileBot.getApplication().fireEvent('license')
+                                },
+                                failure: function() {
+                                    Ext.getCmp('licenseWindow').destroy()
+                                    FileBot.getApplication().fireEvent('license')
+                                },
+                            })
+                        }
+                    }}
+                ],
+            }],
+            title: 'Activate License',
             bodyPadding: 10,
             scrollable: false,
             closable: true
@@ -90,20 +122,20 @@ Ext.define('FileBot.view.task.TaskController', {
                     name: 'osdbPwd',
                     emptyText: 'password',
                     inputType: 'password'
-                }]
+                }],
+                buttons: [
+                    { text:'Register', handler: function(btn) {
+                        window.open(Ext.manifest.server.url.osdb_register, '_blank')
+                    }},
+                    { text:'Login', formBind: true, handler: function(btn) {
+                        var form = Ext.getCmp('osdbForm').getForm()
+                        if (form.isValid()) {
+                            FileBot.Node.requestExecute(form.getValues())
+                            Ext.getCmp('osdbWindow').destroy()
+                        }
+                    }}
+                ],
             }],
-            buttons: [
-                { text:'Register', handler: function(btn) {
-                    window.open(Ext.manifest.server.url.osdb_register, '_blank')
-                }},
-                { text:'Login', handler: function(btn) {
-                    var form = Ext.getCmp('osdbForm').getForm()
-                    if (form.isValid()) {
-                        FileBot.Node.requestExecute(form.getValues())
-                        Ext.getCmp('osdbWindow').destroy()
-                    }
-                }}
-            ],
             title: 'OpenSubtitles',
             bodyPadding: 10,
             scrollable: false,

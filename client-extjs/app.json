@@ -28,11 +28,9 @@
             "output": "/volume1/video/"
         },
         "url": {
-            "help": "https://www.filebot.net/forums/viewforum.php?f=13",
+            "help": "https://www.filebot.net/syno/support.html",
+            "license_purchase": "https://www.filebot.net/purchase.html#node",
             "osdb_register": "http://www.opensubtitles.org/en/newuser"
-        },
-        "html": {
-            "paypalForm": "<form action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\" target=\"_blank\">\n<input type=\"hidden\" name=\"cmd\" value=\"_s-xclick\">\n<input type=\"hidden\" name=\"hosted_button_id\" value=\"GXCDQW864HTK8\">\n<table>\n<tr><td><input type=\"hidden\" name=\"on0\" value=\"Level of Gratitude\">Level of Gratitude</td></tr><tr><td><select name=\"os0\">\n\t<option value=\"Thanks! Please continue your work! 💰\">Thanks! Please continue your work! 💰 €5.00 EUR</option>\n\t<option value=\"Kudos! You've saved me lots of time! 🚀\">Kudos! You've saved me lots of time! 🚀 €10.00 EUR</option>\n\t<option value=\"FileBot Node is amazing! 💯\">FileBot Node is amazing! 💯 €20.00 EUR</option>\n</select> </td></tr>\n</table>\n<input type=\"hidden\" name=\"currency_code\" value=\"EUR\">\n<input type=\"image\" src=\"resources/images/paypal.png\" border=\"0\" name=\"submit\" alt=\"PayPal – The safer, easier way to pay online.\">\n</form>"
         }
     },
 
