@@ -44,7 +44,7 @@ Ext.define('FileBot.view.task.TaskController', {
         var parameters = this.getExecuteParameters()
         if (parameters) {
             // force --action test and then execute normally
-            parameters.action = 'test'
+            parameters.action = 'TEST'
             FileBot.Node.requestExecute(parameters)
         }
     },

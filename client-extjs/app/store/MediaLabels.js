@@ -9,10 +9,10 @@ Ext.define('FileBot.store.MediaLabels', {
 
     data: [
         [0, '', 'Automatic'],
-        [1, 'movie', 'Movies'],
-        [2, 'tv', 'TV Series'],
-        [3, 'anime', 'Anime'],
-        [4, 'music', 'Music'],
+        [1, 'Movie', 'Movies'],
+        [2, 'TV', 'TV Series'],
+        [3, 'Anime', 'Anime'],
+        [4, 'Music', 'Music'],
         [5, 'other', 'Files']
     ]
 });
