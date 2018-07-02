@@ -110,3 +110,5 @@ build/
 release/
 notes/
 lib/
+
+*.variables
