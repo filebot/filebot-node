@@ -33,15 +33,7 @@ Ext.define('FileBot.Node', {
     },
 
     getPostEndpoint: function(path) {
-        return this.getServerEndpoint('license') + '?' + Ext.urlEncode(this.getBaseParams())
-    },
-
-    getLogAllEndpoint: function() {
-        // add auth parameters to URL
-        var params = {}
-        this.authenticate(params)
-
-        return this.getServerEndpoint('log/all') + '?' + Ext.Object.toQueryString(params)
+        return this.getServerEndpoint(path) + '?' + Ext.Object.toQueryString(this.getBaseParams())
     },
 
     requestAuth: function() {
@@ -150,8 +142,10 @@ Ext.define('FileBot.Node', {
 
                 // add Login Cookie and CSRF token to all subsequent requests
                 this.authenticate = function(params) {
-                    params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
-                    params[this.COOKIE_KEY] = this.COOKIE_VAL
+                    if (params instanceof Object) {
+                        params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
+                        params[this.COOKIE_KEY] = this.COOKIE_VAL                        
+                    }
                 }.bind(this)
 
                 // request auth
