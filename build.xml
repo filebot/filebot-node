@@ -105,7 +105,7 @@
 	</target>
 
 
-	<target name="package-source" description="Update Synology Package Source">
+	<target name="package-source" description="Update Synology Package Source" depends="stats">
 		<syno:package-source file="${basedir}/spksrc.json">
 			<keyring file="${dir.package}/gpg/FileBot.pub" />
 			<spk file="${dir.dist}/${package}-${version}-noarch.spk">
