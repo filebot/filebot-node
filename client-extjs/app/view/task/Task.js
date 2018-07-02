@@ -155,6 +155,18 @@ Ext.define('FileBot.view.task.Task', {
                 boxLabel: 'delete left behind clutter files',
                 checked: false
             }, {
+                xtype: 'combobox',
+                name: 'order',
+                fieldLabel: 'Episode Order',
+                displayField: 'label',
+                valueField: 'value',
+                value: 'Airdate',
+                store: {
+                    type: 'episode-orders'
+                },
+                editable: false,
+                minWidth: 280
+            }, {
                 xtype: 'textfield',
                 name: 'filter',
                 fieldLabel: 'Match Filter',
@@ -302,7 +314,7 @@ Ext.define('FileBot.view.task.Task', {
             items: [{
                 name: 'exec',
                 fieldLabel: 'Run Program',
-                emptyText: "synoindex -a \"{file}\""
+                emptyText: "synoindex -R all"
             }, {
                 name: 'plex',
                 fieldLabel: 'Plex',

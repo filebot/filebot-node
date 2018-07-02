@@ -90,6 +90,10 @@ function getCommandArguments(options) {
         if (options.strict != 'on') {
             args.push('-non-strict')
         }
+        if (options.order) {
+            args.push('--order')
+            args.push(options.order)
+        }
         if (options.conflict) {
             args.push('--conflict')
             args.push(options.conflict)
