@@ -1,6 +1,6 @@
 ANT := ant -lib lib
 
-build:
+build-client:
 	$(ANT) build
 
 publish:
