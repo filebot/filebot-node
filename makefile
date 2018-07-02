@@ -3,15 +3,14 @@ ANT := ant -lib lib
 build-client:
 	$(ANT) build
 
-publish:
-	$(ANT) build deploy package-source -lib lib
-
 run-client:
 	cd client-extjs && sencha app watch
-	# open http://localhost:1841
 
 run-server:
 	cd server-nodejs && npm start
+
+publish: clean
+	$(ANT) build tar spk package-source
 
 clean:
 	git reset --hard

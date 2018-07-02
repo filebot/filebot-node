@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project name="filebot-node" default="tar" xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:syno="antlib:net.filebot.ant.spk">
+<project name="filebot-node" default="tar" xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:groovy="antlib:org.codehaus.groovy" xmlns:syno="antlib:net.filebot.ant.spk">
 	<property file="profile.properties" />
 	<property file="package.properties" />
 
@@ -109,9 +109,10 @@
 		<syno:package-source file="${basedir}/spksrc.json">
 			<keyring file="${dir.package}/gpg/FileBot.pub" />
 			<spk file="${dir.dist}/${package}-${version}-noarch.spk">
-				<info name="link" value="https://downloads.sourceforge.net/project/filebot/${package}/${package}-${version}/${package}-${version}-noarch.spk" />
-				<thumbnail url="https://app.filebot.net/syno/filebot-node-thumbnail.png" />
-				<snapshot url="https://app.filebot.net/syno/filebot-node-snapshot.png" />
+				<info name="link" value="https://github.com/filebot/filebot-node/releases/download/${version}/${package}-${version}-noarch.spk" />
+				<info name="download_count" value="${download_count}" />
+				<thumbnail url="https://www.filebot.net/syno/filebot-node-thumbnail.png" />
+				<snapshot url="https://www.filebot.net/syno/filebot-node-snapshot.png" />
 			</spk>
 		</syno:package-source>
 	</target>
@@ -132,22 +133,8 @@
 	</target>
 
 
-	<target name="deploy" depends="tar, spk" description="Upload Synology Package">
-		<!-- prepare release packages -->
-		<copy todir="${dir.release}/${package}-${version}" verbose="yes">
-			<fileset dir="${dir.dist}">
-				<include name="*.tar.*" />
-				<include name="*.spk" />
-			</fileset>
-		</copy>
-
-		<!-- upload -->
-		<scp todir="${deploy.release}" trust="yes" verbose="true" sftp="true" keyfile="${deploy.keyfile}">
-			<fileset dir="${dir.release}">
-				<include name="**/*" />
-			</fileset>
-		</scp>
+	<target name="stats">
+		<groovy:groovy src="build-stats.groovy" />
 	</target>
-
 
 </project>
