@@ -47,7 +47,6 @@ Ext.define('FileBot.view.tasklogcat.TaskLogCatController', {
     refresh: function() {
         // fetch new log and update textarea
         FileBot.Node.fetchLog(this.task, function(response) {
-            console.log(response)
             var val = response.responseText
             var cmp = Ext.getCmp('logcatviewer')
 
