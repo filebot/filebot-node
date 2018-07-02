@@ -32,6 +32,10 @@ Ext.define('FileBot.Node', {
         }
     },
 
+    getPostEndpoint: function(path) {
+        return this.getServerEndpoint('license') + '?' + Ext.urlEncode(this.getBaseParams())
+    },
+
     getLogAllEndpoint: function() {
         // add auth parameters to URL
         var params = {}
@@ -114,6 +118,12 @@ Ext.define('FileBot.Node', {
                 rootProperty: 'data'
             }
         })
+    },
+
+    getBaseParams: function() {
+        var params = {}
+        this.authenticate(params)
+        return params
     },
 
     authenticate: function(params) {

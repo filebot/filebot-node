@@ -77,7 +77,7 @@ Ext.define('FileBot.view.task.TaskController', {
                         var form = Ext.getCmp('licenseForm').getForm()
                         if (form.isValid()) {
                             form.submit({
-                                url: FileBot.Node.getServerEndpoint('license'),
+                                url: FileBot.Node.getPostEndpoint('license'),
                                 waitMsg: 'Uploading...',
                                 success: function() {
                                     Ext.getCmp('licenseWindow').destroy()
