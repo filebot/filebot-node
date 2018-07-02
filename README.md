@@ -1,7 +1,6 @@
 # FileBot Node
-[![SourceForge](https://img.shields.io/sourceforge/dt/filebot/filebot-node.svg)](https://sourceforge.net/projects/filebot/files/filebot-node/)
-[![SourceForge](https://img.shields.io/sourceforge/dm/filebot/filebot-node.svg)](https://sourceforge.net/projects/filebot/files/filebot-node/)
-[![SourceForge](https://img.shields.io/sourceforge/dw/filebot/filebot-node.svg)](https://sourceforge.net/projects/filebot/files/filebot-node/)
+[![Github Releases](https://img.shields.io/github/downloads/filebot/filebot-node/total.svg)](https://github.com/filebot/filebot-node/releases)
+[![GitHub release](https://img.shields.io/github/release/filebot/filebot-node.svg)](https://www.filebot.net/linux/syno.html)
 
 ## Introduction
 FileBot Node is a server-side Node.js application that allows you to make `filebot` calls via a straight-forward ExtJS web application.
