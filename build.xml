@@ -106,7 +106,7 @@
 
 
 	<target name="package-source" description="Update Synology Package Source" depends="stats">
-		<syno:package-source file="${basedir}/spksrc.json">
+		<syno:package-source file="${basedir}/syno.json">
 			<keyring file="${dir.package}/gpg/FileBot.pub" />
 			<spk file="${dir.dist}/${package}-${version}-noarch.spk">
 				<info name="link" value="https://github.com/filebot/filebot-node/releases/download/${version}/${package}-${version}-noarch.spk" />
