@@ -24,9 +24,9 @@
                 "https://www.filebot.net/syno/filebot-node-snapshot.png"
             ],
             "link":"https://github.com/filebot/filebot-node/releases/download/0.2.8/filebot-node-0.2.8-noarch.spk",
-            "download_count":"0",
-            "md5":"028753e2656b3980982f59d279be5126",
-            "sha256":"9a7656be92729468ed1dd2a7fcf31dca4a45b58c98b46a1785b9cd3b1fd44e5a",
+            "download_count":"1230",
+            "md5":"c070713ec2dec8916ebcd42fae8e5fb8",
+            "sha256":"2979ad09dc691c3481e2f54259fdc93cfcbe78d54a7e332b17230349eefeb826",
             "size":645120
         }
     ]
