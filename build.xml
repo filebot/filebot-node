@@ -123,8 +123,11 @@
 		<property name="dir.base" location="${dir.dist}/qpkg/shared" />
 
 		<copy todir="${dir.staging}">
-			<fileset dir="${dir.dist}/generic" />
 			<fileset dir="${dir.package}/qnap" />
+		</copy>
+
+		<copy todir="${dir.base}">
+			<fileset dir="${dir.dist}/generic" />
 		</copy>
 
 		<!-- fix execute permissions -->
