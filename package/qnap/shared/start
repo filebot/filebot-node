@@ -1,6 +1,8 @@
 #!/bin/sh -x
 
-export FILEBOT_NODE_HOST="127.0.0.1" # bind to local nginx reverse proxy
+
+# export FILEBOT_NODE_HOST="127.0.0.1" # bind to local nginx reverse proxy
+export FILEBOT_NODE_HOST="0.0.0.0"
 export FILEBOT_NODE_AUTH="QNAP"
 
 export FILEBOT_NODE_HTTP="YES"
@@ -16,8 +18,8 @@ export FILEBOT_CMD_CWD=`getcfg SHARE_DEF defVolMP -f /etc/config/def_share.info`
 export FILEBOT_CMD_UID=`id -u $USER`
 export FILEBOT_CMD_GID=`cat /etc/group | grep 'administrators' | cut -d: -f3`                 # cannot use `id -u $USER` because the result is 100:users but we need 101:administrators because users don't have execute permissions
 
-export FILEBOT_NODE_CLIENT=""                                                                 # serve client-side code via QTS only
-
+# export FILEBOT_NODE_CLIENT=""                                                                 # serve client-side code via QTS only
+export FILEBOT_NODE_CLIENT="client"
 
 # set working dir
 cd "/opt/filebot-node"
