@@ -31,18 +31,8 @@ Ext.define('FileBot.Node', {
             return 'proxy/' + path
         }
 
-        // QNAP QTS configuration
-        if (document.location.pathname == '/cgi-bin/qpkg/filebot-node/') {
-            return path
-        }
-
-        // same-host configuration
-        if (document.location.pathname == '/') {
-            return path
-        }
-
-        // client-server generic configuration
-        return document.location.protocol + '//' + document.location.hostname + ':' + (document.location.protocol.indexOf('https') < 0 ? Ext.manifest.server.port.http : Ext.manifest.server.port.https) + '/' + path
+        // generic configuration
+        return path
     },
 
     getPostEndpoint: function(path) {
