@@ -179,6 +179,9 @@ function spawnChildProcess(command, arguments) {
         }
     )
 
+    child.on('error', function (error) {
+        console.log(command, error)
+    });
     child.on('close', function (code) {
         // remove process object reference
         delete ACTIVE_PROCESSES[id]
