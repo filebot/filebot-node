@@ -1,6 +1,6 @@
 #!/bin/sh -x
 
-export FILEBOT_NODE_HOST="127.0.0.1" # bind to local apache reverse proxy
+export FILEBOT_NODE_HOST="0.0.0.0" # bind to local apache reverse proxy
 export FILEBOT_NODE_AUTH="QNAP"
 
 export FILEBOT_NODE_HTTP="YES"
