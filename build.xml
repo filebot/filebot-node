@@ -105,7 +105,7 @@
 	</target>
 
 
-	<target name="package-source" description="Update Synology Package Source" depends="stats">
+	<target name="syno-repo" description="Update Synology Package Source" depends="stats">
 		<syno:package-source file="${basedir}/syno.json">
 			<keyring file="${dir.package}/gpg/FileBot.pub" />
 			<spk file="${dir.dist}/${package}-${version}-noarch.spk">
@@ -115,6 +115,26 @@
 				<snapshot url="https://www.filebot.net/syno/filebot-node-snapshot.png" />
 			</spk>
 		</syno:package-source>
+	</target>
+
+
+	<target name="qpkg" description="Build QNAP Package">
+		<property name="dir.staging" location="${dir.dist}/qpkg" />
+		<property name="dir.base" location="${dir.dist}/qpkg/shared" />
+
+		<copy todir="${dir.staging}">
+			<fileset dir="${dir.dist}/generic" />
+			<fileset dir="${dir.package}/qnap" />
+		</copy>
+
+		<!-- fix execute permissions -->
+		<chmod verbose="yes" perm="+x">
+			<fileset dir="${dir.base}" includes="*" />
+		</chmod>
+
+		<exec executable="qbuild" dir="${dir.staging}" failonerror="yes">
+			<arg line="--build-version ${version} --build-dir ${dir.dist}" />
+		</exec>
 	</target>
 
 
@@ -136,5 +156,6 @@
 	<target name="stats">
 		<groovy:groovy src="build-stats.groovy" />
 	</target>
+
 
 </project>
