@@ -12,22 +12,27 @@ case "$1" in
 			exit 1
 		fi
 
-		/bin/ln -sf "$QPKG_ROOT" "/opt/filebot-node"
-		;;
+		# symlink
+		/bin/ln -sf "$QPKG_ROOT" "/opt/$QPKG_NAME"
+
+		# start service
+		"$QPKG_ROOT/start" > "$QPKG_ROOT/$QPKG_NAME.log" 2>&1 &
+		exit $?
+	;;
 
 	stop)
-		rm -rf "/opt/filebot-node"
-		;;
+		killall "$QPKG_NAME"
+		rm "/opt/$QPKG_NAME"
+		exit 0
+	;;
 
 	restart)
 		$0 stop
 		$0 start
-		;;
+		exit 0
+	;;
 
 	*)
 		echo "Usage: $0 {start|stop|restart}"
 		exit 1
 esac
-
-
-exit 0
