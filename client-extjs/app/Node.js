@@ -201,7 +201,7 @@ Ext.define('FileBot.Node', {
                 scope: this
             })
         }, this)
-    }
+    },
 
     init_qnap: function() {
         // add sid to all subsequent requests
