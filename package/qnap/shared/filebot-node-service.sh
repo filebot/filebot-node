@@ -1,19 +1,17 @@
 #!/bin/sh
-CONF="/etc/config/qpkg.conf"
-QPKG_NAME="filebot-node"
-QPKG_ROOT=$(/sbin/getcfg $QPKG_NAME Install_Path -f $CONF)
+export QPKG_CONF="/etc/config/qpkg.conf"
+export QPKG_NAME="filebot-node"
+export QPKG_ROOT=$(/sbin/getcfg $QPKG_NAME Install_Path -f $QPKG_CONF)
+export QPKG_DEFAULT_VOLUME=$(/sbin/getcfg SHARE_DEF defVolMP -f /etc/config/def_share.info)
 
 
 case "$1" in
 	start)
-		ENABLED=$(/sbin/getcfg $QPKG_NAME Enable -u -d FALSE -f $CONF)
+		ENABLED=$(/sbin/getcfg $QPKG_NAME Enable -u -d FALSE -f $QPKG_CONF)
 		if [ "$ENABLED" != "TRUE" ]; then
 			echo "$QPKG_NAME is disabled."
 			exit 1
 		fi
-
-		# symlink
-		/bin/ln -sf "$QPKG_ROOT" "/opt/$QPKG_NAME"
 
 		# start service
 		"$QPKG_ROOT/start" > "$QPKG_ROOT/$QPKG_NAME.log" 2>&1 &
@@ -22,8 +20,7 @@ case "$1" in
 
 	stop)
 		killall "$QPKG_NAME"
-		rm "/opt/$QPKG_NAME"
-		exit 0
+		exit $?
 	;;
 
 	restart)
