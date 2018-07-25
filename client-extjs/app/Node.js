@@ -12,6 +12,9 @@ Ext.define('FileBot.Node', {
             if (options.auth == 'SYNO') {
                 // perform syno auth
                 this.init_syno()
+            } else if (options.auth == 'QNAP') {
+                // perform qnap auth
+                this.init_qnap()
             }
 
             // display filebot version output after successful initialization
@@ -23,13 +26,23 @@ Ext.define('FileBot.Node', {
     },
 
     getServerEndpoint: function(path) {
+        // Synology DSM configuration
         if (document.location.pathname == '/webman/3rdparty/filebot-node/index.html') {
-            // Synology DSM configuration
             return 'proxy/' + path
-        } else {
-            // generic configuration
-            return document.location.protocol + '//' + document.location.hostname + ':' + (document.location.protocol.indexOf('https') < 0 ? Ext.manifest.server.port.http : Ext.manifest.server.port.https) + '/' + path
         }
+
+        // QNAP QTS configuration
+        if (document.location.pathname == '/cgi-bin/qpkg/filebot-node/') {
+            return path
+        }
+
+        // same-host configuration
+        if (document.location.pathname == '/') {
+            return path
+        }
+
+        // client-server generic configuration
+        return document.location.protocol + '//' + document.location.hostname + ':' + (document.location.protocol.indexOf('https') < 0 ? Ext.manifest.server.port.http : Ext.manifest.server.port.https) + '/' + path
     },
 
     getPostEndpoint: function(path) {
@@ -188,6 +201,15 @@ Ext.define('FileBot.Node', {
                 scope: this
             })
         }, this)
+    }
+
+    init_qnap: function() {
+        // add sid to all subsequent requests
+        this.authenticate = function(params) {
+            if (params instanceof Object) {
+                params['Cookie'] = 'sid='+Ext.util.Cookies.get('NAS_SID')
+            }
+        }.bind(this)
     }
 
 });
