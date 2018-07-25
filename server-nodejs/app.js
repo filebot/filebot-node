@@ -435,6 +435,8 @@ function auth(request, response, options) {
     switch (AUTH) {
         case 'SYNO':
             return auth_syno(request, response, options)
+        case 'QNAP':
+            return auth_qnap(request, response, options)
         case 'BASIC':
             return auth_basic_env(request, response, options)
         case 'NONE':
