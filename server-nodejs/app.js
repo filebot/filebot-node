@@ -2,45 +2,46 @@
 process.title = 'filebot-node'
 
 // INCLUDES
-var http = require('http')
-var https = require('https')
-var url = require('url')
-var querystring = require('querystring')
-var child_process = require('child_process')
-var fs = require('fs')
-var path = require('path')
-var shellescape = require('shell-escape')
-var formidable = require('formidable')
+const http = require('http')
+const https = require('https')
+const url = require('url')
+const querystring = require('querystring')
+const child_process = require('child_process')
+const fs = require('fs')
+const path = require('path')
+const shellescape = require('shell-escape')
+const formidable = require('formidable')
+const xml2js = require('xml2js')
 
 // CONFIGURATION AND GLOBAL VARIABLES
-var AUTH = process.env['FILEBOT_NODE_AUTH']
-var CLIENT = process.env['FILEBOT_NODE_CLIENT']
-var TASK_CMD = process.env['FILEBOT_TASK_CMD']
-var FILEBOT_CMD = process.env['FILEBOT_CMD']
-var FILEBOT_CMD_CWD = process.env['FILEBOT_CMD_CWD']
-var FILEBOT_CMD_UID = parseInt(process.env['FILEBOT_CMD_UID'], 10)
-var FILEBOT_CMD_GID = parseInt(process.env['FILEBOT_CMD_GID'], 10)
+const AUTH = process.env['FILEBOT_NODE_AUTH']
+const CLIENT = process.env['FILEBOT_NODE_CLIENT']
+const TASK_CMD = process.env['FILEBOT_TASK_CMD']
+const FILEBOT_CMD = process.env['FILEBOT_CMD']
+const FILEBOT_CMD_CWD = process.env['FILEBOT_CMD_CWD']
+const FILEBOT_CMD_UID = parseInt(process.env['FILEBOT_CMD_UID'], 10)
+const FILEBOT_CMD_GID = parseInt(process.env['FILEBOT_CMD_GID'], 10)
 
-var PUBLIC_HTML = CLIENT ? '/filebot/' : ''
-var MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
-var SYSTEM_FILES = /^([.@].+|bin|initrd|opt|sbin|var|dev|lib|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr|System.Volume.Information)$/
-var DASHLINE = '------------------------------------------'
-var SIGKILL_EXIT_CODE = 137
-var SCHEDULED_TASK_CODE = 1000
+const PUBLIC_HTML = CLIENT ? '/filebot/' : ''
+const MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
+const SYSTEM_FILES = /^([.@].+|bin|initrd|opt|sbin|var|dev|lib|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr|System.Volume.Information)$/
+const DASHLINE = '------------------------------------------'
+const SIGKILL_EXIT_CODE = 137
+const SCHEDULED_TASK_CODE = 1000
 
 // INITIALIZERS
-var AUTH_CACHE = {}
-var ACTIVE_PROCESSES = {}
-var TASKS = []
+const AUTH_CACHE = {}
+const ACTIVE_PROCESSES = {}
+const TASKS = []
 
 // update task list via If-Last-Modified
 TASKS.lastModified = Date.now()
 
-var DATA_FOLDER = path.resolve('data')
-var LOG_FOLDER = path.resolve(DATA_FOLDER, 'log')
-var TASK_FOLDER = path.resolve(DATA_FOLDER, 'task')
-var TASK_INDEX = path.resolve(DATA_FOLDER, 'schedule.ids')
-var FILEBOT_LOG = path.resolve(DATA_FOLDER, 'filebot.log')
+const DATA_FOLDER = path.resolve('data')
+const LOG_FOLDER = path.resolve(DATA_FOLDER, 'log')
+const TASK_FOLDER = path.resolve(DATA_FOLDER, 'task')
+const TASK_INDEX = path.resolve(DATA_FOLDER, 'schedule.ids')
+const FILEBOT_LOG = path.resolve(DATA_FOLDER, 'filebot.log')
 
 // create folder if necessary
 if (!fs.existsSync(DATA_FOLDER)) {
@@ -480,6 +481,41 @@ function auth_syno(request, response, options) {
     })
     pd.stdout.on('data', function(data) {
         AUTH_CACHE[user_id] = data.toString('utf8').trim()
+    })
+    pd.on('close', function(code) {
+        if (code == 0) console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
+    })
+    return null
+}
+
+function auth_qnap(request, response, options) {
+    const user_id = options.Cookie
+
+    const user = AUTH_CACHE[user_id]
+    if (user) {
+        return user
+    }
+
+    // authenticate.cgi requires these and some other environment variables for authentication
+    var pd = child_process.spawn('/mnt/HDA_ROOT/home/httpd/cgi-bin/authLogin.cgi', [], {
+        env: {
+                'QUERY_STRING': user_id
+        }
+    })
+
+    pd.stdout.on('data', function(data) {
+        const cgiResponse = data.toString('utf8')
+        const xmlStartIndex = cgiResponse.indexOf('<?xml')
+
+        if (xmlStartIndex > 0) {
+            const xmlResponse = cgiResponse.substring(xmlStartIndex)
+
+            xml2js.parseString(xmlResponse, function (error, dom) {
+                if (dom.QDocRoot.authPassed == "1") {
+                    AUTH_CACHE[user_id] = dom.QDocRoot.user
+                }
+            });
+        }
     })
     pd.on('close', function(code) {
         if (code == 0) console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
