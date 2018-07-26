@@ -320,19 +320,21 @@ function handleRequest(request, response) {
     }
 
     if ('/folders' == requestPath) {
-        var data = listFolders(options)
+        const data = listFolders(options)
         return ok(response, data)
     }
 
     if ('/log' == requestPath) {
-        var id = options.id
+        const id = options.id
         if (id > 0) {
             return file(request, response, getLogFile(id), MIME_TYPES['.log'], false, false)
+        } else {
+            return file(request, response, FILEBOT_LOG, MIME_TYPES['.log'], true, true)
         }
     }
 
     if ('/execute' == requestPath) {
-        var data = execute(options)
+        const data = execute(options)
         return ok(response, data)
     }
 
@@ -341,12 +343,8 @@ function handleRequest(request, response) {
     }
 
     if ('/kill' == requestPath) {
-        var data = kill(options)
+        const data = kill(options)
         return ok(response, data)
-    }
-
-    if ('/log/all' == requestPath) {
-        return file(request, response, FILEBOT_LOG, MIME_TYPES['.log'], true, true)
     }
 
     if ('/license' == requestPath) {
@@ -359,10 +357,10 @@ function handleRequest(request, response) {
 
 
 function modifiedSince(request, lastModified) {
-    var header = request.headers['if-modified-since']
+    const header = request.headers['if-modified-since']
     if (header) {
-        var lastModifiedInSeconds = Math.floor(lastModified / 1000)
-        var ifModifiedSinceInSeconds = Date.parse(header) / 1000 // UTC STRING IS ONLY IN SECONDS PRECISION !!!
+        const lastModifiedInSeconds = Math.floor(lastModified / 1000)
+        const ifModifiedSinceInSeconds = Date.parse(header) / 1000 // UTC STRING IS ONLY IN SECONDS PRECISION !!!
         return lastModifiedInSeconds > ifModifiedSinceInSeconds
     }
     return true // assume modified by default
