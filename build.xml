@@ -136,7 +136,7 @@
 		</chmod>
 
 		<exec executable="qbuild" dir="${dir.staging}" failonerror="yes">
-			<arg line="--build-version ${version} --build-dir ${dir.dist}" />
+			<arg line="--7zip --build-version ${version} --build-dir ${dir.dist}" />
 		</exec>
 	</target>
 
