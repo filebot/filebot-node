@@ -24,13 +24,13 @@
         },
         "refresh": 2000,
         "form": {
-            "input": "/volume1/download/",
-            "output": "/volume1/video/"
+            "input": "",
+            "output": ""
         },
         "url": {
-            "help": "https://www.filebot.net/syno/support.html",
+            "help": "https://www.filebot.net/support.html",
             "license_purchase": "https://www.filebot.net/purchase.html#node",
-            "osdb_register": "http://www.opensubtitles.org/en/newuser"
+            "osdb_register": "https://www.opensubtitles.org/en/newuser"
         }
     },
 
