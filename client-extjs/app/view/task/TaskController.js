@@ -22,9 +22,15 @@ Ext.define('FileBot.view.task.TaskController', {
 
     restoreState: function() {
         var values = Ext.state.Manager.get('formOrganizeFiles')
+        var form = this.getForm()
+
+        // restore form values
         if (values) {
-            this.getForm().setValues(values)
+            form.setValues(values)
         }
+
+        // mark invalid fields on init
+        form.isValid()
     },
 
     saveState: function() {
