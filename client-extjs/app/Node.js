@@ -200,6 +200,16 @@ Ext.define('FileBot.Node', {
                 params['Cookie'] = 'sid='+Ext.util.Cookies.get('NAS_SID')
             }
         }.bind(this)
+
+        // tell user to manually configure cron
+        FileBot.getApplication().on('schedule', function(request) {
+            Ext.MessageBox.show({
+                title: 'crontab',
+                msg: request.message,
+                buttons: Ext.MessageBox.OK,
+                icon: Ext.MessageBox.INFO
+            })
+        }, this)
     }
 
 });

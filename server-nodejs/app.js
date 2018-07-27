@@ -532,23 +532,25 @@ function schedule(request, response, options) {
     switch (AUTH) {
         case 'SYNO':
             return schedule_syno(request, response, options)
+        case 'QNAP':
+            return schedule_qnap(request, response, options)
         default:
             return error(response, 'NOT IMPLEMENTED')
     }
 }
 
-function schedule_syno(request, response, options) {
-    var id = Date.now()
-    var logFile = getLogFile(id)
+function prepareScheduledTask(options) {
+    const id = Date.now()
+    const logFile = getLogFile(id)
 
-    var command = TASK_CMD + ' ' + id
-    var args = getCommandArguments(options)
+    const command = TASK_CMD + ' ' + id
+    const args = getCommandArguments(options)
 
     // each log contains the original command (as JSON) in the first line
     fs.writeFileSync(logFile, command + ' # ' + shellescape(args) + '\n\n' + DASHLINE + '\n\n')
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
-    var argsFile = path.resolve(TASK_FOLDER, id+'.args')
+    const argsFile = path.resolve(TASK_FOLDER, id+'.args')
     fs.writeFileSync(argsFile, args.join('\n'))
 
     // update scheduled tasks index
@@ -556,8 +558,14 @@ function schedule_syno(request, response, options) {
     TASKS.push({id: id, status: SCHEDULED_TASK_CODE})
     TASKS.lastModified = Date.now()
 
+    return command
+}
+
+function schedule_syno(request, response, options) {
+    const command = prepareScheduledTask(options)
+
     // Syno Web API rejects requests from localhost, so we have to send the request from the client
-    var clientSideRequest = {
+    const clientSideRequest = {
         method: 'POST',
         url: '/webapi/_______________________________________________________entry.cgi',
         params: {
@@ -575,6 +583,18 @@ function schedule_syno(request, response, options) {
             'X-SYNO-TOKEN': options.SynoToken,
             'Cookie': options.Cookie
         }
+    }
+    return ok(response, clientSideRequest)
+}
+
+function schedule_qnap(request, response, options) {
+    const command = prepareScheduledTask(options)
+    const crontab = '0 4 * * * ' + command
+
+    // crontab entry
+    const clientSideRequest = {
+        crontab: crontab,
+        message: 'Please append <code>' + crontab + '</code> to your crontab to schedule the task to run at 4 AM every day.'.
     }
     return ok(response, clientSideRequest)
 }

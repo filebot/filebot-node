@@ -13,12 +13,16 @@ case "$1" in
 			exit 1
 		fi
 
+		# create /opt/filebot-node symlink
+		ln -sf "$QPKG_ROOT" "/opt/$QPKG_NAME"
+
 		# start service
 		"$QPKG_ROOT/start" > "$QPKG_ROOT/$QPKG_NAME.log" 2>&1 &
 		exit $?
 	;;
 
 	stop)
+		rm "/opt/$QPKG_NAME"
 		killall "$QPKG_NAME"
 		exit $?
 	;;
