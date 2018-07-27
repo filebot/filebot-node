@@ -64,7 +64,10 @@ if (!fs.existsSync(FILEBOT_LOG)) {
 if (fs.existsSync(TASK_INDEX)) {
     fs.readFileSync(TASK_INDEX, {'encoding': 'UTF-8'}).split(/\n/).forEach(function(id) {
         if (id) {
-            TASKS.push({id: id, status: SCHEDULED_TASK_CODE})
+            var stats = fs.statSync(getLogFile(id))
+            var mtime = new Date(stats.mtime).getTime()
+
+            TASKS.push({ id: id, date: mtime, status: SCHEDULED_TASK_CODE })
         }
     })
 }
@@ -166,10 +169,7 @@ function spawnChildProcess(command, arguments) {
     var id = newTaskID()
     var logFile = getLogFile(id)
 
-    var pd = {
-        id: id,
-        status: null
-    }
+    var pd = { id: id, date: Date.now(), status: null }
 
     // each log contains the original command (as JSON) in the first line
     fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + '\n\n' + DASHLINE + '\n\n')
@@ -560,7 +560,7 @@ function prepareScheduledTask(options) {
 
     // update scheduled tasks index
     fs.appendFileSync(TASK_INDEX, id + '\n')
-    TASKS.push({id: id, status: SCHEDULED_TASK_CODE})
+    TASKS.push({ id: id, date: Date.now(), status: SCHEDULED_TASK_CODE })
     TASKS.lastModified = Date.now()
 
     return command

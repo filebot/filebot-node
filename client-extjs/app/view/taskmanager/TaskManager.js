@@ -34,7 +34,7 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
     columns: [
     {
         text: 'Date',
-        dataIndex: 'id',
+        dataIndex: 'date',
         width: 140,
         renderer: function(val) {
             var t = new Date(val)
