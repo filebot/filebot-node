@@ -157,8 +157,13 @@ function getCommandArguments(options) {
     return args
 }
 
+function newTaskID() {
+    // use epoch seconds as ID
+    return Math.floor(Date.now() / 1000).toString(36).toUpperCase()
+}
+
 function spawnChildProcess(command, arguments) {
-    var id = Date.now()
+    var id = newTaskID()
     var logFile = getLogFile(id)
 
     var pd = {
@@ -540,7 +545,7 @@ function schedule(request, response, options) {
 }
 
 function prepareScheduledTask(options) {
-    const id = Date.now()
+    const id = newTaskID()
     const logFile = getLogFile(id)
 
     const command = TASK_CMD + ' ' + id
