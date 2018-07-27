@@ -57,7 +57,7 @@ if (!fs.existsSync(LOG_FOLDER)) {
     fs.chownSync(LOG_FOLDER, FILEBOT_CMD_UID, FILEBOT_CMD_GID)  // FILEBOT USER MUST BE ABLE TO WRITE LOGS
 }
 if (!fs.existsSync(FILEBOT_LOG)) {
-    fs.writeFileSync(FILEBOT_LOG, '# created on ' + (new Date()) + '\n')
+    fs.writeFileSync(FILEBOT_LOG, '# Created on ' + (new Date()) + '\n')
     fs.chownSync(FILEBOT_LOG, FILEBOT_CMD_UID, FILEBOT_CMD_GID) // FILEBOT USER MUST BE ABLE TO WRITE LOGS
 }
 
@@ -331,7 +331,7 @@ function handleRequest(request, response) {
 
     if ('/log' == requestPath) {
         const id = options.id
-        if (id > 0) {
+        if (id) {
             return file(request, response, getLogFile(id), MIME_TYPES['.log'], false, false)
         } else {
             return file(request, response, FILEBOT_LOG, MIME_TYPES['.log'], true, true)
@@ -552,7 +552,7 @@ function prepareScheduledTask(options) {
     const args = getCommandArguments(options)
 
     // each log contains the original command (as JSON) in the first line
-    fs.writeFileSync(logFile, command + ' # ' + getCommand() + ' ' + shellescape(args) + '\n\n' + DASHLINE + '\n\n')
+    fs.writeFileSync(logFile, command + ' # ' + shellescape([getCommand()].concat(args)) + '\n\n' + DASHLINE + '\n\n')
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
     const argsFile = path.resolve(TASK_FOLDER, id+'.args')
