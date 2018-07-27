@@ -208,7 +208,7 @@ Ext.define('FileBot.Node', {
                 msg: request.message,
                 buttons: Ext.MessageBox.OK,
                 icon: Ext.MessageBox.INFO
-            })
+            }).removeCls("x-unselectable") // HACK TO FIX UNSELECTABLE TEXT
         }, this)
     }
 

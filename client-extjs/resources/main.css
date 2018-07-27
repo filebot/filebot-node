@@ -88,5 +88,5 @@ code.crontab {
 	color: #FFFFFF								!important;
 	cursor: text								!important;
 	user-select: text							!important;
-	padding: 2px								!important;
+	padding: 0px 2px							!important;
 }
