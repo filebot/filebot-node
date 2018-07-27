@@ -76,10 +76,6 @@ if (fs.existsSync(TASK_INDEX)) {
 // HELPER FUNCTIONS
 
 
-function newTaskID() {
-    return fs.readdirSync(LOG_FOLDER).length
-}
-
 function getLogFile(id) {
     return path.join(LOG_FOLDER, id + '.log')
 }
@@ -165,7 +161,7 @@ function getCommandArguments(options) {
 }
 
 function spawnChildProcess(command, arguments) {
-    var id = newTaskID()
+    var id = new Date().toISOString().replace(/\W/g, '-')
     var logFile = getLogFile(id)
 
     var pd = { id: id, date: Date.now(), status: null }
@@ -544,7 +540,7 @@ function schedule(request, response, options) {
 }
 
 function prepareScheduledTask(options) {
-    const id = newTaskID()
+    const id = fs.readdirSync(TASK_FOLDER).length
     const logFile = getLogFile(id)
 
     const command = TASK_CMD + ' ' + id
