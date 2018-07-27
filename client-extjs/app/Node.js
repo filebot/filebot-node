@@ -147,7 +147,7 @@ Ext.define('FileBot.Node', {
                 this.authenticate = function(params) {
                     if (params instanceof Object) {
                         params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
-                        params[this.COOKIE_KEY] = this.COOKIE_VAL                        
+                        params[this.COOKIE_KEY] = this.COOKIE_VAL
                     }
                 }.bind(this)
 
