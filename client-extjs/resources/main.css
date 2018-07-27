@@ -88,12 +88,5 @@ code.crontab {
 	color: #FFFFFF								!important;
 	cursor: text								!important;
 	user-select: text							!important;
-}
-
-code.crontab:before {
-    content: open-quote;
-}
-
-code.crontab:after {
-    content: close-quote;
+	padding: 2px								!important;
 }
