@@ -547,7 +547,7 @@ function prepareScheduledTask(options) {
     const args = getCommandArguments(options)
 
     // each log contains the original command (as JSON) in the first line
-    fs.writeFileSync(logFile, command + ' # ' + shellescape(args) + '\n\n' + DASHLINE + '\n\n')
+    fs.writeFileSync(logFile, command + ' # ' + getCommand() + ' ' + shellescape(args) + '\n\n' + DASHLINE + '\n\n')
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
     const argsFile = path.resolve(TASK_FOLDER, id+'.args')
