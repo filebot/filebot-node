@@ -76,6 +76,10 @@ if (fs.existsSync(TASK_INDEX)) {
 // HELPER FUNCTIONS
 
 
+function newTaskID() {
+    return fs.readdirSync(LOG_FOLDER).length
+}
+
 function getLogFile(id) {
     return path.join(LOG_FOLDER, id + '.log')
 }
@@ -158,11 +162,6 @@ function getCommandArguments(options) {
         throw new Error('Illegal options: ' + JSON.stringify(options))
     }
     return args
-}
-
-function newTaskID() {
-    // use epoch seconds as ID
-    return Math.floor(Date.now() / 1000).toString(36).toUpperCase()
 }
 
 function spawnChildProcess(command, arguments) {
