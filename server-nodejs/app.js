@@ -599,7 +599,7 @@ function schedule_qnap(request, response, options) {
     // crontab entry
     const clientSideRequest = {
         crontab: crontab,
-        message: 'Please append <code class="crontab">' + crontab + '</code> to your crontab to schedule the task to run at 4 AM every day.'
+        message: '<span class="crontab">Please append <code>' + crontab + '</code> to your crontab to schedule the task to run at 4 AM every day.</span>'
     }
     return ok(response, clientSideRequest)
 }
