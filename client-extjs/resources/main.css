@@ -82,17 +82,18 @@ textarea.logcatviewer {
 	word-wrap: normal							!important;
 }
 
-div.paypal {
-	text-align: center;
+code.crontab {
+	font-family: 'Droid Sans Mono', monospace	!important;
+	background: #300A24							!important;
+	color: #FFFFFF								!important;
+	cursor: text								!important;
+	user-select: text							!important;
 }
 
-div.paypal select {
-	min-height: 2em;
-	margin: 5px;
+code.crontab:before {
+    content: open-quote;
 }
 
-div.paypal input[type=image] {
-	margin: 10px;
-	width: 114px;
-	height: 22px;
+code.crontab:after {
+    content: close-quote;
 }
