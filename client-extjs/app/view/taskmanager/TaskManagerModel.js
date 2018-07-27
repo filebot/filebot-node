@@ -17,12 +17,13 @@ Ext.define('FileBot.view.taskmanager.TaskManagerModel', {
             remoteSort: false,
 
             fields: [
-                { name: 'id', type: 'int' },
+                { name: 'id', type: 'string' },
+                { name: 'date', type: 'int' },
                 { name: 'status', type: 'string' }
             ],
 
             sorters: [{
-                property: 'id',
+                property: 'date',
                 direction: 'DESC'
             }],
 
