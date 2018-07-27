@@ -16,10 +16,15 @@ publish: clean build-production
 	$(ANT) tar spk syno-repo
 
 qpkg:
-	ssh $(QNAP_USER)@$(QNAP_HOST) "cd $(QNAP_FILEBOT_NODE_MASTER) && git reset --hard && git pull && git log -1 && rm -rvf build dist release"
-	scp -r dist $(QNAP_USER)@$(QNAP_HOST):$(QNAP_FILEBOT_NODE_MASTER)
-	ssh $(QNAP_USER)@$(QNAP_HOST) "cd $(QNAP_FILEBOT_NODE_MASTER) && export JAVA_HOME=/opt/java && ant qpkg"
-	scp -r "$(QNAP_USER)@$(QNAP_HOST):$(QNAP_FILEBOT_NODE_MASTER)/dist/*.qpkg" dist
+	$(QNAP_SSH) "cd $(QNAP_HOME)/filebot-node && $(QNAP_CLEAN)"
+	$(QNAP_SCP) dist $(QNAP_REMOTE_HOME)/filebot-node
+	$(QNAP_SSH) "cd $(QNAP_HOME)/filebot-node && $(QNAP_ANT) qpkg"
+	$(QNAP_SCP) "$(QNAP_REMOTE_HOME)/filebot-node/*/*.qpkg" $(QNAP_PACKAGES)
+
+qpkg-deps:
+	$(QNAP_SSH) "cd $(QNAP_HOME)/java-installer && $(QNAP_CLEAN) && $(QNAP_ANT) qpkg"
+	$(QNAP_SSH) "cd $(QNAP_HOME)/ant-installer  && $(QNAP_CLEAN) && $(QNAP_ANT) qpkg"
+	$(QNAP_SCP) "$(QNAP_REMOTE_HOME)/*-installer/*/*.qpkg" $(QNAP_PACKAGES)
 
 clean:
 	git reset --hard
