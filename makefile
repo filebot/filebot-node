@@ -30,5 +30,5 @@ clean:
 	git reset --hard
 	git pull
 	git log -1
-	rm -rvf build dist release
+	rm -rf build dist release
 	$(ANT) resolve clean
