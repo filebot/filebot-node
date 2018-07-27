@@ -502,7 +502,7 @@ function auth_qnap(request, response, options) {
     }
 
     // authenticate.cgi requires these and some other environment variables for authentication
-    var pd = child_process.spawn('/mnt/HDA_ROOT/home/httpd/cgi-bin/authLogin.cgi', [], {
+    var pd = child_process.spawn('/home/httpd/cgi-bin/authLogin.cgi', [], {
         env: {
                 'QUERY_STRING': user_id
         }
