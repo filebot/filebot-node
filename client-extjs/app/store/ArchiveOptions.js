@@ -1,7 +1,7 @@
 Ext.define('FileBot.store.ArchiveOptions', {
     extend: 'Ext.data.ArrayStore',
     alias: 'store.archive-options',
-    storeId: 'log-levels',
+    storeId: 'archive-options',
 
     fields: [
         'id', 'value', 'label'
