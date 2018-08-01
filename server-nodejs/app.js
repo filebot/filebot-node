@@ -123,8 +123,13 @@ function getCommandArguments(options) {
         if (options.skipExtract == 'on') {
             args.push('skipExtract=y')
         } else {
+	    args.push('skipExtract=n')
+	    }
+	    if (options.deleteAfterExtract == 'on') {
             args.push('deleteAfterExtract=y')
-        }
+        } else {
+	    args.push('deleteAfterExtract=n')
+	    } 
         if (options.ignore) args.push('ignore=' + options.ignore)
         if (options.minLengthMS) args.push('minLengthMS=' + options.minLengthMS)
         if (options.minFileSize) args.push('minFileSize=' + options.minFileSize)
