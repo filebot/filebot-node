@@ -229,6 +229,12 @@ Ext.define('FileBot.view.task.Task', {
                 checked: false
             }, {
                 xtype: 'checkboxfield',
+                name: 'deleteAfterExtract',
+                fieldLabel: '',
+                boxLabel: 'delete archives after files have been extracted',
+                checked: false
+            }, {
+                xtype: 'checkboxfield',
                 name: 'music',
                 fieldLabel: 'Music',
                 boxLabel: 'skip music files',
