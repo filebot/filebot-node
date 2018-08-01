@@ -17,6 +17,7 @@ Ext.define('FileBot.view.task.Task', {
         'FileBot.store.MediaLabels',
         'FileBot.store.EpisodeOrders',
         'FileBot.store.LogLevels',
+        'FileBot.store.ArchiveOptions',
         'FileBot.store.VideoLengthFilters',
         'FileBot.store.FileSizeFilters',
         'FileBot.store.Languages',
@@ -222,17 +223,17 @@ Ext.define('FileBot.view.task.Task', {
                 editable: false,
                 minWidth: 320
             }, {
-                xtype: 'checkboxfield',
-                name: 'skipExtract',
+                xtype: 'combobox',
+                name: 'archives',
                 fieldLabel: 'Archives',
-                boxLabel: 'skip archives',
-                checked: false
-            }, {
-                xtype: 'checkboxfield',
-                name: 'deleteAfterExtract',
-                fieldLabel: '',
-                boxLabel: 'delete archives after files have been extracted',
-                checked: false
+                displayField: 'label',
+                valueField: 'value',
+                value: 'skip',
+                store: {
+                    type: 'archive-options'
+                },
+                editable: false,
+                minWidth: 320
             }, {
                 xtype: 'checkboxfield',
                 name: 'music',

@@ -120,8 +120,11 @@ function getCommandArguments(options) {
         if (options.artwork == 'on') args.push('artwork=y')
         if (options.subtitles) args.push('subtitles=' + options.subtitles)
         if (options.clean == 'on') args.push('clean=y')
-        if (options.skipExtract == 'on') args.push('skipExtract=y')
-        if (options.deleteAfterExtract == 'on') args.push('deleteAfterExtract=y')
+        if (options.archives == 'skip') {
+            args.push('skipExtract=y')
+        } else if (options.archives == 'extract-delete') {
+            args.push('deleteAfterExtract=y')
+        }
         if (options.ignore) args.push('ignore=' + options.ignore)
         if (options.minLengthMS) args.push('minLengthMS=' + options.minLengthMS)
         if (options.minFileSize) args.push('minFileSize=' + options.minFileSize)
