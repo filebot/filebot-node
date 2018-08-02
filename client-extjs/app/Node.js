@@ -88,6 +88,7 @@ Ext.define('FileBot.Node', {
             url: this.getServerEndpoint(path),
             params: parameters,
             useDefaultXhrHeader: false,
+            withCredentials: false,
             cors: true,
             noCache: false,
             success: responseHandler,
@@ -116,8 +117,13 @@ Ext.define('FileBot.Node', {
     },
 
     authenticate: function(params) {
-        // do nothing by default
+        // do nothing by default (but add query parameter like in production)
+        if (params instanceof Object) {
+            params['debug'] = '1'
+        }
     },
+
+https://10.0.10.5/filebot-node/tasks?Cookie=sid%3Dt35ml1zy
 
     init_syno: function() {
         if (this.CSRF_TOKEN_KEY == 'SynoToken') {
