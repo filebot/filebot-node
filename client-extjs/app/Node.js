@@ -123,8 +123,6 @@ Ext.define('FileBot.Node', {
         }
     },
 
-https://10.0.10.5/filebot-node/tasks?Cookie=sid%3Dt35ml1zy
-
     init_syno: function() {
         if (this.CSRF_TOKEN_KEY == 'SynoToken') {
             return
