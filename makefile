@@ -6,7 +6,6 @@ build-production:
 	$(ANT) clean build
 
 run-client:
-	open http://localhost:1841/
 	cd client-extjs && sencha app watch
 
 run-server:
