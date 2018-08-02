@@ -3,7 +3,7 @@ include *.variables
 ANT := ant -lib lib
 
 build-production:
-	$(ANT) build
+	$(ANT) clean build
 
 run-client:
 	open http://localhost:1841/
