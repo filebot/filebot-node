@@ -117,10 +117,7 @@ Ext.define('FileBot.Node', {
     },
 
     authenticate: function(params) {
-        // do nothing by default (but add query parameter like in production)
-        if (params instanceof Object) {
-            params['debug'] = '1'
-        }
+        // do nothing by default
     },
 
     init_syno: function() {
