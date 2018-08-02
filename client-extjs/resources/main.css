@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Droid+Sans+Mono);
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
 
 
 .ok-col {
@@ -72,7 +72,7 @@
 }
 
 textarea.logcatviewer {
-	font-family: 'Droid Sans Mono', monospace	!important;
+	font-family: 'Source Code Pro', monospace	!important;
 	font-size: 8pt								!important;
 	background: #300A24							!important;
 	color: #FFFFFF								!important;
@@ -87,7 +87,7 @@ span.crontab {
 }
 
 span.crontab code {
-	font-family: 'Droid Sans Mono', monospace	!important;
+	font-family: 'Source Code Pro', monospace	!important;
 	background: #300A24							!important;
 	color: #FFFFFF								!important;
 	cursor: text								!important;
