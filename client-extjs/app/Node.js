@@ -26,13 +26,7 @@ Ext.define('FileBot.Node', {
     },
 
     getServerEndpoint: function(path) {
-        // Synology DSM configuration
-        if (document.location.pathname == '/webman/3rdparty/filebot-node/index.html') {
-            return 'proxy/' + path
-        }
-
-        // generic configuration
-        return path
+        return Ext.manifest.server.endpoint + path
     },
 
     getPostEndpoint: function(path) {

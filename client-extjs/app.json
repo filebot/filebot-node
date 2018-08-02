@@ -18,10 +18,7 @@
      * The ports that the client application use for talking to the node server
      */
     "server": {
-        "port": {
-            "http": 5452,
-            "https": 5453
-        },
+        "endpoint": "",
         "refresh": 2000,
         "form": {
             "input": "",
@@ -204,6 +201,7 @@
 
     "development": {
         "server": {
+            "endpoint": "http://localhost:5452/",
             "refresh": 10000,
             "authentication": "none"
         }
