@@ -320,12 +320,12 @@ function handleRequest(request, response) {
     }
 
     if ('/folders' == requestPath) {
-        const data = listFolders(options)
+        var data = listFolders(options)
         return ok(response, data)
     }
 
     if ('/log' == requestPath) {
-        const id = options.id
+        var id = options.id
         if (id) {
             return file(request, response, getLogFile(id), MIME_TYPES['.log'], false, false)
         } else {
@@ -334,7 +334,7 @@ function handleRequest(request, response) {
     }
 
     if ('/execute' == requestPath) {
-        const data = execute(options)
+        var data = execute(options)
         return ok(response, data)
     }
 
@@ -343,7 +343,7 @@ function handleRequest(request, response) {
     }
 
     if ('/kill' == requestPath) {
-        const data = kill(options)
+        var data = kill(options)
         return ok(response, data)
     }
 
@@ -357,10 +357,10 @@ function handleRequest(request, response) {
 
 
 function modifiedSince(request, lastModified) {
-    const header = request.headers['if-modified-since']
+    var header = request.headers['if-modified-since']
     if (header) {
-        const lastModifiedInSeconds = Math.floor(lastModified / 1000)
-        const ifModifiedSinceInSeconds = Date.parse(header) / 1000 // UTC STRING IS ONLY IN SECONDS PRECISION !!!
+        var lastModifiedInSeconds = Math.floor(lastModified / 1000)
+        var ifModifiedSinceInSeconds = Date.parse(header) / 1000 // UTC STRING IS ONLY IN SECONDS PRECISION !!!
         return lastModifiedInSeconds > ifModifiedSinceInSeconds
     }
     return true // assume modified by default
@@ -494,9 +494,9 @@ function auth_syno(request, response, options) {
 }
 
 function auth_qnap(request, response, options) {
-    const user_id = options.Cookie
+    var user_id = options.Cookie
 
-    const user = AUTH_CACHE[user_id]
+    var user = AUTH_CACHE[user_id]
     if (user) {
         return user
     }
@@ -509,11 +509,11 @@ function auth_qnap(request, response, options) {
     })
 
     pd.stdout.on('data', function(data) {
-        const cgiResponse = data.toString('utf8')
-        const xmlStartIndex = cgiResponse.indexOf('<?xml')
+        var cgiResponse = data.toString('utf8')
+        var xmlStartIndex = cgiResponse.indexOf('<?xml')
 
         if (xmlStartIndex > 0) {
-            const xmlResponse = cgiResponse.substring(xmlStartIndex)
+            var xmlResponse = cgiResponse.substring(xmlStartIndex)
 
             xml2js.parseString(xmlResponse, function (error, dom) {
                 if (dom.QDocRoot.authPassed == "1") {
@@ -540,17 +540,17 @@ function schedule(request, response, options) {
 }
 
 function prepareScheduledTask(options) {
-    const id = fs.readdirSync(TASK_FOLDER).length
-    const logFile = getLogFile(id)
+    var id = fs.readdirSync(TASK_FOLDER).length
+    var logFile = getLogFile(id)
 
-    const command = TASK_CMD + ' ' + id
-    const args = getCommandArguments(options)
+    var command = TASK_CMD + ' ' + id
+    var args = getCommandArguments(options)
 
     // each log contains the original command (as JSON) in the first line
     fs.writeFileSync(logFile, command + ' # ' + shellescape([getCommand()].concat(args)) + '\n\n' + DASHLINE + '\n\n')
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
-    const argsFile = path.resolve(TASK_FOLDER, id+'.args')
+    var argsFile = path.resolve(TASK_FOLDER, id+'.args')
     fs.writeFileSync(argsFile, args.join('\n'))
 
     // update scheduled tasks index
@@ -562,10 +562,10 @@ function prepareScheduledTask(options) {
 }
 
 function schedule_syno(request, response, options) {
-    const command = prepareScheduledTask(options)
+    var command = prepareScheduledTask(options)
 
     // Syno Web API rejects requests from localhost, so we have to send the request from the client
-    const clientSideRequest = {
+    var clientSideRequest = {
         method: 'POST',
         url: '/webapi/_______________________________________________________entry.cgi',
         params: {
@@ -588,11 +588,11 @@ function schedule_syno(request, response, options) {
 }
 
 function schedule_qnap(request, response, options) {
-    const command = prepareScheduledTask(options)
-    const crontab = '0 4 * * * ' + command
+    var command = prepareScheduledTask(options)
+    var crontab = '0 4 * * * ' + command
 
     // crontab entry
-    const clientSideRequest = {
+    var clientSideRequest = {
         crontab: crontab,
         message: '<span class="crontab">Please append <code>' + crontab + '</code> to your crontab to schedule the task to run at 4 AM every day.</span>'
     }
