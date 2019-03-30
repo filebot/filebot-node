@@ -211,15 +211,6 @@ function version() {
     return [child.stdout, child.stderr].join('\n').trim()
 }
 
-
-// ROUTES
-
-
-function execute(options) {
-    var pd = spawnChildProcess(getCommand(), getCommandArguments(options))
-    return pd
-}
-
 function task(options) {
     var id = options.id
     var child = child_process.spawnSync(TASK_CMD, [id], {
@@ -231,8 +222,18 @@ function task(options) {
             gid: FILEBOT_CMD_GID
         }
     )
-    return [child.stdout, child.stderr].join('\n').trim()
+    return { stdout: child.stdout, stderr: child.stderr }
 }
+
+
+// ROUTES
+
+
+function execute(options) {
+    var pd = spawnChildProcess(getCommand(), getCommandArguments(options))
+    return pd
+}
+
 
 function kill(options) {
     var id = options.id
