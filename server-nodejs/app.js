@@ -220,6 +220,20 @@ function execute(options) {
     return pd
 }
 
+function task(options) {
+    var id = options.id
+    var child = child_process.spawnSync(TASK_CMD, [id], {
+            stdio: ['ignore', 'pipe', 'pipe'],
+            encoding: 'UTF-8',
+            env: process.env,
+            cwd: FILEBOT_CMD_CWD,
+            uid: FILEBOT_CMD_UID,
+            gid: FILEBOT_CMD_GID
+        }
+    )
+    return [child.stdout, child.stderr].join('\n').trim()
+}
+
 function kill(options) {
     var id = options.id
     var process = ACTIVE_PROCESSES[id]
@@ -349,6 +363,11 @@ function handleRequest(request, response) {
 
     if ('/license' == requestPath) {
         return license(request, response) // PROCESS FILE UPLOAD ASYNC
+    }
+
+    if ('/task' == requestPath) {
+        var data = task(options)
+        return ok(response, data)
     }
 
     return error(response, 'ILLEGAL REQUEST')
@@ -550,7 +569,7 @@ function prepareScheduledTask(options) {
     fs.writeFileSync(logFile, command + ' # ' + shellescape([getCommand()].concat(args)) + '\n\n' + DASHLINE + '\n\n')
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
-    var argsFile = path.resolve(TASK_FOLDER, id+'.args')
+    var argsFile = path.resolve(TASK_FOLDER, id + '.args')
     fs.writeFileSync(argsFile, args.join('\n'))
 
     // update scheduled tasks index
