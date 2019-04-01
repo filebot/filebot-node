@@ -214,7 +214,7 @@ function version() {
 function task(options) {
     var id = options.id
     var child = child_process.spawnSync(TASK_CMD, [id], {
-            stdio: ['ignore', 'pipe', 'pipe'],
+            stdio: ['ignore', 'ignore', 'ignore'],
             encoding: 'UTF-8',
             env: process.env,
             cwd: FILEBOT_CMD_CWD,
@@ -222,7 +222,7 @@ function task(options) {
             gid: FILEBOT_CMD_GID
         }
     )
-    return { stdout: child.stdout, stderr: child.stderr }
+    return { status: child.status }
 }
 
 

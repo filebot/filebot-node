@@ -6,6 +6,8 @@ export FILEBOT_NODE_AUTH='NONE'
 export FILEBOT_NODE_HTTP='YES'
 export FILEBOT_NODE_HTTP_PORT='5452'
 
+export FILEBOT_TASK_CMD="$PWD/task.sh"
+
 export FILEBOT_CMD='filebot'
 export FILEBOT_CMD_CWD="$PWD"
 export FILEBOT_CMD_UID=`id -u $USER`
