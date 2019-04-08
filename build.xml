@@ -134,9 +134,10 @@
 			<fileset dir="${dir.base}" includes="*" />
 		</chmod>
 
-		<exec executable="qbuild" dir="${dir.staging}" failonerror="yes">
-			<arg line="--7zip --build-version ${version} --build-dir ${dir.dist}" />
+		<exec executable="docker" failonerror="yes">
+			<arg line="run --rm -v ${dir.staging}:/src rednoah/qpkg-build --7zip --build-version ${version}" />
 		</exec>
+		<copy file="${dir.staging}/build/${package}_${version}.qpkg" tofile="${dir.dist}/${package}_${version}.qpkg" />
 	</target>
 
 
