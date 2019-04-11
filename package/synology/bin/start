@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 export FILEBOT_NODE_HOST="127.0.0.1" # bind to local nginx reverse proxy
 export FILEBOT_NODE_AUTH="SYNO"
@@ -17,6 +17,13 @@ export FILEBOT_CMD_UID=`id -u $USER`
 export FILEBOT_CMD_GID=`cat /etc/group | grep 'administrators' | cut -d: -f3`                 # cannot use `id -u $USER` because the result is 100:users but we need 101:administrators because users don't have execute permissions
 
 export FILEBOT_NODE_CLIENT="client"
+
+
+# sanity check
+if [ -z "$FILEBOT_CMD_UID" ]; then
+	echo "id -u $USER must not be empty"
+	exit 1
+fi
 
 
 # set working dir
