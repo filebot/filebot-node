@@ -94,3 +94,11 @@ span.crontab code {
 	user-select: text							!important;
 	padding: 0px 1px							!important;
 }
+
+/*
+ * FIX: ExtJS 6.5.0 Fieldset legend are not visible in Safari 11
+ * https://www.sencha.com/forum/showthread.php?423768-ExtJS-6-5-0-Fieldset-legend-are-not-visible-in-Safari-11
+ */
+.x-fieldset {
+	overflow: visible;
+}
