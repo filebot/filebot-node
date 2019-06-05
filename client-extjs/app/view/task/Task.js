@@ -386,6 +386,7 @@ Ext.define('FileBot.view.task.Task', {
                     {text: 'Help', handler: 'onHelp', iconCls: 'help-item' }
                 ]
             }),
+            width: 80,
             style: 'left: 6em !important' // align this button to the left
         }, {
             xtype: 'splitbutton',
@@ -402,6 +403,7 @@ Ext.define('FileBot.view.task.Task', {
                     {text: 'Schedule', handler: 'onSchedule', iconCls: 'schedule-item'}
                 ]
             }),
+            width: 110,
             style:'margin-right: 3em'
         }]
     }, {
