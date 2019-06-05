@@ -17,7 +17,13 @@ Ext.define('FileBot.view.task.TaskController', {
      * Called when the view is created
      */
     init: function() {
-
+        FileBot.getApplication().on('state', function(json) {
+            if (json) {
+                var form = this.getForm()
+                form.setValues(Ext.decode(json))
+                form.isValid()
+            }
+        }, this)
     },
 
     restoreState: function() {
@@ -36,6 +42,7 @@ Ext.define('FileBot.view.task.TaskController', {
     saveState: function() {
         var values = this.getForm().getValues()
         Ext.state.Manager.set('formOrganizeFiles', values)
+        FileBot.Node.requestState({'store': Ext.encode(values)})
         return values
     },
 

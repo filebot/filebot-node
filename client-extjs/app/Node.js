@@ -17,6 +17,9 @@ Ext.define('FileBot.Node', {
                 this.init_qnap()
             }
 
+            // restore state
+            this.requestState({})
+
             // display filebot version output after successful initialization
             this.requestVersion()
         }, this)
@@ -35,6 +38,10 @@ Ext.define('FileBot.Node', {
 
     requestAuth: function() {
         this.dispatchRequest('auth', {})
+    },
+
+    requestState: function(parameters) {
+        this.dispatchRequest('state', parameters)
     },
 
     requestExecute: function (parameters) {

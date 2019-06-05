@@ -43,6 +43,7 @@ const DATA_FOLDER = path.resolve('data')
 const LOG_FOLDER = path.resolve(DATA_FOLDER, 'log')
 const TASK_FOLDER = path.resolve(DATA_FOLDER, 'task')
 const TASK_INDEX = path.resolve(DATA_FOLDER, 'schedule.ids')
+const STATE_JSON = path.resolve(DATA_FOLDER, 'state.json')
 const FILEBOT_LOG = path.resolve(DATA_FOLDER, 'filebot.log')
 
 // create folder if necessary
@@ -211,6 +212,20 @@ function version() {
     return [child.stdout, child.stderr].join('\n').trim()
 }
 
+function state(options) {
+    // PUT STATE
+    if (options.store) {
+        fs.writeFileSync(STATE_JSON, options.store)
+    }
+
+    // GET STATE
+    else if (fs.existsSync(STATE_JSON)) {
+        return fs.readFileSync(STATE_JSON, {'encoding': 'UTF-8'})
+    }
+
+    return null
+}
+
 function task(options) {
     var id = options.id
     var child = child_process.spawnSync(TASK_CMD, [id], {
@@ -319,6 +334,11 @@ function handleRequest(request, response) {
     // AUTHENTICATION REQUIRED BEYOND THIS POINT
     if (!user) {
         return unauthorized(response)
+    }
+
+    if ('/state' == requestPath) {
+        var data = state(options)
+        return ok(response, data)
     }
 
     if ('/version' == requestPath) {
