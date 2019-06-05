@@ -17,11 +17,11 @@ Ext.define('FileBot.Node', {
                 this.init_qnap()
             }
 
-            // restore state
-            this.requestState({})
-
             // display filebot version output after successful initialization
             this.requestVersion()
+
+            // restore state
+            this.requestState({})
         }, this)
 
         // request auth config
