@@ -14,6 +14,7 @@ const formidable = require('formidable')
 const xml2js = require('xml2js')
 
 // CONFIGURATION AND GLOBAL VARIABLES
+const DATA = process.env['FILEBOT_NODE_DATA']
 const AUTH = process.env['FILEBOT_NODE_AUTH']
 const CLIENT = process.env['FILEBOT_NODE_CLIENT']
 const TASK_CMD = process.env['FILEBOT_TASK_CMD']
@@ -39,7 +40,7 @@ const TASKS = []
 // update task list via If-Last-Modified
 TASKS.lastModified = Date.now()
 
-const DATA_FOLDER = path.resolve('data')
+const DATA_FOLDER = path.resolve(DATA)
 const LOG_FOLDER = path.resolve(DATA_FOLDER, 'log')
 const TASK_FOLDER = path.resolve(DATA_FOLDER, 'task')
 const TASK_INDEX = path.resolve(DATA_FOLDER, 'schedule.ids')
