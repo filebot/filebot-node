@@ -21,7 +21,7 @@ A Docker image is available [here](https://hub.docker.com/r/rednoah/filebot/).
 
 ## Notes
 * Node.js is required for the server-side process
-* Support for system authentication is only implemented for Synology DSM
+* System authentication is implemented for Synology DSM and QNAP NAS
 
 ## Discussion
 Please visit the [FileBot Forums](https://www.filebot.net/forums/viewforum.php?f=13) if you need help with setting things up.

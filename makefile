@@ -1,5 +1,3 @@
-include *.variables
-
 ANT := ant -lib lib
 
 build-production:
