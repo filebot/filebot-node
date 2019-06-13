@@ -15,6 +15,9 @@ Ext.define('FileBot.Node', {
             } else if (options.auth == 'QNAP') {
                 // perform qnap auth
                 this.init_qnap()
+            } else {
+                // hook up generic configuration
+                this.init_generic()
             }
 
             // display filebot version output after successful initialization
@@ -208,6 +211,18 @@ Ext.define('FileBot.Node', {
             Ext.MessageBox.show({
                 title: 'crontab',
                 msg: request.message,
+                buttons: Ext.MessageBox.OK,
+                icon: Ext.MessageBox.INFO
+            }).removeCls("x-unselectable") // HACK TO FIX UNSELECTABLE TEXT
+        }, this)
+    },
+
+    init_generic: function() {
+        // tell user to call scheduled tasks via curl
+        FileBot.getApplication().on('schedule', function(request) {
+            Ext.MessageBox.show({
+                title: 'Prepared Task',
+                msg: "<span class=\"crontab\">Prepared Task " + request.task + " can be called locally via <nobr><code>" + request.command + "</code></nobr><br/> or remotely via <nobr><code>curl " + this.getServerEndpoint("task?id=" + request.task) + "</code></nobr>.</span>",
                 buttons: Ext.MessageBox.OK,
                 icon: Ext.MessageBox.INFO
             }).removeCls("x-unselectable") // HACK TO FIX UNSELECTABLE TEXT

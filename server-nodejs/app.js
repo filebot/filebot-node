@@ -576,7 +576,7 @@ function schedule(request, response, options) {
         case 'QNAP':
             return schedule_qnap(request, response, options)
         default:
-            return error(response, 'NOT IMPLEMENTED')
+            return schedule_generic(request, response, options)
     }
 }
 
@@ -636,6 +636,18 @@ function schedule_qnap(request, response, options) {
     var clientSideRequest = {
         crontab: crontab,
         message: '<span class="crontab">Please append <code>' + crontab + '</code> to your crontab to schedule the task to run at 4 AM every day.</span>'
+    }
+    return ok(response, clientSideRequest)
+}
+
+function schedule_generic(request, response, options) {
+    var command = prepareScheduledTask(options)
+    var id = command.split(/\s/).pop()
+
+    // FileBot Node Web API
+    var clientSideRequest = {
+        task: id,
+        command: command
     }
     return ok(response, clientSideRequest)
 }
