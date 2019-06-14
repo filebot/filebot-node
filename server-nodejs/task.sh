@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 export DATA="$PWD/data"
 export TASK="$1"
