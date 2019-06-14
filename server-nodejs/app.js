@@ -234,6 +234,9 @@ function task(request, response, options) {
     response.setHeader('Content-Type', 'text/plain')
     response.setHeader('Connection', 'Keep-Alive')
 
+    response.setHeader('Transfer-Encoding', 'chunked')
+    response.setHeader('Trailer', 'Exit-Code')
+
     var child = child_process.spawn(TASK_CMD, [id], {
             stdio: ['ignore', 'pipe', 'pipe'],
             encoding: 'UTF-8',
