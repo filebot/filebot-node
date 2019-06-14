@@ -172,7 +172,14 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'textfield',
                 name: 'filter',
                 fieldLabel: 'Match Filter',
-                emptyText: 'restrict autodetection (e.g. age < 7)',
+                emptyText: 'age < 7',
+                allowBlank: true,
+                anchor: '100%'
+            }, {
+                xtype: 'textfield',
+                name: 'mapper',
+                fieldLabel: 'Match Mapper',
+                emptyText: 'XEM.TheTVDB',
                 allowBlank: true,
                 anchor: '100%'
             }, {
@@ -294,23 +301,23 @@ Ext.define('FileBot.view.task.Task', {
             items: [{
                 fieldLabel: 'Movie Format',
                 name: 'movieFormat',
-                emptyText: 'Movies/{n} {y}/{fn}'
+                emptyText: '{plex}'
             }, {
                 fieldLabel: 'Series Format',
                 name: 'seriesFormat',
-                emptyText: 'TV/{n}/{fn}'
+                emptyText: '{plex}'
             }, {
                 fieldLabel: 'Anime Format',
                 name: 'animeFormat',
-                emptyText: 'Anime/{n}/{fn}'
+                emptyText: '{plex}'
             }, {
                 fieldLabel: 'Music Format',
                 name: 'musicFormat',
-                emptyText: 'Music/{n}/{fn}'
+                emptyText: '{plex}'
             }, {
                 fieldLabel: 'Unsorted Format',
                 name: 'unsortedFormat',
-                emptyText: 'Unsorted/{fn}'
+                emptyText: 'Unsorted/{file.structurePathTail}'
             }]
         }, {
             title: 'Automated Media Center',

@@ -111,6 +111,10 @@ function getCommandArguments(options) {
             args.push('--filter')
             args.push(options.filter)
         }
+        if (options.mapper) {
+            args.push('--mapper')
+            args.push(options.mapper)
+        }
         if (options.lang) {
             args.push('--lang')
             args.push(options.lang)
