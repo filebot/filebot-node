@@ -227,10 +227,15 @@ function state(options) {
     return null
 }
 
-function task(options) {
+function task(request, response, options) {
     var id = options.id
-    var child = child_process.spawnSync(TASK_CMD, [id], {
-            stdio: ['ignore', 'ignore', 'ignore'],
+
+    response.setHeader('Access-Control-Allow-Origin', '*')
+    response.setHeader('Content-Type', 'text/plain')
+    response.setHeader('Connection', 'Keep-Alive')
+
+    var child = child_process.spawn(TASK_CMD, [id], {
+            stdio: ['ignore', 'pipe', 'pipe'],
             encoding: 'UTF-8',
             env: process.env,
             cwd: FILEBOT_CMD_CWD,
@@ -238,7 +243,14 @@ function task(options) {
             gid: FILEBOT_CMD_GID
         }
     )
-    return { status: child.status }
+
+    child.stdout.pipe(response, {end: false})
+    child.stderr.pipe(response, {end: false})
+
+    child.on('close', function (code) {
+        response.addTrailers({ "Exit-Code": code })
+        response.end()
+    })
 }
 
 
@@ -388,8 +400,7 @@ function handleRequest(request, response) {
     }
 
     if ('/task' == requestPath) {
-        var data = task(options)
-        return ok(response, data)
+        return task(request, response, options)
     }
 
     return error(response, 'ILLEGAL REQUEST')
