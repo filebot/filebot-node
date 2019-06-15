@@ -11,7 +11,7 @@ Ext.define('FileBot.view.taskmanager.TaskManagerModel', {
     stores: {
         tasks: {
             storeId: 'tasks-store',
-            autoLoad: true,
+            autoLoad: false,
             pageSize: 0,
             remoteFilter: false,
             remoteSort: false,
