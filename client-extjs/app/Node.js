@@ -220,9 +220,13 @@ Ext.define('FileBot.Node', {
     init_generic: function() {
         // tell user to call scheduled tasks via curl
         FileBot.getApplication().on('schedule', function(request) {
+            const command = {
+                task: request.command,
+                curl: new URL(this.getServerEndpoint("task?id=" + request.task), window.location).href
+            }
             Ext.MessageBox.show({
                 title: 'Prepared Task',
-                msg: "<span class=\"crontab\">Prepared Task " + request.task + " can be called locally via <nobr><code>" + request.command + "</code></nobr><br/> or remotely via <nobr><code>curl " + this.getServerEndpoint("task?id=" + request.task) + "</code></nobr>.</span>",
+                msg: "<span class=\"crontab\">Prepared Task " + request.task + " can be called locally via <nobr><code>" + command.task + "</code></nobr><br/> or remotely via <nobr><code>curl " + command.curl + "</code></nobr>.</span>",
                 buttons: Ext.MessageBox.OK,
                 icon: Ext.MessageBox.INFO
             }).removeCls("x-unselectable") // HACK TO FIX UNSELECTABLE TEXT
