@@ -11,7 +11,7 @@ const fs = require('fs')
 const path = require('path')
 const shellescape = require('shell-escape')
 const formidable = require('formidable')
-const xml2js = require('xml2js')
+const fastXmlParser = require('fast-xml-parser')
 
 // CONFIGURATION AND GLOBAL VARIABLES
 const DATA = process.env['FILEBOT_NODE_DATA']
@@ -522,68 +522,79 @@ function auth_basic_env(request, response, options) {
 }
 
 function auth_syno(request, response, options) {
-    var user_id = options.Cookie
+    const user_id = options.Cookie
 
-    var user = AUTH_CACHE[user_id]
+    const user = AUTH_CACHE[user_id]
     if (user) {
         return user
     }
 
     // X-Real-IP header is set by nginx server
-    var remoteAddress = request.headers['x-real-ip']
+    const remoteAddress = request.headers['x-real-ip']
     if (!remoteAddress) {
         remoteAddress = request.connection.remoteAddress
     }
 
     // authenticate.cgi requires these and some other environment variables for authentication
-    var pd = child_process.spawn('/usr/syno/synoman/webman/modules/authenticate.cgi', [], {
-        env: {
-                'HTTP_COOKIE': options.Cookie,
-                'HTTP_X_SYNO_TOKEN': options.SynoToken,
-                'REMOTE_ADDR': remoteAddress
+    const pd = child_process.spawnSync('/usr/syno/synoman/webman/modules/authenticate.cgi', [], {
+            stdio: ['ignore', 'pipe', 'inherit'],
+            encoding: 'UTF-8',
+            env: {
+                    'HTTP_COOKIE': options.Cookie,
+                    'HTTP_X_SYNO_TOKEN': options.SynoToken,
+                    'REMOTE_ADDR': remoteAddress
+            }
         }
-    })
-    pd.stdout.on('data', function(data) {
-        AUTH_CACHE[user_id] = data.toString('utf8').trim()
-    })
-    pd.on('close', function(code) {
-        if (code == 0) console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
-    })
+    )
+
+    if (pd.status == 0) {
+        const result = pd.stdout.trim()
+        console.log(result)
+
+        AUTH_CACHE[user_id] = result
+        console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
+
+        return result
+    }
+
     return null
 }
 
 function auth_qnap(request, response, options) {
-    var user_id = options.Cookie
+    const user_id = options.Cookie
 
-    var user = AUTH_CACHE[user_id]
+    const user = AUTH_CACHE[user_id]
     if (user) {
         return user
     }
 
     // authenticate.cgi requires these and some other environment variables for authentication
-    var pd = child_process.spawn('/home/httpd/cgi-bin/authLogin.cgi', [], {
-        env: {
+    const pd = child_process.spawnSync('/home/httpd/cgi-bin/authLogin.cgi', [], {
+            stdio: ['ignore', 'pipe', 'inherit'],
+            encoding: 'UTF-8',
+            env: {
                 'QUERY_STRING': user_id
+            }
         }
-    })
+    )
 
-    pd.stdout.on('data', function(data) {
-        var cgiResponse = data.toString('utf8')
-        var xmlStartIndex = cgiResponse.indexOf('<?xml')
+    if (pd.status == 0) {
+        const cgiResponse = pd.stdout.trim()
+        console.log(cgiResponse)
 
+        const xmlStartIndex = cgiResponse.indexOf('<?xml')
         if (xmlStartIndex > 0) {
-            var xmlResponse = cgiResponse.substring(xmlStartIndex)
+            const xmlResponse = cgiResponse.substring(xmlStartIndex)
+            const dom = parser.parse(xmlResponse)
 
-            xml2js.parseString(xmlResponse, function (error, dom) {
-                if (dom.QDocRoot.authPassed == "1") {
-                    AUTH_CACHE[user_id] = dom.QDocRoot.user
-                }
-            });
+            if (dom.QDocRoot.authPassed == "1") {
+                const result = dom.QDocRoot.user
+                AUTH_CACHE[user_id] = result
+                return result
+            }
         }
-    })
-    pd.on('close', function(code) {
-        if (code == 0) console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
-    })
+    }
+
     return null
 }
 

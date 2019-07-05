@@ -24,6 +24,6 @@
   "dependencies": {
     "formidable": "^1.2.1",
     "shell-escape": "^0.2.0",
-    "xml2js": "^0.4.19"
+    "fast-xml-parser": "^3.12.16"
   }
 }
