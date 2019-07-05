@@ -536,21 +536,25 @@ function auth_syno(request, response, options) {
     }
 
     // authenticate.cgi requires these and some other environment variables for authentication
-    const pd = child_process.spawnSync('/usr/syno/synoman/webman/modules/authenticate.cgi', [], {
+    const cmd = '/usr/syno/synoman/webman/modules/authenticate.cgi'
+    const env = {
+        'HTTP_COOKIE': options.Cookie,
+        'HTTP_X_SYNO_TOKEN': options.SynoToken,
+        'REMOTE_ADDR': remoteAddress
+    }
+
+    console.log(cmd)
+    console.log(env)
+
+    const pd = child_process.spawnSync(cmd , [], {
             stdio: ['ignore', 'pipe', 'inherit'],
             encoding: 'UTF-8',
-            env: {
-                    'HTTP_COOKIE': options.Cookie,
-                    'HTTP_X_SYNO_TOKEN': options.SynoToken,
-                    'REMOTE_ADDR': remoteAddress
-            }
+            env: env
         }
     )
 
     if (pd.status == 0) {
         const result = pd.stdout.trim()
-
-        console.log('/usr/syno/synoman/webman/modules/authenticate.cgi')
         console.log(result)
 
         AUTH_CACHE[user_id] = result
@@ -571,19 +575,23 @@ function auth_qnap(request, response, options) {
     }
 
     // authenticate.cgi requires these and some other environment variables for authentication
-    const pd = child_process.spawnSync('/home/httpd/cgi-bin/authLogin.cgi', [], {
+    const cmd = '/home/httpd/cgi-bin/authLogin.cgi'
+    const env = {
+        'QUERY_STRING': user_id
+    }
+
+    console.log(cmd)
+    console.log(env)
+
+    const pd = child_process.spawnSync(cmd, [], {
             stdio: ['ignore', 'pipe', 'inherit'],
             encoding: 'UTF-8',
-            env: {
-                'QUERY_STRING': user_id
-            }
+            env: env
         }
     )
 
     if (pd.status == 0) {
         const cgiResponse = pd.stdout.trim()
-
-        console.log('/home/httpd/cgi-bin/authLogin.cgi')
         console.log(cgiResponse)
 
         const xmlStartIndex = cgiResponse.indexOf('<?xml')
