@@ -11,7 +11,7 @@ const fs = require('fs')
 const path = require('path')
 const shellescape = require('shell-escape')
 const formidable = require('formidable')
-const fastXmlParser = require('fast-xml-parser')
+const xmlParser = require('fast-xml-parser')
 
 // CONFIGURATION AND GLOBAL VARIABLES
 const DATA = process.env['FILEBOT_NODE_DATA']
@@ -585,11 +585,14 @@ function auth_qnap(request, response, options) {
         const xmlStartIndex = cgiResponse.indexOf('<?xml')
         if (xmlStartIndex > 0) {
             const xmlResponse = cgiResponse.substring(xmlStartIndex)
-            const dom = parser.parse(xmlResponse)
+            const dom = xmlParser.parse(xmlResponse)
 
-            if (dom.QDocRoot.authPassed == "1") {
+            if (dom && dom.QDocRoot && dom.QDocRoot.authPassed == "1") {
                 const result = dom.QDocRoot.user
+
                 AUTH_CACHE[user_id] = result
+                console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
+
                 return result
             }
         }
