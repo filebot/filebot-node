@@ -549,6 +549,8 @@ function auth_syno(request, response, options) {
 
     if (pd.status == 0) {
         const result = pd.stdout.trim()
+
+        console.log('/usr/syno/synoman/webman/modules/authenticate.cgi')
         console.log(result)
 
         AUTH_CACHE[user_id] = result
@@ -580,6 +582,8 @@ function auth_qnap(request, response, options) {
 
     if (pd.status == 0) {
         const cgiResponse = pd.stdout.trim()
+
+        console.log('/home/httpd/cgi-bin/authLogin.cgi')
         console.log(cgiResponse)
 
         const xmlStartIndex = cgiResponse.indexOf('<?xml')
