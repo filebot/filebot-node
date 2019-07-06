@@ -524,6 +524,10 @@ function auth_basic_env(request, response, options) {
 function auth_syno(request, response, options) {
     const user_id = options.Cookie
 
+    if (!user_id) {
+        return null
+    }
+
     const user = AUTH_CACHE[user_id]
     if (user) {
         return user
@@ -568,6 +572,10 @@ function auth_syno(request, response, options) {
 
 function auth_qnap(request, response, options) {
     const user_id = options.Cookie
+
+    if (!user_id) {
+        return null
+    }
 
     const user = AUTH_CACHE[user_id]
     if (user) {
