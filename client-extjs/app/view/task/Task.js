@@ -179,7 +179,7 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'textfield',
                 name: 'mapper',
                 fieldLabel: 'Match Mapper',
-                emptyText: 'XEM.AniDB',
+                emptyText: 'AnimeList.AniDB',
                 allowBlank: true,
                 anchor: '100%'
             }, {
