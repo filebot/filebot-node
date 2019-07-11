@@ -236,9 +236,13 @@ function task(request, response, options) {
 
     response.setHeader('Access-Control-Allow-Origin', '*')
     response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
-    response.setHeader('Content-Type', 'text/plain; charset=UTF-8')
     response.setHeader('Connection', 'Keep-Alive')
 
+    // disable response caching to display response stream in real time
+    response.setHeader('Content-Type', 'text/plain; charset=UTF-8')
+    response.setHeader('X-Content-Type-Options', 'nosniff')
+
+    // enable HTTP 1.1 Trailer (use curl --raw /task to see Exit-Code trailer value)
     response.setHeader('Transfer-Encoding', 'chunked')
     response.setHeader('Trailer', 'Exit-Code')
 
