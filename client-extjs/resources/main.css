@@ -21,6 +21,11 @@
 	background-size: contain;
 }
 
+.schedule-col:hover {
+	background-image: url('images/run.png');
+	background-size: contain;
+}
+
 .run-btn {
 	background-image: url('images/run.png');
 	background-size: contain;

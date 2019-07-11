@@ -35,8 +35,9 @@ Ext.define('FileBot.Node', {
         return Ext.manifest.server.endpoint + path
     },
 
-    getPostEndpoint: function(path) {
-        return this.getServerEndpoint(path) + '?' + Ext.Object.toQueryString(this.getBaseParams())
+    getPostEndpoint: function(path, parameters) {
+        const queryString = Ext.Object.toQueryString(Object.assign({}, parameters, this.getBaseParams()))
+        return this.getServerEndpoint(path) + '?' + queryString
     },
 
     requestAuth: function() {
@@ -222,7 +223,7 @@ Ext.define('FileBot.Node', {
         FileBot.getApplication().on('schedule', function(request) {
             const command = {
                 task: request.command,
-                curl: new URL(this.getServerEndpoint("task?id=" + request.task), window.location).href
+                curl: new URL(this.getPostEndpoint("task?id=" + request.task), window.location).href
             }
             Ext.MessageBox.show({
                 title: 'Prepared Task',

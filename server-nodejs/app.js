@@ -235,7 +235,8 @@ function task(request, response, options) {
     var id = options.id
 
     response.setHeader('Access-Control-Allow-Origin', '*')
-    response.setHeader('Content-Type', 'text/plain')
+    response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
+    response.setHeader('Content-Type', 'text/plain; charset=UTF-8')
     response.setHeader('Connection', 'Keep-Alive')
 
     response.setHeader('Transfer-Encoding', 'chunked')

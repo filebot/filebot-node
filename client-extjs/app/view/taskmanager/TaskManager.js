@@ -87,7 +87,7 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
                 if (val == '137')
                     return 'Cancelled'
                 if (val == '1000')
-                    return 'Scheduled Task'
+                    return 'Execute Task'
                 else
                     return 'Error (' + val + ')'
             },
@@ -96,6 +96,10 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
                 var val = rec.get('status')
                 if (val == '') {
                     FileBot.Node.requestKill({id: rec.get('id')})
+                }
+                else if (val == '1000') {
+                    var url = new URL(FileBot.Node.getPostEndpoint("task", {id: rec.get('id')}), window.location)
+                    window.open(url.href, '_blank')
                 }
             }
         }]
