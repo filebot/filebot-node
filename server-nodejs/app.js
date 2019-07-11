@@ -235,7 +235,7 @@ function task(request, response, options) {
     var id = options.id
 
     response.setHeader('Access-Control-Allow-Origin', '*')
-    response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
+    response.setHeader('Cache-Control', 'private, max-age=0, no-cache, must-revalidate')
     response.setHeader('Connection', 'Keep-Alive')
 
     // disable response caching to display response stream in real time
