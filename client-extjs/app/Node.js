@@ -37,7 +37,11 @@ Ext.define('FileBot.Node', {
 
     getPostEndpoint: function(path, parameters) {
         const queryString = Ext.Object.toQueryString(Object.assign({}, parameters, this.getBaseParams()))
-        return this.getServerEndpoint(path) + '?' + queryString
+        if (queryString) {
+            return this.getServerEndpoint(path) + '?' + queryString
+        } else {
+            return this.getServerEndpoint(path)
+        }
     },
 
     requestAuth: function() {
