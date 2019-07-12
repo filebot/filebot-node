@@ -20,5 +20,4 @@ export FILEBOT_NODE_CLIENT='../dist/generic/client'
 export FILEBOT_OPTS='-Djava.awt.headless=true'
 
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
-# --use_idle_notification (Use idle notification to reduce memory footprint.)
-node --optimize_for_size --use_idle_notification 'app.js'
+node --optimize_for_size 'app.js'
