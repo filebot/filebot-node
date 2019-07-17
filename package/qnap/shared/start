@@ -7,7 +7,7 @@ export FILEBOT_NODE_HTTP="YES"
 export FILEBOT_NODE_HTTP_PORT="5452"
 
 export USER="admin"                                                                           # set admin as filebot user
-export JAVA_OPTS=`free | awk -vm=1024 -vp=0.7 '/Mem:/ {printf "-Xmx%dm", ($2*p)/m; exit}'`    # set -Xmx to 0.7 of physical memory
+export JAVA_OPTS=`free | awk -vm=1024 -vp=0.8 '/Mem:/ {printf "-Xmx%dm", ($2*p)/m; exit}'`    # set -Xmx to 0.8 of physical memory
 
 export FILEBOT_NODE_DATA="/opt/filebot-node/data"
 export FILEBOT_TASK_CMD="/opt/filebot-node/task"
