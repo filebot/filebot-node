@@ -22,8 +22,8 @@
     "url": "https://github.com/filebot/filebot-node/issues"
   },
   "dependencies": {
+    "fast-xml-parser": "^3.12.17",
     "formidable": "^1.2.1",
-    "shell-escape": "^0.2.0",
-    "fast-xml-parser": "^3.12.16"
+    "shell-escape": "^0.2.0"
   }
 }
