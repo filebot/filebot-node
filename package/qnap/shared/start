@@ -26,6 +26,10 @@ if [ -z "$FILEBOT_CMD_UID" ]; then
 	exit 1
 fi
 
+# debug output
+if ! ls -l "$(which node)"; then
+	echo "Node.js is not installed. Please install Node.js in the App Center."
+fi
 
 # set working dir
 cd "$QPKG_ROOT"
