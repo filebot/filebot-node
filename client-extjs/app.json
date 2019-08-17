@@ -26,7 +26,7 @@
         },
         "url": {
             "help": "https://www.filebot.net/support.html",
-            "license_purchase": "https://www.filebot.net/purchase.html#node",
+            "license_purchase": "https://www.filebot.net/purchase.html#filebot-node",
             "osdb_register": "https://www.opensubtitles.org/en/newuser"
         }
     },
