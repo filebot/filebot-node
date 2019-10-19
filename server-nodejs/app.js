@@ -147,10 +147,6 @@ function getCommandArguments(options) {
         if (options.excludeList) args.push('excludeList=' + options.excludeList)
         args.push('--log')
         args.push(options.log)
-        if (options.action != 'test') {
-            args.push('--log-file')
-            args.push(FILEBOT_LOG)
-        }
     } else if (options.fn == 'sysinfo') {
         args.push('-script')
         args.push('fn:sysinfo')
@@ -163,6 +159,11 @@ function getCommandArguments(options) {
     } else {
         throw new Error('Illegal options: ' + JSON.stringify(options))
     }
+
+    // require --log-file because otherwise it will default to lock.log anyway
+    args.push('--log-file')
+    args.push(FILEBOT_LOG)
+
     return args
 }
 
@@ -194,7 +195,18 @@ function spawnChildProcess(command, arguments) {
         // store exit code
         pd.status = code != null ? code : SIGKILL_EXIT_CODE
         TASKS.lastModified = Date.now()
-        fs.appendFileSync(logFile, DASHLINE +'\n\n' + (code == null ? '[Process killed]' : code == 0 ? '[Process completed]' : '[Process error]'))
+        // add status message
+        var status = DASHLINE + '\n\n'
+        if (code == null) {
+            status += '[Process killed]'
+        } else if (code == 0) {
+            status += '[Process completed]'
+        } else if (code == 127) {
+            status += '[' + getCommand() + ': command not found' + ']'
+        } else {
+            status += '[Process error]' + '\n\n' + 'Exit Code: ' + code
+        }
+        fs.appendFileSync(logFile, status)
     })
 
     ACTIVE_PROCESSES[id] = child
@@ -292,7 +304,7 @@ function kill(options) {
 function license(request, response) {
     var form = new formidable.IncomingForm()
     form.parse(request, function (error, fields, files) {
-        var args = ['--license', files.license.path]
+        var args = ['--license', files.license.path, '--log-file', FILEBOT_LOG]
         var pd = spawnChildProcess(getCommand(), args)
         ok(response, pd)
     })
