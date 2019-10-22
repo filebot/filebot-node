@@ -168,6 +168,23 @@ function getCommandArguments(options) {
     return args
 }
 
+function getExitStatus(code) {
+    var status = DASHLINE + WRAP
+    if (code == null) {
+        status += '[Process killed]'
+    } else if (code == 0) {
+        status += '[Process completed]'
+    } else if (code == -2 || code == 'ENOENT') {
+        status += '[Process error]'
+        status += WRAP + getCommand() + ': command not found'
+        status += WRAP + '⚠️ FileBot is not installed. FileBot Node requires FileBot. Please install FileBot first and then try again.'
+    } else {
+        status += '[Process error]'
+        status += WRAP + '🔺 Exit Code: ' + code
+    }
+    return status
+}
+
 function spawnChildProcess(command, arguments) {
     var id = new Date().toISOString().replace(/\W/g, '-')
     var logFile = getLogFile(id)
@@ -196,21 +213,11 @@ function spawnChildProcess(command, arguments) {
         // store exit code
         pd.status = code != null ? code : SIGKILL_EXIT_CODE
         TASKS.lastModified = Date.now()
+
         // add status message
-        var status = DASHLINE + WRAP
-        if (code == null) {
-            status += '[Process killed]'
-        } else if (code == 0) {
-            status += '[Process completed]'
-        } else if (code == -2) {
-            status += '[Process error]'
-            status += WRAP + getCommand() + ': command not found'
-            status += WRAP + '⚠️ FileBot is not installed. FileBot Node requires FileBot. Please install FileBot first and then try again.'
-        } else {
-            status += '[Process error]'
-            status += WRAP + '❓ Exit Code: ' + code
-        }
-        fs.appendFileSync(logFile, status)
+        fs.appendFile(logFile, getExitStatus(code), function (error) {
+            if (error) console.log(error)
+        });
     })
 
     ACTIVE_PROCESSES[id] = child
@@ -230,7 +237,10 @@ function version() {
             gid: FILEBOT_CMD_GID
         }
     )
-    return [child.stdout, child.stderr].join('\n').trim()
+    if (child.error && child.error.code) {
+        return getExitStatus(child.error.code)
+    }
+    return [child.stdout, child.stderr].join(WRAP).trim()
 }
 
 function state(options) {
