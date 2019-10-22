@@ -29,6 +29,7 @@ const ROUTES = new RegExp('^/[a-z]+$')
 const MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
 const SYSTEM_FILES = /^([.@].+|bin|initrd|opt|sbin|var|dev|lib|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr|System.Volume.Information)$/
 const DASHLINE = '------------------------------------------'
+const WRAP = '\n\n'
 const SIGKILL_EXIT_CODE = 137
 const SCHEDULED_TASK_CODE = 1000
 
@@ -174,7 +175,7 @@ function spawnChildProcess(command, arguments) {
     var pd = { id: id, date: Date.now(), status: null }
 
     // each log contains the original command (as JSON) in the first line
-    fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + '\n\n' + DASHLINE + '\n\n')
+    fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + WRAP + DASHLINE + WRAP)
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
     var child = child_process.spawn(command, arguments, {
@@ -196,15 +197,18 @@ function spawnChildProcess(command, arguments) {
         pd.status = code != null ? code : SIGKILL_EXIT_CODE
         TASKS.lastModified = Date.now()
         // add status message
-        var status = DASHLINE + '\n\n'
+        var status = DASHLINE + WRAP
         if (code == null) {
             status += '[Process killed]'
         } else if (code == 0) {
             status += '[Process completed]'
-        } else if (code == 127) {
-            status += '[' + getCommand() + ': command not found' + ']'
+        } else if (code == -2) {
+            status += '[Process error]'
+            status += WRAP + getCommand() + ': command not found'
+            status += WRAP + '⚠️ FileBot is not installed. FileBot Node requires FileBot. Please install FileBot first and then try again.'
         } else {
-            status += '[Process error]' + '\n\n' + 'Exit Code: ' + code
+            status += '[Process error]'
+            status += WRAP + '❓ Exit Code: ' + code
         }
         fs.appendFileSync(logFile, status)
     })
@@ -657,7 +661,7 @@ function prepareScheduledTask(options) {
     var args = getCommandArguments(options)
 
     // each log contains the original command (as JSON) in the first line
-    fs.writeFileSync(logFile, command + ' # ' + shellescape([getCommand()].concat(args)) + '\n\n' + DASHLINE + '\n\n')
+    fs.writeFileSync(logFile, command + ' # ' + shellescape([getCommand()].concat(args)) + WRAP + DASHLINE + WRAP)
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
     var argsFile = path.resolve(TASK_FOLDER, id + '.args')
