@@ -146,6 +146,11 @@ function getCommandArguments(options) {
         if (options.musicFormat) args.push('musicFormat=' + options.musicFormat)
         if (options.unsortedFormat) args.push('unsortedFormat=' + options.unsortedFormat)
         if (options.excludeList) args.push('excludeList=' + options.excludeList)
+        if (AUTH == 'SYNO' || AUTH == 'QNAP') {
+            args.push('--apply')
+            if (AUTH == 'SYNO') args.push('syno')
+            if (AUTH == 'QNAP') args.push('qnap')
+        }
         args.push('--log')
         args.push(options.log)
     } else if (options.fn == 'sysinfo') {
