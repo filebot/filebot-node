@@ -137,7 +137,7 @@
 		<exec executable="docker" failonerror="yes">
 			<arg line="run --rm -v ${dir.staging}:/src rednoah/qpkg-build --7zip --build-version ${version}" />
 		</exec>
-		<copy file="${dir.staging}/build/${package}_${version}.qpkg" tofile="${dir.dist}/${package}_${version}.qpkg" />
+		<copy file="${dir.staging}/build/${package}_${version}.qpkg" todir="${dir.dist}" />
 	</target>
 
 
