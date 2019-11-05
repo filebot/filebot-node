@@ -148,11 +148,10 @@ function getCommandArguments(options) {
         if (options.excludeList) args.push('excludeList=' + options.excludeList)
         if (AUTH == 'SYNO' || AUTH == 'QNAP') {
             args.push('--apply')
-            if (AUTH == 'SYNO') args.push('syno')
-            if (AUTH == 'QNAP') args.push('qnap')
+            args.push(AUTH)
         }
         args.push('--log')
-        args.push(options.log)
+        args.push(options.log.toUpperCase())
     } else if (options.fn == 'sysinfo') {
         args.push('-script')
         args.push('fn:sysinfo')
