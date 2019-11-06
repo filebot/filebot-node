@@ -146,12 +146,10 @@ function getCommandArguments(options) {
         if (options.musicFormat) args.push('musicFormat=' + options.musicFormat)
         if (options.unsortedFormat) args.push('unsortedFormat=' + options.unsortedFormat)
         if (options.excludeList) args.push('excludeList=' + options.excludeList)
-        if (AUTH == 'SYNO' || AUTH == 'QNAP') {
-            args.push('--apply')
-            args.push(AUTH)
-        }
+        args.push('--apply')
+        args.push('refresh')
         args.push('--log')
-        args.push(options.log.toUpperCase())
+        args.push(options.log)
     } else if (options.fn == 'sysinfo') {
         args.push('-script')
         args.push('fn:sysinfo')
