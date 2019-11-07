@@ -29,6 +29,7 @@ const ROUTES = new RegExp('^/[a-z]+$')
 const MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
 const SYSTEM_FILES = /^([.@].+|bin|initrd|opt|sbin|var|dev|lib|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr|System.Volume.Information)$/
 const DASHLINE = '------------------------------------------'
+const NEWLINE = '\n'
 const WRAP = '\n\n'
 const SIGKILL_EXIT_CODE = 137
 const SCHEDULED_TASK_CODE = 1000
@@ -60,7 +61,7 @@ if (!fs.existsSync(LOG_FOLDER)) {
     fs.chownSync(LOG_FOLDER, FILEBOT_CMD_UID, FILEBOT_CMD_GID)  // FILEBOT USER MUST BE ABLE TO WRITE LOGS
 }
 if (!fs.existsSync(FILEBOT_LOG)) {
-    fs.writeFileSync(FILEBOT_LOG, '# Created on ' + (new Date()) + '\n')
+    fs.writeFileSync(FILEBOT_LOG, '# Created on ' + (new Date()) + NEWLINE)
     fs.chownSync(FILEBOT_LOG, FILEBOT_CMD_UID, FILEBOT_CMD_GID) // FILEBOT USER MUST BE ABLE TO WRITE LOGS
 }
 
@@ -171,7 +172,7 @@ function getCommandArguments(options) {
 }
 
 function getExitStatus(code) {
-    var status = DASHLINE + WRAP
+    var status = NEWLINE + DASHLINE + WRAP
     if (code == null) {
         status += '[Process killed]'
     } else if (code == 0) {
@@ -677,10 +678,10 @@ function prepareScheduledTask(options) {
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
     var argsFile = path.resolve(TASK_FOLDER, id + '.args')
-    fs.writeFileSync(argsFile, args.join('\n'))
+    fs.writeFileSync(argsFile, args.join(NEWLINE))
 
     // update scheduled tasks index
-    fs.appendFileSync(TASK_INDEX, id + '\n')
+    fs.appendFileSync(TASK_INDEX, id + NEWLINE)
     TASKS.push({ id: id, date: Date.now(), status: SCHEDULED_TASK_CODE })
     TASKS.lastModified = Date.now()
 
