@@ -14,7 +14,7 @@ publish: clean build-production
 	$(ANT) tar spk syno-repo qpkg
 
 clean:
+	rm -rv build dist release
 	git reset --hard
 	git pull
 	git log -1
-	rm -r build dist release
