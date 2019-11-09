@@ -1,7 +1,8 @@
 ANT := ant -lib lib
 
 build-production:
-	$(ANT) clean build
+	$(ANT) resolve clean
+	$(ANT) build
 
 run-client:
 	cd client-extjs && sencha app watch
@@ -16,5 +17,4 @@ clean:
 	git reset --hard
 	git pull
 	git log -1
-	rm -rf build dist release
-	$(ANT) resolve clean
+	rm -r build dist release
