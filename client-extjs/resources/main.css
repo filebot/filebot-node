@@ -105,5 +105,5 @@ span.crontab code {
  * https://www.sencha.com/forum/showthread.php?423768-ExtJS-6-5-0-Fieldset-legend-are-not-visible-in-Safari-11
  */
 .x-fieldset {
-	overflow: visible;
+	overflow: visible                           !important;
 }
