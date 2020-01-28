@@ -12,6 +12,7 @@ const path = require('path')
 const shellescape = require('shell-escape')
 const formidable = require('formidable')
 const xmlParser = require('fast-xml-parser')
+const httpBasicAuth = require('basic-auth')
 
 // CONFIGURATION AND GLOBAL VARIABLES
 const DATA = process.env['FILEBOT_NODE_DATA']
@@ -543,8 +544,7 @@ function auth(request, response, options) {
 }
 
 function auth_basic_env(request, response, options) {
-    var auth = require('basic-auth')
-    var user = auth(request)
+    var user = httpBasicAuth(request)
 
     if (user == undefined)
         return undefined // REQUEST AUTH
