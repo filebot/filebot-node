@@ -161,6 +161,11 @@ Ext.define('FileBot.view.task.TaskController', {
         FileBot.Node.requestExecute(parameters)
     },
 
+    onClear: function() {
+        var parameters = {'fn':'clear'}
+        FileBot.Node.requestExecute(parameters)
+    },
+
     onHelp: function() {
         window.open(Ext.manifest.server.url.help, '_blank')
     },

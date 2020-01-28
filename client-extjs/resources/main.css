@@ -61,6 +61,11 @@
 	background-size: contain;
 }
 
+.clear-item {
+	background-image: url('images/clear.png');
+	background-size: contain;
+}
+
 .dryrun-item {
 	background-image: url('images/generic.png');
 	background-size: contain;

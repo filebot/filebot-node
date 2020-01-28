@@ -140,6 +140,7 @@ function getCommandArguments(options) {
         if (options.exec) args.push('exec=' + options.exec)
         if (options.plex) args.push('plex=' + options.plex)
         if (options.kodi) args.push('kodi=' + options.kodi)
+        if (options.emby) args.push('emby=' + options.emby)
         if (options.pushover) args.push('pushover=' + options.pushover)
         if (options.pushbullet) args.push('pushbullet=' + options.pushbullet)
         if (options.seriesFormat) args.push('seriesFormat=' + options.seriesFormat)
@@ -155,6 +156,10 @@ function getCommandArguments(options) {
     } else if (options.fn == 'sysinfo') {
         args.push('-script')
         args.push('fn:sysinfo')
+    } else if (options.fn == 'clear') {
+        args.push('-clear-cache')
+        args.push('-clear-prefs')
+        args.push('-clear-history')
     } else if (options.fn == 'configure' && options.osdbUser && options.osdbPwd) {
         args.push('-script')
         args.push('fn:configure')

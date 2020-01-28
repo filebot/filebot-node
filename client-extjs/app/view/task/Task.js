@@ -339,6 +339,10 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Kodi',
                 emptyText: 'host'
             }, {
+                name: 'emby',
+                fieldLabel: 'Emby',
+                emptyText: 'host:apikey'
+            }, {
                 name: 'pushover',
                 fieldLabel: 'Pushover',
                 emptyText: 'userkey:apikey'
@@ -389,6 +393,7 @@ Ext.define('FileBot.view.task.Task', {
                     // these will render as dropdown menu items when the arrow is clicked:
                     {text: 'License', handler: 'onLicense', iconCls: 'license-item' },
                     {text: 'Configure', handler: 'onConfigure', iconCls: 'configure-item' },
+                    {text: 'Clear Cache', handler: 'onClear', iconCls: 'clear-item' },
                     {text: 'System Info', handler: 'onInfo', iconCls: 'sysinfo-item' },
                     {text: 'Help', handler: 'onHelp', iconCls: 'help-item' }
                 ]
