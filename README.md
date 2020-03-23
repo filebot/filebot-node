@@ -5,7 +5,7 @@
 ## Introduction
 FileBot Node is a server-side Node.js application that allows you to make `filebot` calls via a straight-forward ExtJS web application.
 
-![FileBot Node](https://www.filebot.net/syno/filebot-node-snapshot.png)
+![FileBot Node](http://i.imgur.com/HkQkh2h.png)
 
 ## User Manual
 FileBot Node is available as Synology package via the [FileBot Package Source](https://www.filebot.net/forums/viewtopic.php?t=1802) and as generic Linux package for all other devices. Please refer to the [How To](https://www.filebot.net/forums/viewtopic.php?t=2733) manual if you need help getting started.
