@@ -337,7 +337,7 @@ Ext.define('FileBot.view.task.Task', {
             items: [{
                 name: 'exec',
                 fieldLabel: 'Run Program',
-                emptyText: ''
+                emptyText: 'stat {quote f}'
             }, {
                 name: 'plex',
                 fieldLabel: 'Plex',
