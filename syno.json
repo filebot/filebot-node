@@ -5,7 +5,7 @@
     "packages":[
         {
             "package":"filebot-node",
-            "version":"0.2.9",
+            "version":"0.2.10",
             "dname":"FileBot Node",
             "desc":"FileBot Node allows you to execute and schedule filebot calls via Synology DSM. FileBot Node requires Node.js and FileBot.",
             "maintainer":"FileBot",
@@ -22,10 +22,10 @@
             "snapshot":[
                 "https://www.filebot.net/syno/filebot-node-snapshot.png"
             ],
-            "link":"https://github.com/filebot/filebot-node/releases/download/0.2.9/filebot-node-0.2.9-noarch.spk",
-            "download_count":"23959",
-            "md5":"1b71e656f170b9980796c1cdf02170c3",
-            "sha256":"21658809ae27357dcc98b8b337ac4a814bb54289edea03ee5ca74db8d6c2efd5",
+            "link":"https://github.com/filebot/filebot-node/releases/download/0.2.10/filebot-node-0.2.10-noarch.spk",
+            "download_count":"28591",
+            "md5":"247c81f6645f665084100cbd8b87bbf7",
+            "sha256":"06d6fb365c96ba7f851601b3968c8e7b021f2d6709e19d6552601982610196c2",
             "size":665600
         }
     ]
