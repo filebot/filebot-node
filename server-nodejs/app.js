@@ -194,7 +194,7 @@ function getExitStatus(code) {
         // Bad License
         if (code == 2) status += WRAP + '💡 You may evaluate FileBot Node by using [Dry Run] instead of [Execute]'
     }
-    return status
+    return status + WRAP
 }
 
 function spawnChildProcess(command, arguments) {
