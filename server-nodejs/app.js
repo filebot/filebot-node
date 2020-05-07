@@ -351,7 +351,7 @@ function listFolders(options) {
         fs.readdirSync(folder).forEach(function(s) {
                 if (!SYSTEM_FILES.test(s) && (file == null || s.indexOf(file) == 0)) {
                     var f = path.resolve(folder, s)
-                    if (fs.statSync(f).isDirectory()) {
+                    if (fs.existsSync(f) && fs.statSync(f).isDirectory()) {
                         folders.push({path: f})
                     }
                 }
