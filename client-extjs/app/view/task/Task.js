@@ -362,7 +362,7 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'combobox',
                 name: 'report',
                 fieldLabel: 'Report Folder',
-                emptyText: '/path/to/report/folder',
+                emptyText: '.reports',
                 value: Ext.manifest.server.form.output,
                 store: Ext.create('Ext.data.Store', {
                     fields: ['path'],
