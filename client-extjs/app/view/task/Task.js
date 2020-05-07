@@ -328,7 +328,7 @@ Ext.define('FileBot.view.task.Task', {
                 emptyText: 'Unsorted/{file.structurePathTail}'
             }]
         }, {
-            title: 'Automated Media Center',
+            title: 'Media Center Options',
             defaults: {
                 allowBlank: true,
                 xtype: 'textfield',
