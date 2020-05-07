@@ -192,9 +192,7 @@ function getExitStatus(code) {
         status += '[Process error]'
         status += WRAP + '🔺 Exit Code: ' + code
         // Bad License
-        if (code == 2) {
-            status += WRAP + '💡 You may evaluate FileBot Node by using [Dry Run] instead of [Execute]'
-        }
+        if (code == 2) status += WRAP + '💡 You may evaluate FileBot Node by using [Dry Run] instead of [Execute]'
     }
     return status
 }
