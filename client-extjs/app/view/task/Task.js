@@ -169,20 +169,6 @@ Ext.define('FileBot.view.task.Task', {
                 editable: false,
                 minWidth: 280
             }, {
-                xtype: 'textfield',
-                name: 'filter',
-                fieldLabel: 'Match Filter',
-                emptyText: 'age < 7',
-                allowBlank: true,
-                anchor: '100%'
-            }, {
-                xtype: 'textfield',
-                name: 'mapper',
-                fieldLabel: 'Match Mapper',
-                emptyText: 'AnimeList.AniDB',
-                allowBlank: true,
-                anchor: '100%'
-            }, {
                 xtype: 'combobox',
                 name: 'subtitles',
                 fieldLabel: 'Subtitles',
@@ -211,7 +197,7 @@ Ext.define('FileBot.view.task.Task', {
                 minWidth: 320
             }]
         }, {
-            title: 'File Filters',
+            title: 'File Options',
             defaults: {
                 allowBlank: true,
                 forceSelection: true,
@@ -292,7 +278,29 @@ Ext.define('FileBot.view.task.Task', {
                 anchor: '100%'
             }]
         }, {
-            title: 'Custom Formats',
+            title: 'Match Options',
+            defaults: {
+                allowBlank: true,
+                xtype: 'textfield',
+                anchor: '100%'
+            },
+            items: [{
+                xtype: 'textfield',
+                name: 'filter',
+                fieldLabel: 'Match Filter',
+                emptyText: 'age < 7',
+                allowBlank: true,
+                anchor: '100%'
+            }, {
+                xtype: 'textfield',
+                name: 'mapper',
+                fieldLabel: 'Match Mapper',
+                emptyText: 'order.absolute.episode',
+                allowBlank: true,
+                anchor: '100%'
+            }]
+        }, {
+            title: 'Format Options',
             defaults: {
                 allowBlank: true,
                 xtype: 'textfield',
@@ -329,7 +337,7 @@ Ext.define('FileBot.view.task.Task', {
             items: [{
                 name: 'exec',
                 fieldLabel: 'Run Program',
-                emptyText: "synoindex -R all"
+                emptyText: ''
             }, {
                 name: 'plex',
                 fieldLabel: 'Plex',
@@ -350,6 +358,26 @@ Ext.define('FileBot.view.task.Task', {
                 name: 'pushbullet',
                 fieldLabel: 'PushBullet',
                 emptyText: 'apikey'
+            }, {
+                xtype: 'combobox',
+                name: 'report',
+                fieldLabel: 'Report Folder',
+                emptyText: '/path/to/report/folder',
+                value: Ext.manifest.server.form.output,
+                store: Ext.create('Ext.data.Store', {
+                    fields: ['path'],
+                    proxy: FileBot.Node.getDataProxy('folders'),
+                    pageSize: 0
+                }),
+                displayField: 'path',
+                valueField: 'path',
+                minChars: 0, // forcing the query to run every time by setting minChars to 0
+                queryCaching: true,
+                queryParam: 'q',
+                queryMode: 'remote',
+                forceSelection: false,
+                editable: true,
+                anchor: '100%'
             }]
         }, {
             title: 'Developer Options',

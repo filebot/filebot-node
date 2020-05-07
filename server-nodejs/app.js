@@ -143,6 +143,7 @@ function getCommandArguments(options) {
         if (options.emby) args.push('emby=' + options.emby)
         if (options.pushover) args.push('pushover=' + options.pushover)
         if (options.pushbullet) args.push('pushbullet=' + options.pushbullet)
+        if (options.report) args.push('storeReport=' + options.report)
         if (options.seriesFormat) args.push('seriesFormat=' + options.seriesFormat)
         if (options.animeFormat) args.push('animeFormat=' + options.animeFormat)
         if (options.movieFormat) args.push('movieFormat=' + options.movieFormat)
