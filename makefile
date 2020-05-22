@@ -19,4 +19,4 @@ clean:
 	git pull
 	git --no-pager log -1
 	# https://forum.sencha.com/forum/showthread.php?471696
-	-rm -v $(HOME)/Library/Application Support/Sencha/Cmd/Update/app.properties
+	-rm -v "$(HOME)/Library/Application Support/Sencha/Cmd/Update/app.properties"
