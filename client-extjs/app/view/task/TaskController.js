@@ -105,8 +105,8 @@ Ext.define('FileBot.view.task.TaskController', {
                             change: function (evt) {
                                 var file = evt.fileInputEl.dom.files[0]
                                 var reader = new FileReader()
-                                reader.onload = function(evt){
-                                    Ext.getCmp('licenseTextArea').setValue(event.target.result)
+                                reader.onload = function(evt) {
+                                    Ext.getCmp('licenseTextArea').setValue(evt.target.result)
                                 }
                                 reader.readAsText(file)
                             }
