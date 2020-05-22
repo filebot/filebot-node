@@ -83,14 +83,36 @@ Ext.define('FileBot.view.task.TaskController', {
                     xtype: 'textareafield',
                     width: 540,
                     height: 360,
+                    id: 'licenseTextArea',
                     name: 'license',
                     fieldCls: 'license',
                     allowBlank: false,
-                    stripCharsRe: /(^\s+|\s+$)/g,
+                    emptyText: '-----BEGIN PGP SIGNED MESSAGE-----\n\n\n\n\n\n\n\n\n-----BEGIN PGP SIGNATURE-----\n\n\n\n\n\n\n\n\n\n-----END PGP SIGNATURE-----',
                     regex: /-----BEGIN PGP SIGNED MESSAGE-----(.+)-----BEGIN PGP SIGNATURE-----(.+)-----END PGP SIGNATURE-----/s,
-                    emptyText: '-----BEGIN PGP SIGNED MESSAGE-----\n\n\n\n\n\n\n\n\n-----BEGIN PGP SIGNATURE-----\n\n\n\n\n\n\n\n\n\n-----END PGP SIGNATURE-----'
+                    stripCharsRe: /(^\s+|\s+$)/g
                 }],
                 buttons: [
+                    {
+                        xtype: 'filefield',
+                        width: 75,
+                        buttonOnly: true,
+                        accept: '.psm',
+                        buttonConfig: {
+                            text: 'Select',
+                            iconCls: 'select-btn'
+                        },
+                        listeners: {
+                            change: function (evt) {
+                                var file = evt.fileInputEl.dom.files[0]
+                                var reader = new FileReader()
+                                reader.onload = function(evt){
+                                    Ext.getCmp('licenseTextArea').setValue(event.target.result)
+                                }
+                                reader.readAsText(file)
+                            }
+                        }
+                    },
+                    { xtype: 'tbfill' },
                     { text:'Purchase', iconCls: 'purchase-btn', handler: function(btn) {
                         window.open(Ext.manifest.server.url.license_purchase, '_blank')
                     }},

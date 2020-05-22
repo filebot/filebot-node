@@ -46,6 +46,11 @@
 	background-size: contain;
 }
 
+.select-btn {
+	background-image: url('images/select.png');
+	background-size: contain;
+}
+
 .license-item {
 	background-image: url('images/license.png');
 	background-size: contain;
