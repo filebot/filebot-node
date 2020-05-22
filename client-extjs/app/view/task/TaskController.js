@@ -102,7 +102,7 @@ Ext.define('FileBot.view.task.TaskController', {
                             iconCls: 'select-btn'
                         },
                         listeners: {
-                            change: function (evt) {
+                            change: function(evt) {
                                 var file = evt.fileInputEl.dom.files[0]
                                 var reader = new FileReader()
                                 reader.onload = function(evt) {
