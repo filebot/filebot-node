@@ -156,6 +156,11 @@ Ext.define('FileBot.view.task.TaskController', {
         }).show()
     },
 
+    onRevert: function() {
+        var parameters = {'fn':'revert'}
+        FileBot.Node.requestExecute(parameters)
+    },
+
     onInfo: function() {
         var parameters = {'fn':'sysinfo'}
         FileBot.Node.requestExecute(parameters)

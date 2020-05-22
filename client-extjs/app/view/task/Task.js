@@ -423,6 +423,7 @@ Ext.define('FileBot.view.task.Task', {
                     {text: 'Configure', handler: 'onConfigure', iconCls: 'configure-item' },
                     {text: 'Clear Cache', handler: 'onClear', iconCls: 'clear-item' },
                     {text: 'System Info', handler: 'onInfo', iconCls: 'sysinfo-item' },
+                    {text: 'Revert', handler: 'onRevert', iconCls: 'revert-item' },
                     {text: 'Help', handler: 'onHelp', iconCls: 'help-item' }
                 ]
             }),

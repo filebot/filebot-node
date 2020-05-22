@@ -66,6 +66,11 @@
 	background-size: contain;
 }
 
+.revert-item {
+	background-image: url('images/revert.png');
+	background-size: contain;
+}
+
 .dryrun-item {
 	background-image: url('images/generic.png');
 	background-size: contain;

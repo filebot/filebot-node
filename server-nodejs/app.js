@@ -154,6 +154,8 @@ function getCommandArguments(options) {
         args.push('refresh')
         args.push('--log')
         args.push(options.log)
+    } else if (options.fn == 'revert') {
+        args.push('-revert')
     } else if (options.fn == 'sysinfo') {
         args.push('-script')
         args.push('fn:sysinfo')
