@@ -86,6 +86,11 @@
 	background-size: contain;
 }
 
+textarea.license {
+	font-family: 'Source Code Pro', monospace	!important;
+	cursor: text								!important;
+}
+
 textarea.logcatviewer {
 	font-family: 'Source Code Pro', monospace	!important;
 	font-size: 8pt								!important;

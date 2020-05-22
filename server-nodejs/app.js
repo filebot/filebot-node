@@ -10,7 +10,6 @@ const child_process = require('child_process')
 const fs = require('fs')
 const path = require('path')
 const shellescape = require('shell-escape')
-const formidable = require('formidable')
 const xmlParser = require('fast-xml-parser')
 const httpBasicAuth = require('basic-auth')
 
@@ -154,6 +153,9 @@ function getCommandArguments(options) {
         args.push('refresh')
         args.push('--log')
         args.push(options.log)
+    } else if (options.fn == 'license' && options.license) {
+        args.push('--license')
+        args.push(options.license)
     } else if (options.fn == 'revert') {
         args.push('-revert')
     } else if (options.fn == 'sysinfo') {
@@ -314,7 +316,6 @@ function execute(options) {
     return pd
 }
 
-
 function kill(options) {
     var id = options.id
     var process = ACTIVE_PROCESSES[id]
@@ -327,15 +328,6 @@ function kill(options) {
     } else {
         throw new Error('No such process')
     }
-}
-
-function license(request, response) {
-    var form = new formidable.IncomingForm()
-    form.parse(request, function (error, fields, files) {
-        var args = ['--license', files.license.path, '--log-file', FILEBOT_LOG]
-        var pd = spawnChildProcess(getCommand(), args)
-        ok(response, pd)
-    })
 }
 
 function listFolders(options) {
@@ -445,10 +437,6 @@ function handleRequest(request, response) {
     if ('/kill' == requestPath) {
         var data = kill(options)
         return ok(response, data)
-    }
-
-    if ('/license' == requestPath) {
-        return license(request, response) // PROCESS FILE UPLOAD ASYNC
     }
 
     if ('/task' == requestPath) {

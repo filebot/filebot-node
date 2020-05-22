@@ -76,11 +76,19 @@ Ext.define('FileBot.view.task.TaskController', {
                 xtype: 'form',
                 id: 'licenseForm',
                 items: [{
-                    xtype: 'filefield',
+                    xtype: 'hidden',
+                    name: 'fn',
+                    value: 'license'
+                }, {
+                    xtype: 'textareafield',
+                    width: 540,
+                    height: 360,
                     name: 'license',
-                    fieldLabel: 'License File',
+                    fieldCls: 'license',
                     allowBlank: false,
-                    emptyText: '*.psm'
+                    stripCharsRe: /(^\s+|\s+$)/g,
+                    regex: /-----BEGIN PGP SIGNED MESSAGE-----(.+)-----BEGIN PGP SIGNATURE-----(.+)-----END PGP SIGNATURE-----/s,
+                    emptyText: '-----BEGIN PGP SIGNED MESSAGE-----\n\n\n\n\n\n\n\n\n-----BEGIN PGP SIGNATURE-----\n\n\n\n\n\n\n\n\n\n-----END PGP SIGNATURE-----'
                 }],
                 buttons: [
                     { text:'Purchase', iconCls: 'purchase-btn', handler: function(btn) {
@@ -89,18 +97,8 @@ Ext.define('FileBot.view.task.TaskController', {
                     { text:'Activate', iconCls: 'license-btn', formBind: true, handler: function(btn) {
                         var form = Ext.getCmp('licenseForm').getForm()
                         if (form.isValid()) {
-                            form.submit({
-                                url: FileBot.Node.getPostEndpoint('license'),
-                                waitMsg: 'Uploading...',
-                                success: function() {
-                                    Ext.getCmp('licenseWindow').destroy()
-                                    FileBot.getApplication().fireEvent('license')
-                                },
-                                failure: function() {
-                                    Ext.getCmp('licenseWindow').destroy()
-                                    FileBot.getApplication().fireEvent('license')
-                                },
-                            })
+                            FileBot.Node.requestExecute(form.getValues())
+                            Ext.getCmp('licenseWindow').destroy()
                         }
                     }}
                 ],
@@ -108,6 +106,7 @@ Ext.define('FileBot.view.task.TaskController', {
             title: 'Activate License',
             bodyPadding: 10,
             scrollable: false,
+            resizable: false,
             closable: true
         }).show()
     },
@@ -152,6 +151,7 @@ Ext.define('FileBot.view.task.TaskController', {
             title: 'OpenSubtitles',
             bodyPadding: 10,
             scrollable: false,
+            resizable: false,
             closable: true
         }).show()
     },
