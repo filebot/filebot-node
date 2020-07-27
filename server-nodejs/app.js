@@ -186,7 +186,7 @@ function getExitStatus(code) {
     var status = NEWLINE + DASHLINE + WRAP
     if (code == null) {
         status += '[Process killed]'
-    } else if (code == 0) {
+    } else if (code == 0 || code == 100) {
         status += '[Process completed]'
     } else if (code == -2 || code == 'ENOENT') {
         status += '[Process error]'
