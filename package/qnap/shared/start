@@ -26,13 +26,23 @@ if [ -z "$FILEBOT_CMD_UID" ]; then
 	exit 1
 fi
 
-# debug output
-if ! ls -l "$(which node)"; then
-	echo "Node.js is not installed. Please install Node.js in the App Center."
+
+# find node executable
+NODE=$(which node)
+
+if ! test -x "$NODE"; then
+	echo "node is not in $PATH"
+	NODE=$(find "$QPKG_ROOT/.." -type f -name node -perm +111 | head -n1)
 fi
+
+if ! test -x "$NODE"; then
+	echo "Node.js is not installed. Please install Node.js in the App Center."
+	NODE="node"
+fi
+
 
 # set working dir
 cd "$QPKG_ROOT"
 
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
-node --optimize_for_size "server/app.js"
+"$NODE" --optimize_for_size "server/app.js"
