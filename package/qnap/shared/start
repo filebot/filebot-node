@@ -31,8 +31,11 @@ fi
 NODE=$(which node)
 
 if ! test -x "$NODE"; then
-	echo "node is not in $PATH"
+	echo "node not found in $PATH"
 	NODE=$(find "$QPKG_ROOT/.." -type f -name node -perm +111 | head -n1)
+	if test -z "$NODE"; then
+		echo "node not found in $QPKG_ROOT/.."
+	fi
 fi
 
 if ! test -x "$NODE"; then
