@@ -240,9 +240,9 @@ Ext.define('FileBot.view.task.Task', {
             }, {
                 xtype: 'checkboxfield',
                 name: 'unsorted',
-                fieldLabel: 'Other Files',
+                fieldLabel: 'Unsorted Files',
                 labelStyle: 'white-space: nowrap; width: 120px;',
-                boxLabel: 'skip non-media files',
+                boxLabel: 'skip unsorted files',
                 inputValue: 'no',
                 checked: false
             }, {
@@ -250,7 +250,7 @@ Ext.define('FileBot.view.task.Task', {
                 name: 'ignore',
                 fieldLabel: 'Ignore Rules',
                 labelStyle: 'white-space: nowrap; width: 120px;',
-                emptyText: 'regular expression',
+                emptyText: 'games|books',
                 anchor: '100%'
             }, {
                 xtype: 'combobox',
@@ -276,6 +276,14 @@ Ext.define('FileBot.view.task.Task', {
                     type: 'filesize-filters'
                 },
                 editable: false
+            }, {
+                xtype: 'checkboxfield',
+                name: 'excludeLink',
+                fieldLabel: 'Exclude Link',
+                labelStyle: 'white-space: nowrap; width: 120px;',
+                boxLabel: 'skip superfluous links',
+                inputValue: 'no',
+                checked: false
             }, {
                 xtype: 'textfield',
                 name: 'excludeList',

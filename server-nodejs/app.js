@@ -132,6 +132,7 @@ function getCommandArguments(options) {
         if (options.artwork == 'on') args.push('artwork=y')
         if (options.subtitles) args.push('subtitles=' + options.subtitles)
         if (options.clean == 'on') args.push('clean=y')
+        if (options.excludeLink == 'on') args.push('excludeLink=y')
         if (options.archives == 'skip') {
             args.push('skipExtract=y')
         } else if (options.archives == 'extract-delete') {
