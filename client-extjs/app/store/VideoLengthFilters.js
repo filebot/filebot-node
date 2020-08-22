@@ -12,6 +12,7 @@ Ext.define('FileBot.store.VideoLengthFilters', {
         [2, ''+0, '0 seconds'],
         [3, ''+5*60*1000, '5 minutes'],
         [4, ''+30*60*1000, '30 minutes'],
-        [5, ''+60*60*1000, '1 hour']
+        [5, ''+60*60*1000, '60 minutes'],
+        [6, ''+90*60*1000, '90 minutes']
     ]
 });
