@@ -177,7 +177,7 @@ Ext.define('FileBot.view.task.Task', {
                 store: {
                     type: 'languages'
                 },
-                emptyText: 'subtitle language (e.g. eng)',
+                emptyText: 'subtitle language',
                 forceSelection: false,
                 editable: true,
                 allowBlank: true,
@@ -192,7 +192,7 @@ Ext.define('FileBot.view.task.Task', {
                 store: {
                     type: 'languages'
                 },
-                emptyText: 'subtitle language (e.g. eng)',
+                emptyText: 'language',
                 editable: false,
                 minWidth: 320
             }]
@@ -281,7 +281,7 @@ Ext.define('FileBot.view.task.Task', {
                 name: 'excludeList',
                 fieldLabel: 'Exclude List',
                 labelStyle: 'white-space: nowrap; width: 120px;',
-                emptyText: 'exclude file that keeps track of processed files (e.g. done.txt)',
+                emptyText: 'exclude file that keeps track of processed files',
                 value: '.excludes',
                 anchor: '100%'
             }]
