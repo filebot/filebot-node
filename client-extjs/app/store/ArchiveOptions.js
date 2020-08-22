@@ -8,8 +8,8 @@ Ext.define('FileBot.store.ArchiveOptions', {
     ],
 
     data: [
-        [0, 'skip', 'Ignore archives'],
-        [1, 'extract-keep', 'Extract and keep archives'],
-        [2, 'extract-delete', 'Extract and delete archives']
+        [0, 'skip', 'ignore archives'],
+        [1, 'extract-keep', 'extract and keep archives'],
+        [2, 'extract-delete', 'extract and delete archives']
     ]
 });

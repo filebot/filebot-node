@@ -8,10 +8,10 @@ Ext.define('FileBot.store.ConflictActions', {
     ],
 
     data: [
-        [0, 'skip', 'Skip existing files'],
-        [1, 'override', 'Override existing files'],
-        [2, 'auto', 'Override if new file is better'],
-        [3, 'index', 'Keep both and index new file'],
-        [4, 'fail', 'Fail if files already exist']
+        [0, 'skip', 'skip existing files'],
+        [1, 'override', 'overwrite existing files'],
+        [2, 'auto', 'overwrite if new file is better'],
+        [3, 'index', 'keep both and index new file'],
+        [4, 'fail', 'fail if files already exist']
     ]
 });
