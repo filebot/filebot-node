@@ -110,7 +110,8 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'checkboxfield',
                 name: 'strict',
                 fieldLabel: 'Strict Mode',
-                boxLabel: 'enabled',
+                boxLabel: 'use strict mode',
+                inputValue: 'no',
                 checked: false
             }, {
                 xtype: 'combobox',
@@ -282,7 +283,6 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Exclude Link',
                 labelStyle: 'white-space: nowrap; width: 120px;',
                 boxLabel: 'skip superfluous links',
-                inputValue: 'no',
                 checked: false
             }, {
                 xtype: 'textfield',
@@ -439,6 +439,20 @@ Ext.define('FileBot.view.task.Task', {
                     type: 'log-levels'
                 },
                 editable: false
+            }, {
+                xtype: 'checkboxfield',
+                name: 'probe',
+                fieldLabel: 'Media Parser',
+                boxLabel: 'disable media parser',
+                inputValue: 'no',
+                checked: false
+            }, {
+                xtype: 'checkboxfield',
+                name: 'index',
+                fieldLabel: 'Media Index',
+                boxLabel: 'disable media index',
+                inputValue: 'no',
+                checked: false
             }]
         }],
 

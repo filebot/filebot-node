@@ -98,7 +98,7 @@ function getCommandArguments(options) {
         args.push(options.output)
         args.push('--action')
         args.push(options.action)
-        if (options.strict != 'on') {
+        if (options.strict != 'no') {
             args.push('-non-strict')
         }
         if (options.order) {
@@ -129,10 +129,10 @@ function getCommandArguments(options) {
         if (options.label) args.push('ut_label=' + options.label)
         if (options.music != 'no') args.push('music=y')
         if (options.unsorted != 'no') args.push('unsorted=y')
+        if (options.excludeLink == 'on') args.push('excludeLink=y')
         if (options.artwork == 'on') args.push('artwork=y')
         if (options.subtitles) args.push('subtitles=' + options.subtitles)
         if (options.clean == 'on') args.push('clean=y')
-        if (options.excludeLink == 'on') args.push('excludeLink=y')
         if (options.archives == 'skip') {
             args.push('skipExtract=y')
         } else if (options.archives == 'extract-delete') {
@@ -156,6 +156,8 @@ function getCommandArguments(options) {
         if (options.excludeList) args.push('excludeList=' + options.excludeList)
         args.push('--apply')
         args.push('refresh')
+        if (options.probe == 'no') args.push('-no-probe')
+        if (options.index == 'no') args.push('-no-index')
         args.push('--log')
         args.push(options.log)
     } else if (options.fn == 'license' && options.license) {
