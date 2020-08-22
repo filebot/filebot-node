@@ -207,6 +207,7 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'combobox',
                 name: 'conflict',
                 fieldLabel: 'Conflict',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 displayField: 'label',
                 valueField: 'value',
                 value: 'auto',
@@ -219,6 +220,7 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'combobox',
                 name: 'archives',
                 fieldLabel: 'Archives',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 displayField: 'label',
                 valueField: 'value',
                 value: 'skip',
@@ -231,6 +233,7 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'checkboxfield',
                 name: 'music',
                 fieldLabel: 'Music',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 boxLabel: 'skip music files',
                 inputValue: 'no',
                 checked: false
@@ -238,6 +241,7 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'checkboxfield',
                 name: 'unsorted',
                 fieldLabel: 'Other Files',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 boxLabel: 'skip non-media files',
                 inputValue: 'no',
                 checked: false
@@ -245,12 +249,14 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'textfield',
                 name: 'ignore',
                 fieldLabel: 'Ignore Rules',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 emptyText: 'regular expression',
                 anchor: '100%'
             }, {
                 xtype: 'combobox',
                 name: 'minLengthMS',
-                fieldLabel: 'Minimum Video Length',
+                fieldLabel: 'Video Duration',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 displayField: 'label',
                 valueField: 'value',
                 value: '',
@@ -261,7 +267,8 @@ Ext.define('FileBot.view.task.Task', {
             }, {
                 xtype: 'combobox',
                 name: 'minFileSize',
-                fieldLabel: 'Minimum File Size',
+                fieldLabel: 'File Size',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 displayField: 'label',
                 valueField: 'value',
                 value: '',
@@ -273,6 +280,7 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'textfield',
                 name: 'excludeList',
                 fieldLabel: 'Exclude List',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 emptyText: 'exclude file that keeps track of processed files (e.g. done.txt)',
                 value: '.excludes',
                 anchor: '100%'
@@ -286,8 +294,17 @@ Ext.define('FileBot.view.task.Task', {
             },
             items: [{
                 xtype: 'textfield',
+                name: 'query',
+                fieldLabel: 'Query Expression',
+                labelStyle: 'white-space: nowrap; width: 120px;',
+                emptyText: '70327',
+                allowBlank: true,
+                anchor: '100%'
+            }, {
+                xtype: 'textfield',
                 name: 'filter',
                 fieldLabel: 'Match Filter',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 emptyText: 'age < 7',
                 allowBlank: true,
                 anchor: '100%'
@@ -295,6 +312,7 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'textfield',
                 name: 'mapper',
                 fieldLabel: 'Match Mapper',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 emptyText: 'order.absolute.episode',
                 allowBlank: true,
                 anchor: '100%'
@@ -308,24 +326,29 @@ Ext.define('FileBot.view.task.Task', {
             },
             items: [{
                 fieldLabel: 'Movie Format',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 name: 'movieFormat',
                 emptyText: '{plex}'
             }, {
                 fieldLabel: 'Series Format',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 name: 'seriesFormat',
                 emptyText: '{plex}'
             }, {
                 fieldLabel: 'Anime Format',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 name: 'animeFormat',
                 emptyText: '{plex}'
             }, {
                 fieldLabel: 'Music Format',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 name: 'musicFormat',
                 emptyText: '{plex}'
             }, {
                 fieldLabel: 'Unsorted Format',
+                labelStyle: 'white-space: nowrap; width: 120px;',
                 name: 'unsortedFormat',
-                emptyText: 'Unsorted/{file.structurePathTail}'
+                emptyText: 'Unsorted/{f.structurePathTail}'
             }]
         }, {
             title: 'Media Center Options',
