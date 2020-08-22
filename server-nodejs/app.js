@@ -109,6 +109,10 @@ function getCommandArguments(options) {
             args.push('--conflict')
             args.push(options.conflict)
         }
+        if (options.query) {
+            args.push('--q')
+            args.push(options.query)
+        }
         if (options.filter) {
             args.push('--filter')
             args.push(options.filter)
