@@ -32,7 +32,7 @@ NODE=$(which node)
 
 if ! test -x "$NODE"; then
 	echo "node not found in $PATH"
-	NODE=$(find "$QPKG_DEFAULT_VOLUME/.qpkg" -type f -name node -perm +111 | head -n1)
+	NODE=$(find "$QPKG_DEFAULT_VOLUME/.qpkg" -type f -name node | head -n1)
 	if test -z "$NODE"; then
 		echo "node not found in $QPKG_DEFAULT_VOLUME/.qpkg"
 	fi
