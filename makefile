@@ -1,8 +1,7 @@
 ANT := ant -lib lib
 
 build-production:
-	$(ANT) resolve clean
-	$(ANT) build
+	$(ANT) clean build
 
 run-client:
 	cd client-extjs && sencha app watch
@@ -10,8 +9,11 @@ run-client:
 run-server:
 	cd server-nodejs && npm start
 
-publish: clean build-production
+publish: clean resolve build-production
 	$(ANT) tar spk syno-repo qpkg
+
+resolve:
+	$(ANT) resolve
 
 clean:
 	-rm -rv build dist release
