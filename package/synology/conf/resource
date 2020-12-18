@@ -1,0 +1,18 @@
+{
+	"webservice":{
+		"services": [{
+			"service": "filebot-node",
+			"display_name": "FileBot Node",
+			"type": "reverse_proxy",
+			"icon": "client/images/filebot_node_{0}.png",
+			"proxy_target": "http://127.0.0.1:5452/",
+			"proxy_headers": [{
+				"name": "X-Real-IP",
+				"value": "$remote_addr"
+			}]
+		}]
+	},
+	"usr-local-linker": {
+		"bin": ["bin/filebot-node-task"]
+	}
+}

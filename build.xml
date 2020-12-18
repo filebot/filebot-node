@@ -77,36 +77,30 @@
 			<info name="distributor_url" value="http://www.filebot.net/" />
 			<info name="support_url" value="https://github.com/filebot/filebot-node/issues" />
 			<info name="helpurl" value="http://www.filebot.net/syno/support.html" />
-			<info name="startable" value="yes" />
+			<info name="ctl_stop" value="yes" />
 			<info name="silent_install" value="yes" />
 			<info name="silent_upgrade" value="yes" />
 			<info name="silent_uninstall" value="yes" />
-			<info name="thirdparty" value="yes" />
 			<info name="dsmappname" value="net.filebot.NodeClient" />
 			<info name="dsmuidir" value="client" />
-			<info name="firmware" value="6.0" />
+			<info name="thirdparty" value="yes" />
+			<info name="os_min_ver" value="6.2" />
+			<info name="beta" value="yes" />
 
-			<!-- Dependencies are troublesome for some users because they cannot be skipped or ignored (i.e. DSM does not support optional or recommended dependencies) -->
-			<!-- <info name="install_dep_packages" value="filebot:Node.js_v4" /> -->
+			<icon file="${dir.package}/synology/target/client/images/filebot_node_64.png" />
+			<icon size="256" file="${dir.package}/synology/target/client/images/filebot_node_256.png" />
 
-			<icon size="72" file="${dir.package}/synology/package/client/images/filebot_node_72.png" />
-			<icon size="256" file="${dir.package}/synology/package/client/images/filebot_node_256.png" />
-
-			<!-- override generic server/start.sh with synology-specific configuration -->
-			<package dir="${dir.dist}/generic" />
-			<package dir="${dir.package}/synology/bin" filemode="755" />
-			<package dir="${dir.package}/synology/package" />
-
+			<conf dir="${dir.package}/synology/conf" />
 			<scripts dir="${dir.package}/synology/scripts" filemode="755" />
-
-			<codesign secring="${dir.package}/gpg/secring.gpg" keyid="${gpg.key}" password="${gpg.pwd}" />
+			<package prefix="bin" dir="${dir.package}/synology/target/bin" filemode="755" />
+			<package prefix="client" dir="${dir.package}/synology/target/client" />
+			<package dir="${dir.dist}/generic" />
 		</syno:spk>
 	</target>
 
 
 	<target name="syno-repo" description="Update Synology Package Source" depends="stats">
 		<syno:package-source file="${basedir}/syno.json">
-			<keyring file="${dir.package}/gpg/FileBot.pub" />
 			<spk file="${dir.dist}/${package}-${version}-noarch.spk">
 				<info name="link" value="https://github.com/filebot/filebot-node/releases/download/${version}/${package}-${version}-noarch.spk" />
 				<info name="download_count" value="${download_count}" />

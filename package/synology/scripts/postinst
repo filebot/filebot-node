@@ -1,13 +1,12 @@
 #!/bin/sh
+FILEBOT_NODE_DATA="/var/packages/filebot-node/target/data"
 
-# create /usr/local/[package] link
-ln -sf "/var/packages/$SYNOPKG_PKGNAME/target" "/usr/local/$SYNOPKG_PKGNAME"
+# prepare application data folder with read / write permissions for all users
+mkdir "$FILEBOT_NODE_DATA"
 
-# install initctl service
-cp "/var/packages/$SYNOPKG_PKGNAME/target/etc/init/$SYNOPKG_PKGNAME.conf" "/etc/init/$SYNOPKG_PKGNAME.conf"
-
-# install reverse proxy and reload nginx configuration
-cp "/var/packages/$SYNOPKG_PKGNAME/target/etc/nginx/conf.d/dsm.$SYNOPKG_PKGNAME.conf" "/usr/local/etc/nginx/conf.d/dsm.$SYNOPKG_PKGNAME.conf" && nginx -s reload
+# prepare log file permissions
+touch "$FILEBOT_NODE_DATA/filebot.log"
+chmod 666 "$FILEBOT_NODE_DATA/filebot.log"
 
 # return successfully
 exit 0

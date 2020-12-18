@@ -1,7 +1,2 @@
 #!/bin/sh
-
-# import data files
-cd "$SYNOPKG_PKGDEST" && tar -xvzf "/tmp/$SYNOPKG_PKGNAME.data.tgz" && rm "/tmp/$SYNOPKG_PKGNAME.data.tgz"
-
-# return successfully
 exit 0

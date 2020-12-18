@@ -1,0 +1,38 @@
+#!/bin/sh
+
+export FILEBOT_NODE_HOST="127.0.0.1" # bind to local nginx reverse proxy
+export FILEBOT_NODE_AUTH="SYNO"
+
+export FILEBOT_NODE_HTTP="YES"
+export FILEBOT_NODE_HTTP_PORT="5452"
+
+export USER="admin"                                                                                                          # set admin as filebot user
+export JAVA_OPTS=$(awk '/MemTotal:/ { xmx = ($2*0.8)/1024; if (xmx < 1024) { printf "-Xmx%dm", xmx }; exit}' /proc/meminfo)  # set -Xmx to 0.8 of physical memory (on low-memory devices)
+
+export FILEBOT_NODE_DATA="/var/packages/filebot-node/target/data"
+export FILEBOT_TASK_CMD="filebot-node-task"
+
+export FILEBOT_CMD="filebot"
+export FILEBOT_CMD_CWD="/volume1"
+export FILEBOT_CMD_UID=$(id -u)
+export FILEBOT_CMD_GID=$(id -g)
+
+export FILEBOT_NODE_CLIENT="client"
+
+
+# sanity check
+if [ -z "$FILEBOT_CMD_UID" ]; then
+	echo "id -u $USER must not be empty"
+	exit 1
+fi
+
+# debug output
+if ! ls -l "$(which node)"; then
+	echo "Node.js is not installed. Please install Node.js in the Package Center."
+fi
+
+# set working dir
+cd "/var/packages/filebot-node/target"
+
+# --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
+node --optimize_for_size "server/app.js"
