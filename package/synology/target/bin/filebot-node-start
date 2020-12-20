@@ -9,7 +9,7 @@ export FILEBOT_NODE_HTTP_PORT="5452"
 export USER="admin"                                                                                                          # set admin as filebot user
 export JAVA_OPTS=$(awk '/MemTotal:/ { xmx = ($2*0.8)/1024; if (xmx < 1024) { printf "-Xmx%dm", xmx }; exit}' /proc/meminfo)  # set -Xmx to 0.8 of physical memory (on low-memory devices)
 
-export FILEBOT_NODE_DATA="/var/packages/filebot-node/target/data"
+export FILEBOT_NODE_DATA="/var/packages/filebot-node/var"
 export FILEBOT_TASK_CMD="filebot-node-task"
 
 export FILEBOT_CMD="filebot"

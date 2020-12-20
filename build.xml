@@ -84,7 +84,7 @@
 			<info name="dsmappname" value="net.filebot.NodeClient" />
 			<info name="dsmuidir" value="client" />
 			<info name="thirdparty" value="yes" />
-			<info name="os_min_ver" value="6.2" />
+			<info name="os_min_ver" value="7.0-40759" />
 			<info name="beta" value="yes" />
 
 			<icon file="${dir.package}/synology/target/client/images/filebot_node_64.png" />
