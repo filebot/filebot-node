@@ -681,6 +681,7 @@ function prepareScheduledTask(options) {
     // each log contains the original command (as JSON) in the first line
     fs.writeFileSync(logFile, command + ' # ' + shellescape([getCommand()].concat(args)) + WRAP + DASHLINE + WRAP)
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
+    fs.chmodSync(logFile, 0o666)
 
     var argsFile = path.resolve(TASK_FOLDER, id + '.args')
     fs.writeFileSync(argsFile, args.join(NEWLINE))
