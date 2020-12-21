@@ -9,11 +9,14 @@ run-client:
 run-server:
 	cd server-nodejs && npm start
 
-publish: clean resolve build-production
+publish: clean build-production
 	$(ANT) tar spk syno-repo qpkg
 
 resolve:
 	$(ANT) resolve
+
+spk:
+	$(ANT) spk
 
 clean:
 	-rm -rv build dist release
