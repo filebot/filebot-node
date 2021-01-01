@@ -9,16 +9,17 @@ Ext.define('FileBot.Node', {
 
         // Task Scheduler Web API doesn't accept requests from localhost so we have to do it from the browser
         FileBot.getApplication().on('auth', function(options) {
+            // perform syno auth
             if (options.auth == 'SYNO') {
-                // perform syno auth
                 this.init_syno()
-            } else if (options.auth == 'QNAP') {
-                // perform qnap auth
-                this.init_qnap()
-            } else {
-                // hook up generic configuration
-                this.init_generic()
             }
+            // perform qnap auth
+            if (options.auth == 'QNAP') {
+                this.init_qnap()
+            }
+
+            // hook up generic configuration
+            this.init_generic()
 
             // display filebot version output after successful initialization
             this.requestVersion()
