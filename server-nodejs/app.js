@@ -297,6 +297,9 @@ function task(request, response, options) {
     response.setHeader('Transfer-Encoding', 'chunked')
     response.setHeader('Trailer', 'Exit-Code')
 
+    // flush headers
+    response.write(TASK_CMD + " " + id + WRAP + DASHLINE + WRAP)
+
     var child = child_process.spawn(TASK_CMD, [id], {
             stdio: ['ignore', 'pipe', 'pipe'],
             encoding: 'UTF-8',
