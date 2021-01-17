@@ -13,9 +13,7 @@ cat << EOF
 2. Select the share that contains your files and click <strong>Edit</strong><br>
 3. Select <strong>Permissions</strong><br>
 4. Change <strong>Local users</strong> to <strong>System internal user</strong><br>
-5. Check <strong>Read/Write</strong> for <strong>FileBot</strong><br>
-6. Click <strong>Save</strong> to apply the new permissions<br>
-7. Repeat steps 2-6 for each share that you want to access via FileBot Node<br>
+5. Check <strong>Read/Write</strong> for <strong>FileBot</strong> and click <strong>Save</strong><br>
 EOF
 } >> "$SYNOPKG_TEMP_LOGFILE"
 
