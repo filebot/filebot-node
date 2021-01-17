@@ -314,6 +314,7 @@ function task(request, response, options) {
     child.stderr.pipe(response, {end: false})
 
     child.on('close', function (code) {
+        response.write(getExitStatus(code))
         response.addTrailers({ "Exit-Code": code })
         response.end()
     })
