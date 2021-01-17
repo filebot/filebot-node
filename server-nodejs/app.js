@@ -331,12 +331,12 @@ function kill(options) {
         // remove process object reference
         delete ACTIVE_PROCESSES[id]
 
-        // if pid is less than -1, then sig is sent to every process in the process group whose ID is -pid
-        process.kill(-child.pid)
+        // kill sh and java processes
+        child.kill('SIGINT')
 
         return {id: id, status: SIGKILL_EXIT_CODE}
     } else {
-        throw new Error('No such process: ' + id)
+        throw new Error('No such process')
     }
 }
 
