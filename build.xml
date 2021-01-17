@@ -87,8 +87,8 @@
 			<info name="os_min_ver" value="7.0-40759" />
 			<info name="beta" value="yes" />
 
-			<icon file="${dir.package}/synology/target/client/images/filebot_node_64.png" />
-			<icon size="256" file="${dir.package}/synology/target/client/images/filebot_node_256.png" />
+			<icon file="${dir.package}/synology/target/ui/images/filebot_node_64.png" />
+			<icon size="256" file="${dir.package}/synology/target/ui/images/filebot_node_256.png" />
 
 			<conf dir="${dir.package}/synology/conf" />
 			<scripts dir="${dir.package}/synology/scripts" filemode="755" />
