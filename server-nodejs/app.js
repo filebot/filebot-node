@@ -561,28 +561,25 @@ function auth_basic_env(request, response, options) {
 }
 
 function auth_syno(request, response, options) {
-    const user_id = options.Cookie
+    // DSM 7 uses httponly cookies
+    const cookie = request.headers['cookie']
 
-    if (!user_id) {
+    if (!cookie) {
         return null
     }
 
-    const user = AUTH_CACHE[user_id]
+    const user = AUTH_CACHE[cookie]
     if (user) {
         return user
     }
 
-    // X-Real-IP header is set by nginx server
-    const remoteAddress = request.headers['x-real-ip']
-    if (!remoteAddress) {
-        remoteAddress = request.connection.remoteAddress
-    }
+    // DSM 7 does not allow nginx reverse_proxy configuration, so we don't need to worry about X-Real-IP headers
+    const remoteAddress = request.connection.remoteAddress
 
     // authenticate.cgi requires these and some other environment variables for authentication
     const cmd = '/usr/syno/synoman/webman/modules/authenticate.cgi'
     const env = {
-        'HTTP_COOKIE': options.Cookie,
-        'HTTP_X_SYNO_TOKEN': options.SynoToken,
+        'HTTP_COOKIE': cookie,
         'REMOTE_ADDR': remoteAddress
     }
 
@@ -600,7 +597,7 @@ function auth_syno(request, response, options) {
         const result = pd.stdout.trim()
         console.log(result)
 
-        AUTH_CACHE[user_id] = result
+        AUTH_CACHE[cookie] = result
         console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
 
         return result
