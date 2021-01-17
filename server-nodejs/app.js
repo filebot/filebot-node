@@ -404,7 +404,7 @@ function handleRequest(request, response) {
         if (user === undefined) {
             return unauthorized(response, true)
         } else {
-            return ok(response, {'auth': AUTH, 'user': user, 'cookie': cookie})
+            return ok(response, {'auth': AUTH, 'user': user})
         }
     }
 
@@ -666,10 +666,12 @@ function auth_qnap(request, response, cookie) {
 }
 
 function schedule(request, response, options) {
+    const cookie = request.headers['cookie']
+
     const command = prepareScheduledTask(options)
     const id = command.split(/\s/).pop()
 
-    const clientSideRequest = { task: id, command: command }
+    const clientSideRequest = { id: id, command: command, cookie: cookie }
     return ok(response, clientSideRequest)
 }
 
