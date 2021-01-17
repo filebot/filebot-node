@@ -223,7 +223,9 @@ function spawnChildProcess(command, arguments) {
             env: process.env,
             cwd: FILEBOT_CMD_CWD,
             uid: FILEBOT_CMD_UID,
-            gid: FILEBOT_CMD_GID
+            gid: FILEBOT_CMD_GID,
+            // new process group leader so we can kill the entire group with kill -pid
+            detached: true
         }
     )
 
@@ -331,8 +333,8 @@ function kill(options) {
         // remove process object reference
         delete ACTIVE_PROCESSES[id]
 
-        // kill sh and java processes
-        child.kill('SIGINT')
+        // if pid is less than -1, then sig is sent to every process in the process group whose ID is -pid
+        process.kill(-child.pid)
 
         return {id: id, status: SIGKILL_EXIT_CODE}
     } else {
