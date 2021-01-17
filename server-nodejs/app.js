@@ -325,15 +325,18 @@ function execute(options) {
 
 function kill(options) {
     var id = options.id
-    var process = ACTIVE_PROCESSES[id]
+    var child = ACTIVE_PROCESSES[id]
 
-    if (process) {
+    if (child) {
         // remove process object reference
         delete ACTIVE_PROCESSES[id]
-        process.kill()
+
+        // if pid is less than -1, then sig is sent to every process in the process group whose ID is -pid
+        process.kill(-child.pid)
+
         return {id: id, status: SIGKILL_EXIT_CODE}
     } else {
-        throw new Error('No such process')
+        throw new Error('No such process: ' + id)
     }
 }
 
@@ -385,14 +388,18 @@ function handleRequest(request, response) {
         }
     }
 
+    // DSM 7 uses httponly cookies
+    const cookie = request.headers['cookie']
+
     // require user authentication for all handlers below
-    var user = auth(request, response, options)
+    const user = auth(request, response, cookie)
 
     if ('/auth' == requestPath) {
-        if (user === undefined)
+        if (user === undefined) {
             return unauthorized(response, true)
-        else
-            return ok(response, {'auth': AUTH, 'user': user})
+        } else {
+            return ok(response, {'auth': AUTH, 'user': user, 'cookie': cookie})
+        }
     }
 
     // AUTHENTICATION REQUIRED BEYOND THIS POINT
@@ -533,14 +540,14 @@ function error(response, exception) {
     response.end(JSON.stringify(result))
 }
 
-function auth(request, response, options) {
+function auth(request, response, cookie) {
     switch (AUTH) {
         case 'SYNO':
-            return auth_syno(request, response, options)
+            return auth_syno(request, response, cookie)
         case 'QNAP':
-            return auth_qnap(request, response, options)
+            return auth_qnap(request, response, cookie)
         case 'BASIC':
-            return auth_basic_env(request, response, options)
+            return auth_basic_env(request, response, cookie)
         case 'NONE':
             return 'NONE'
         default:
@@ -548,7 +555,7 @@ function auth(request, response, options) {
     }
 }
 
-function auth_basic_env(request, response, options) {
+function auth_basic_env(request, response, cookie) {
     var user = httpBasicAuth(request)
 
     if (user == undefined)
@@ -560,10 +567,7 @@ function auth_basic_env(request, response, options) {
     return null // REQUEST FAIL
 }
 
-function auth_syno(request, response, options) {
-    // DSM 7 uses httponly cookies
-    const cookie = request.headers['cookie']
-
+function auth_syno(request, response, cookie) {
     if (!cookie) {
         return null
     }
@@ -606,14 +610,12 @@ function auth_syno(request, response, options) {
     return null
 }
 
-function auth_qnap(request, response, options) {
-    const user_id = options.Cookie
-
-    if (!user_id) {
+function auth_qnap(request, response, cookie) {
+    if (!cookie) {
         return null
     }
 
-    const user = AUTH_CACHE[user_id]
+    const user = AUTH_CACHE[cookie]
     if (user) {
         return user
     }
@@ -621,7 +623,7 @@ function auth_qnap(request, response, options) {
     // authenticate.cgi requires these and some other environment variables for authentication
     const cmd = '/home/httpd/cgi-bin/authLogin.cgi'
     const env = {
-        'QUERY_STRING': user_id
+        'HTTP_COOKIE': cookie
     }
 
     console.log(cmd)
@@ -646,7 +648,7 @@ function auth_qnap(request, response, options) {
             if (dom && dom.QDocRoot && dom.QDocRoot.authPassed == "1") {
                 const result = dom.QDocRoot.user
 
-                AUTH_CACHE[user_id] = result
+                AUTH_CACHE[cookie] = result
                 console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
 
                 return result
@@ -658,29 +660,26 @@ function auth_qnap(request, response, options) {
 }
 
 function schedule(request, response, options) {
-    switch (AUTH) {
-        case 'SYNO':
-            return schedule_syno(request, response, options)
-        case 'QNAP':
-            return schedule_qnap(request, response, options)
-        default:
-            return schedule_generic(request, response, options)
-    }
+    const command = prepareScheduledTask(options)
+    const id = command.split(/\s/).pop()
+
+    const clientSideRequest = { task: id, command: command }
+    return ok(response, clientSideRequest)
 }
 
 function prepareScheduledTask(options) {
-    var id = fs.readdirSync(TASK_FOLDER).length
-    var logFile = getLogFile(id)
+    const id = fs.readdirSync(TASK_FOLDER).length
+    const logFile = getLogFile(id)
 
-    var command = TASK_CMD + ' ' + id
-    var args = getCommandArguments(options)
+    const command = TASK_CMD + ' ' + id
+    const args = getCommandArguments(options)
 
     // each log contains the original command (as JSON) in the first line
     fs.writeFileSync(logFile, command + ' # ' + shellescape([getCommand()].concat(args)) + WRAP + DASHLINE + WRAP)
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
     fs.chmodSync(logFile, 0o666)
 
-    var argsFile = path.resolve(TASK_FOLDER, id + '.args')
+    const argsFile = path.resolve(TASK_FOLDER, id + '.args')
     fs.writeFileSync(argsFile, args.join(NEWLINE))
 
     // update scheduled tasks index
@@ -689,56 +688,6 @@ function prepareScheduledTask(options) {
     TASKS.lastModified = Date.now()
 
     return command
-}
-
-function schedule_syno(request, response, options) {
-    var command = prepareScheduledTask(options)
-
-    // Syno Web API rejects requests from localhost, so we have to send the request from the client
-    var clientSideRequest = {
-        method: 'POST',
-        url: '/webapi/_______________________________________________________entry.cgi',
-        params: {
-            name: JSON.stringify('FileBot Task'),
-            owner: JSON.stringify('admin'),
-            enable: true,
-            schedule: JSON.stringify({"date_type":0,"week_day":"0,1,2,3,4,5,6","hour":4,"minute":0,"repeat_hour":0,"repeat_min":0,"last_work_hour":0,"repeat_min_store_config":[1,5,10,15,20,30],"repeat_hour_store_config":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]}),
-            extra: JSON.stringify({"script":command}),
-            type: JSON.stringify('script'),
-            api: 'SYNO.Core.TaskScheduler',
-            method: 'create',
-            version: 2
-        },
-        headers: {
-            'X-SYNO-TOKEN': options.SynoToken,
-            'Cookie': options.Cookie
-        }
-    }
-    return ok(response, clientSideRequest)
-}
-
-function schedule_qnap(request, response, options) {
-    var command = prepareScheduledTask(options)
-    var crontab = '0 4 * * * ' + command
-
-    // crontab entry
-    var clientSideRequest = {
-        crontab: crontab,
-        message: '<span class="crontab">Please append <code>' + crontab + '</code> to your crontab to schedule the task to run at 4 AM every day.</span>'
-    }
-    return ok(response, clientSideRequest)
-}
-
-function schedule_generic(request, response, options) {
-    var command = prepareScheduledTask(options)
-    var id = command.split(/\s/).pop()
-
-    // FileBot Node Web API
-    var clientSideRequest = {
-        task: id,
-        command: command
-    }
-    return ok(response, clientSideRequest)
 }
 
 

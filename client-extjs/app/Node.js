@@ -2,22 +2,7 @@ Ext.define('FileBot.Node', {
     singleton: true,
 
     init: function() {
-        // add Login Cookie and CSRF token to all subsequent requests
-        Ext.Ajax.on('beforerequest', function(conn, request) {
-            this.authenticate(request.params)
-        }, this)
-
-        // Task Scheduler Web API doesn't accept requests from localhost so we have to do it from the browser
         FileBot.getApplication().on('auth', function(options) {
-            // perform syno auth
-            if (options.auth == 'SYNO') {
-                this.init_syno()
-            }
-            // perform qnap auth
-            if (options.auth == 'QNAP') {
-                this.init_qnap()
-            }
-
             // hook up generic configuration
             this.init_generic()
 
@@ -37,9 +22,9 @@ Ext.define('FileBot.Node', {
     },
 
     getPostEndpoint: function(path, parameters) {
-        const queryString = Ext.Object.toQueryString(Object.assign({}, parameters, this.getBaseParams()))
-        if (queryString) {
-            return this.getServerEndpoint(path) + '?' + queryString
+        const query = Ext.Object.toQueryString(parameters)
+        if (query) {
+            return this.getServerEndpoint(path) + '?' + query
         } else {
             return this.getServerEndpoint(path)
         }
@@ -124,103 +109,6 @@ Ext.define('FileBot.Node', {
                 rootProperty: 'data'
             }
         })
-    },
-
-    getBaseParams: function() {
-        var params = {}
-        this.authenticate(params)
-        return params
-    },
-
-    authenticate: function(params) {
-        // do nothing by default
-    },
-
-    init_syno: function() {
-        if (this.CSRF_TOKEN_KEY == 'SynoToken') {
-            return
-        }
-
-        // Synology DSM require SynoToken (CSRF) and Cookie (USER) to authenticate a user request
-        this.CSRF_TOKEN_KEY ='SynoToken'
-        this.CSRF_TOKEN_VAL = null
-        this.COOKIE_KEY = 'Cookie'
-        this.COOKIE_VAL ='id='+Ext.util.Cookies.get('id')
-
-        Ext.Ajax.request({
-            method: 'GET',
-            url: '/webman/login.cgi',
-            success: function (response) {
-                var data = Ext.decode(response.responseText)
-                this.CSRF_TOKEN_VAL = data[this.CSRF_TOKEN_KEY]
-
-                // add Login Cookie and CSRF token to all subsequent requests
-                this.authenticate = function(params) {
-                    if (params instanceof Object) {
-                        params[this.CSRF_TOKEN_KEY] = this.CSRF_TOKEN_VAL
-                        params[this.COOKIE_KEY] = this.COOKIE_VAL
-                    }
-                }.bind(this)
-
-                // request auth
-                this.requestAuth()
-            },
-            failure: function (response) {
-                Ext.MessageBox.show({
-                    title: 'Error: CSRF token',
-                    msg: response.responseText ? response.responseText : Ext.encode(response),
-                    buttons: Ext.MessageBox.OK,
-                    icon: Ext.MessageBox.ERROR
-                })
-            },
-            scope: this
-        })
-
-        // Task Scheduler Web API doesn't accept requests from localhost so we have to do it from the browser
-        FileBot.getApplication().on('schedule', function(request) {
-            Ext.Ajax.request({
-                method: request.method,
-                url: request.url,
-                params: request.params,
-                headers: request.headers,
-                success: function (response) {
-                    Ext.MessageBox.show({
-                        title: 'Task Scheduler',
-                        msg: 'Your task has been added to Task Scheduler. Please use Control Panel ► System ► Task Scheduler to modify or delete tasks.',
-                        buttons: Ext.MessageBox.OK,
-                        icon: Ext.MessageBox.INFO
-                    })
-                },
-                failure: function (response) {
-                    Ext.MessageBox.show({
-                        title: 'Error',
-                        msg: response.responseText ? response.responseText : Ext.encode(response),
-                        buttons: Ext.MessageBox.OK,
-                        icon: Ext.MessageBox.ERROR
-                    })
-                },
-                scope: this
-            })
-        }, this)
-    },
-
-    init_qnap: function() {
-        // add sid to all subsequent requests
-        this.authenticate = function(params) {
-            if (params instanceof Object) {
-                params['Cookie'] = 'sid='+Ext.util.Cookies.get('NAS_SID')
-            }
-        }.bind(this)
-
-        // tell user to manually configure cron
-        FileBot.getApplication().on('schedule', function(request) {
-            Ext.MessageBox.show({
-                title: 'crontab',
-                msg: request.message,
-                buttons: Ext.MessageBox.OK,
-                icon: Ext.MessageBox.INFO
-            }).removeCls("x-unselectable") // HACK TO FIX UNSELECTABLE TEXT
-        }, this)
     },
 
     init_generic: function() {
