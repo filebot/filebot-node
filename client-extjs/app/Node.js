@@ -121,7 +121,7 @@ Ext.define('FileBot.Node', {
 
             Ext.MessageBox.show({
                 title: 'Prepared Task',
-                msg: '<span class="crontab">Prepared Task ' + id + ' can be called via <nobr><code>' + command + '</code></nobr><br/> or <a href="data:text/plain,' + encodeURIComponent(curl) + '" download="curl.sh">' + url + '</a>.</span>',
+                msg: '<span class="crontab">Prepared Task ' + id + ' can be called via <nobr><code>' + command + '</code></nobr><br/>, <a href="' + url + '" target="_blank">' + url + '</a> or <a href="data:text/plain,' + encodeURIComponent(curl) + '" download="curl.sh">cURL</a>.</span>',
                 buttons: Ext.MessageBox.OK,
                 icon: Ext.MessageBox.INFO
             }).removeCls('x-unselectable') // HACK TO FIX UNSELECTABLE TEXT
