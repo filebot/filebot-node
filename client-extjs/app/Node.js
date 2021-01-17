@@ -121,7 +121,7 @@ Ext.define('FileBot.Node', {
 
             Ext.MessageBox.show({
                 title: 'Prepared Task',
-                msg: '<span class="crontab">Prepared Task ' + id + ' can be called locally via <nobr><code>' + command + '</code></nobr><br/> or remotely via <a href="' + url + '">' + url + '</a>.</span>',
+                msg: '<span class="crontab">Prepared Task ' + id + ' can be called locally via <nobr><code>' + command + '</code></nobr><br/> or remotely via <a href="' + url + '" target="_blank">' + url + '</a>.</span>',
                 buttons: Ext.MessageBox.OK,
                 icon: Ext.MessageBox.INFO
             }).removeCls('x-unselectable') // HACK TO FIX UNSELECTABLE TEXT
