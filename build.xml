@@ -81,7 +81,7 @@
 			<info name="silent_install" value="yes" />
 			<info name="silent_upgrade" value="yes" />
 			<info name="silent_uninstall" value="yes" />
-			<info name="dsmappname" value="net.filebot.NodeClient" />
+			<info name="dsmappname" value="FileBot.NodeClient" />
 			<info name="dsmuidir" value="client" />
 			<info name="thirdparty" value="yes" />
 			<info name="os_min_ver" value="7.0-40759" />

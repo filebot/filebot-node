@@ -1,18 +1,2 @@
 #!/bin/sh
-
-# print notification
-{
-cat << EOF
-<br><p style='color:#0090D9'>Note: If FileBot cannot access your media, please verify that user <strong>FileBot</strong> is granted permission in <strong>Control Panel</strong>.</p><br><br>
-1. Open <strong>Control Panel</strong> and select <strong>Shared Folder</strong><br>
-2. Select the share that contains your media and click <strong>Edit</strong><br>
-3. Click the <strong>Permissions</strong> tab<br>
-4. Change the dropdown from <strong>Local Users</strong> to <strong>System internal user</strong><br>
-5. Check the <strong>Read/Write</strong> checkbox for the <strong>FileBot</strong> user<br>
-6. Click <strong>Save</strong> to confirm the new permissions<br>
-7. Repeat steps 2-6 for each share you want FileBot to access<br>
-EOF
-} >> "$SYNOPKG_TEMP_LOGFILE"
-
-# return successfully
 exit 0
