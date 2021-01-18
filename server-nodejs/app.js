@@ -584,12 +584,13 @@ function auth_syno(request, response, cookie) {
     }
 
     // DSM 7 does not allow nginx reverse_proxy configuration, so we don't need to worry about X-Real-IP headers
+    const sid = cookie.match(/\b(id=[^;]+)/)[1]
     const remoteAddress = request.connection.remoteAddress
 
     // authenticate.cgi requires these and some other environment variables for authentication
     const cmd = '/usr/syno/synoman/webman/modules/authenticate.cgi'
     const env = {
-        'HTTP_COOKIE': cookie,
+        'HTTP_COOKIE': sid,
         'REMOTE_ADDR': remoteAddress
     }
 
@@ -627,7 +628,7 @@ function auth_qnap(request, response, cookie) {
     }
 
     // authLogin.cgi requires QUERY_STRING sid=<auth cookie>
-    const sid = cookie.match(/(NAS_SID)=(\w+)/)[2]
+    const sid = cookie.match(/\bNAS_SID=([^;]+)/)[1]
 
     const cmd = '/home/httpd/cgi-bin/authLogin.cgi'
     const env = {
