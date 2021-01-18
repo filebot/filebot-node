@@ -3,7 +3,7 @@
 		"FileBot.NodeClient": {
 			"type": "url",
 			"title": "FileBot Node",
-			"desc": "FileBot Node Client allows you to execute filebot via Synology DSM",
+			"desc": "FileBot Node allows you to execute filebot via Synology DSM",
 			"icon": "images/filebot_node_{0}.png",
 			"protocol": "http",
 			"port": "5452",
