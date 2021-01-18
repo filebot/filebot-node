@@ -626,10 +626,12 @@ function auth_qnap(request, response, cookie) {
         return user
     }
 
-    // authenticate.cgi requires these and some other environment variables for authentication
+    // authLogin.cgi requires QUERY_STRING sid=<auth cookie>
+    const sid = cookie.match(/(NAS_SID)=(\w+)/)[2]
+
     const cmd = '/home/httpd/cgi-bin/authLogin.cgi'
     const env = {
-        'HTTP_COOKIE': cookie
+        'QUERY_STRING': "sid=" + sid
     }
 
     console.log(cmd)
