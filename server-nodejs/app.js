@@ -621,7 +621,8 @@ function auth_syno(request, response) {
         const result = pd.stdout.trim()
         console.log(result)
 
-        AUTH_CACHE[cookie] = result
+        // 200 ... OK; 207 ... OK except SynoToken
+        AUTH_CACHE[cookie] = 200 + pd.status
         console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
 
         return result
