@@ -18,6 +18,9 @@ resolve:
 spk:
 	$(ANT) spk
 
+qpkg:
+	$(ANT) qpkg
+
 clean:
 	-rm -rv build dist release
 	git reset --hard
