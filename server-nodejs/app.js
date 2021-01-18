@@ -564,7 +564,7 @@ function auth_cookie(request) {
             case 'SYNO':
                 return request.headers['cookie'].match(/\b(id=[^;]+)/)[1]
             case 'QNAP':
-                return request.headers['cookie'].match(/\b(bNAS_SID=[^;]+)/)[1]
+                return request.headers['cookie'].match(/\b(NAS_SID=[^;]+)/)[1]
         }
     } catch(e) {
         // ignore invalid cookies
