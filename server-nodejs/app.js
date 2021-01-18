@@ -394,11 +394,8 @@ function handleRequest(request, response) {
         }
     }
 
-    // DSM 7 uses httponly cookies
-    const cookie = request.headers['cookie']
-
     // require user authentication for all handlers below
-    const user = auth(request, response, cookie)
+    const user = auth(request, response)
 
     if ('/auth' == requestPath) {
         if (user === undefined) {
@@ -546,14 +543,14 @@ function error(response, exception) {
     response.end(JSON.stringify(result))
 }
 
-function auth(request, response, cookie) {
+function auth(request, response) {
     switch (AUTH) {
         case 'SYNO':
-            return auth_syno(request, response, cookie)
+            return auth_syno(request, response)
         case 'QNAP':
-            return auth_qnap(request, response, cookie)
+            return auth_qnap(request, response)
         case 'BASIC':
-            return auth_basic_env(request, response, cookie)
+            return auth_basic_env(request, response)
         case 'NONE':
             return 'NONE'
         default:
@@ -561,7 +558,21 @@ function auth(request, response, cookie) {
     }
 }
 
-function auth_basic_env(request, response, cookie) {
+function auth_cookie(request) {
+    try {
+        switch (AUTH) {
+            case 'SYNO':
+                return request.headers['cookie'].match(/\b(id=[^;]+)/)[1]
+            case 'QNAP':
+                return request.headers['cookie'].match(/\b(bNAS_SID=[^;]+)/)[1]
+        }
+    } catch(e) {
+        // ignore invalid cookies
+    }
+    return null
+}
+
+function auth_basic_env(request, response) {
     var user = httpBasicAuth(request)
 
     if (user == undefined)
@@ -573,7 +584,9 @@ function auth_basic_env(request, response, cookie) {
     return null // REQUEST FAIL
 }
 
-function auth_syno(request, response, cookie) {
+function auth_syno(request, response) {
+    const cookie = auth_cookie(request)
+
     if (!cookie) {
         return null
     }
@@ -584,13 +597,12 @@ function auth_syno(request, response, cookie) {
     }
 
     // DSM 7 does not allow nginx reverse_proxy configuration, so we don't need to worry about X-Real-IP headers
-    const sid = cookie.match(/\b(id=[^;]+)/)[1]
     const remoteAddress = request.connection.remoteAddress
 
     // authenticate.cgi requires these and some other environment variables for authentication
     const cmd = '/usr/syno/synoman/webman/modules/authenticate.cgi'
     const env = {
-        'HTTP_COOKIE': sid,
+        'HTTP_COOKIE': cookie,
         'REMOTE_ADDR': remoteAddress
     }
 
@@ -617,7 +629,9 @@ function auth_syno(request, response, cookie) {
     return null
 }
 
-function auth_qnap(request, response, cookie) {
+function auth_qnap(request, response) {
+    const cookie = auth_cookie(request)
+
     if (!cookie) {
         return null
     }
@@ -628,7 +642,7 @@ function auth_qnap(request, response, cookie) {
     }
 
     // authLogin.cgi requires QUERY_STRING sid=<auth cookie>
-    const sid = cookie.match(/\bNAS_SID=([^;]+)/)[1]
+    const sid = cookie.split(/=/).pop()
 
     const cmd = '/home/httpd/cgi-bin/authLogin.cgi'
     const env = {
@@ -669,7 +683,7 @@ function auth_qnap(request, response, cookie) {
 }
 
 function schedule(request, response, options) {
-    const cookie = request.headers['cookie']
+    const cookie = auth_cookie(request)
 
     const command = prepareScheduledTask(options)
     const id = command.split(/\s/).pop()
