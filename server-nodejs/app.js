@@ -616,7 +616,8 @@ function auth_syno(request, response) {
         }
     )
 
-    if (pd.status == 0) {
+    // 0 ... OK; 7 ... OK except SynoToken
+    if (pd.status == 0 || pd.status == 7) {
         const result = pd.stdout.trim()
         console.log(result)
 
