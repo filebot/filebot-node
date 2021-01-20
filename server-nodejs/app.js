@@ -523,7 +523,7 @@ function notModified(response) {
 function notFound(response) {
     response.statusCode = 404
     response.setHeader('Access-Control-Allow-Origin', '*')
-    response.end()
+    response.end('Not Found')
 }
 
 function unauthorized(response, authenticate) {
@@ -532,7 +532,7 @@ function unauthorized(response, authenticate) {
         response.setHeader('WWW-Authenticate', 'Basic realm="filebot-node"')
     }
     response.setHeader('Access-Control-Allow-Origin', '*')
-    response.end()
+    response.end('Unauthorized')
 }
 
 function error(response, exception) {
