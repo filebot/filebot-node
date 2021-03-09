@@ -297,6 +297,9 @@ function task(request, response, options) {
     response.setHeader('Transfer-Encoding', 'chunked')
     response.setHeader('Trailer', 'Exit-Code')
 
+    // try to avoid socket timeout
+    response.setTimeout(3 * 24 * 60 * 60 * 1000)
+
     // flush headers
     response.write(TASK_CMD + " " + id + WRAP + DASHLINE + WRAP)
 
