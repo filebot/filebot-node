@@ -1,2 +1,7 @@
 #!/bin/sh
+
+# store data files
+cd "$SYNOPKG_PKGDEST" && tar -cvzf "/tmp/$SYNOPKG_PKGNAME.data.tgz" "data/" # DSM 6.2.4
+
+# return successfully
 exit 0

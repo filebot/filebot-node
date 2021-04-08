@@ -1,5 +1,9 @@
 #!/bin/sh
-FILEBOT_NODE_DATA="/var/packages/filebot-node/var"
+FILEBOT_NODE_DATA="/var/packages/filebot-node/target/data" # DSM 6.2.4
+# FILEBOT_NODE_DATA="/var/packages/filebot-node/var"       # DSM 7
+
+# prepare application data folder with read / write permissions for all users
+mkdir "$FILEBOT_NODE_DATA" # DSM 6.2.4
 
 # prepare log file permissions
 touch "$FILEBOT_NODE_DATA/filebot.log"

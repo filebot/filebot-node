@@ -84,8 +84,8 @@
 			<info name="dsmappname" value="FileBot.NodeClient" />
 			<info name="dsmuidir" value="ui" />
 			<info name="thirdparty" value="yes" />
-			<info name="os_min_ver" value="7.0-40759" />
-			<info name="beta" value="yes" />
+			<info name="os_min_ver" value="6.2.4" />              <!-- DSM 6.2.4 -->
+			<!-- <info name="os_min_ver" value="7.0-40759" /> --> <!-- DSM 7 -->
 
 			<icon file="${dir.package}/synology/target/ui/images/filebot_node_64.png" />
 			<icon size="256" file="${dir.package}/synology/target/ui/images/filebot_node_256.png" />

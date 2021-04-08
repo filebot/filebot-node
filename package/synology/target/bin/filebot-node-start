@@ -9,7 +9,9 @@ export FILEBOT_NODE_HTTP_PORT="5452"
 export USER=$(whoami)  # make sure that $USER is set correctly
 export JAVA_OPTS=$(awk '/MemTotal:/ { xmx = ($2*0.8)/1024; if (xmx < 1024) { printf "-Xmx%dm", xmx }; exit}' /proc/meminfo)  # set -Xmx to 0.8 of physical memory (on low-memory devices)
 
-export FILEBOT_NODE_DATA="/var/packages/filebot-node/var"
+export FILEBOT_NODE_DATA="/var/packages/filebot-node/target/data" # DSM 6.2.4
+# export FILEBOT_NODE_DATA="/var/packages/filebot-node/var"       # DSM 7
+
 export FILEBOT_TASK_CMD="filebot-node-task"
 
 export FILEBOT_CMD="filebot"
