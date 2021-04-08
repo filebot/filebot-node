@@ -1,6 +1,7 @@
 {
 	"defaults":{
-		"run-as": "package"
+		"run-as": "system"     // DSM 6.2.4
+		// "run-as": "package" // DSM 7
 	},
 	"username": "FileBot",
 	"groupname": "FileBot"
