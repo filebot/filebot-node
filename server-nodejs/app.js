@@ -688,14 +688,31 @@ function auth_qnap(request, response) {
 }
 
 function schedule(request, response, options) {
-    const cookie = auth_cookie(request)
-
     const command = prepareScheduledTask(options)
     const id = command.split(/\s/).pop()
 
-    const clientSideRequest = { id: id, command: command, cookie: cookie }
+    const curl = prepareCurlCommand(request)
+
+    const clientSideRequest = { id: id, command: command, curl: curl }
     return ok(response, clientSideRequest)
 }
+
+
+function prepareCurlCommand(request) {
+    switch (AUTH) {
+        case 'SYNO':
+        case 'QNAP':
+            const cookie = auth_cookie(request)
+            return 'curl --cookie "' + cookie + '"'
+        case 'BASIC':
+            const user = httpBasicAuth(request)
+            return 'curl --user "' + user.name + ':' + user.pass + '"'
+        case 'NONE':
+            return 'curl'
+    }
+    return null
+}
+
 
 function prepareScheduledTask(options) {
     const id = fs.readdirSync(TASK_FOLDER).length

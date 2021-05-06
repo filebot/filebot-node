@@ -116,8 +116,9 @@ Ext.define('FileBot.Node', {
         FileBot.getApplication().on('schedule', function(request) {
             const id = request.id
             const command = request.command
+
             const url = new URL(this.getPostEndpoint("task?id=" + id), window.location).href
-            const curl = 'curl --cookie "' + request.cookie + '" "' + url + '"'
+            const curl = request.curl + ' "' + url + '"\n'
 
             Ext.MessageBox.show({
                 title: 'Prepared Task',
