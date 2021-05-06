@@ -11,8 +11,8 @@ export FILEBOT_TASK_CMD="$PWD/task.sh"
 
 export FILEBOT_CMD='filebot'
 export FILEBOT_CMD_CWD="$PWD"
-export FILEBOT_CMD_UID=`id -u $USER`
-export FILEBOT_CMD_GID=`id -g $USER`
+export FILEBOT_CMD_UID=$(id -u $USER)
+export FILEBOT_CMD_GID=$(id -g $USER)
 
 export FILEBOT_NODE_CLIENT='../dist/generic/client'
 
