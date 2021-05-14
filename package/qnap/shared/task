@@ -1,11 +1,11 @@
 #!/bin/sh -u
 
-export USER=`whoami` # make sure that $USER is set correctly
+export USER=$(whoami)  # make sure that $USER is set correctly
 
 export DATA="/opt/filebot-node/data"
 export TASK="$1"
 
-export JAVA_OPTS=`awk '/MemTotal:/ { xmx = ($2*0.8)/1024; if (xmx < 1024) { printf "-Xmx%dm", xmx }; exit}' /proc/meminfo`  # set -Xmx to 0.8 of physical memory (on low-memory devices)
+export JAVA_OPTS=$(awk '/MemTotal:/ { xmx = ($2*0.8)/1024; if (xmx < 1024) { printf "-Xmx%dm", xmx }; exit}' /proc/meminfo)  # set -Xmx to 0.8 of physical memory (on low-memory devices)
 
 filebot "@$DATA/task/$TASK.args" 2>&1 | tee -a "$DATA/log/$TASK.log"
 
