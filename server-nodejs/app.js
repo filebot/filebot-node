@@ -26,7 +26,7 @@ const FILEBOT_CMD_GID = parseInt(process.env['FILEBOT_CMD_GID'], 10)
 const PUBLIC_HTML = CLIENT ? '/' : ''
 const ROUTES = new RegExp('^/[a-z]+$')
 
-const MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'text/javascript', '.log': 'text/plain; charset=utf-8'}
+const MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'application/json', '.log': 'text/plain; charset=utf-8'}
 const SYSTEM_FILES = /^([.@].+|bin|initrd|opt|sbin|var|dev|lib|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr|System.Volume.Information)$/
 const DASHLINE = '------------------------------------------'
 const NEWLINE = '\n'
@@ -482,7 +482,7 @@ function ok(response, data, lastModified) {
     var result = {success: true, data: data}
 
     response.statusCode = 200
-    response.setHeader('Content-Type', 'text/json')
+    response.setHeader('Content-Type', 'application/json')
     response.setHeader('Access-Control-Allow-Origin', '*')
     if (lastModified > 0) {
         response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
@@ -541,7 +541,7 @@ function unauthorized(response, authenticate) {
 function error(response, exception) {
     var result = {success: false, error: exception.toString()}
     response.statusCode = 500
-    response.setHeader('Content-Type', 'text/json')
+    response.setHeader('Content-Type', 'application/json')
     response.setHeader('Access-Control-Allow-Origin', '*')
     response.end(JSON.stringify(result))
 }
