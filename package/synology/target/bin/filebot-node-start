@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export FILEBOT_NODE_HOST="0.0.0.0" # bind to local nginx reverse proxy
+export FILEBOT_NODE_HOST="0.0.0.0"
 export FILEBOT_NODE_AUTH="SYNO"
 
 export FILEBOT_NODE_HTTP="YES"
