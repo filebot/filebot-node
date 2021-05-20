@@ -3,6 +3,8 @@ Ext.define('FileBot.Node', {
 
     init: function() {
         FileBot.getApplication().on('auth', function(options) {
+            Ext.manifest.server.auth = options.auth
+
             // hook up generic configuration
             this.init_generic()
 
@@ -18,6 +20,11 @@ Ext.define('FileBot.Node', {
     },
 
     getServerEndpoint: function(path) {
+        // DSM 7 proxy_pass.cgi
+        if (Ext.manifest.server.auth == 'CGI') {
+            return Ext.manifest.server.endpoint + path + '.cgi'
+        }
+        // direct access
         return Ext.manifest.server.endpoint + path
     },
 
@@ -68,7 +75,7 @@ Ext.define('FileBot.Node', {
             noCache: true,
             success: function (response) {
                 // broadcast response as application event
-                var data = Ext.JSON.decode(response.responseText).data
+                const data = Ext.JSON.decode(response.responseText).data
                 FileBot.getApplication().fireEvent(path, data)
             },
             failure: function (response) {
