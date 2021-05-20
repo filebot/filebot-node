@@ -599,8 +599,12 @@ function auth_syno(request, response) {
         return user
     }
 
-    // DSM 7 does not allow nginx reverse_proxy configuration, so we don't need to worry about X-Real-IP headers
-    const remoteAddress = request.connection.remoteAddress
+    // X-Real-IP header is set by nginx server
+    var remoteAddress = request.headers['x-real-ip']
+    if (!remoteAddress) {
+        // DSM 7 does not allow nginx reverse_proxy configuration, so we may be serving requests directly
+        remoteAddress = request.connection.remoteAddress
+    }
 
     // authenticate.cgi requires these and some other environment variables for authentication
     const cmd = '/usr/syno/synoman/webman/modules/authenticate.cgi'
