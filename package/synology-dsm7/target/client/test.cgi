@@ -1,13 +1,11 @@
 #!/bin/sh
 
-if /usr/syno/synoman/webman/authenticate.cgi > /dev/null; then
-	echo 'Status: 200 OK'
-	echo ''
+echo 'Status: 200 OK'
+echo ''
+
+if /usr/syno/synoman/webman/authenticate.cgi; then
+	echo '----------'
 	printenv
-	echo '----------'
-	free -h
-	echo '----------'
-	df -h
 	echo '----------'
 	id
 	echo '----------'
@@ -16,9 +14,4 @@ if /usr/syno/synoman/webman/authenticate.cgi > /dev/null; then
 	java -version 2>&1
 	echo '----------'
 	filebot -script fn:sysinfo 2>&1
-else
-	echo 'Status: 401 Unauthorized'
-	echo ''
-	echo 'Unauthorized'
-	exit 1
 fi
