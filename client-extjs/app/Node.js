@@ -163,7 +163,7 @@ Ext.define('FileBot.Node', {
                     url: this.getServerEndpoint('tasks'),
                     useDefaultXhrHeader: false,
                     cors: true,
-                    disableCaching: true,
+                    disableCaching: false,
                     success: function (response) {
                         // run normal init code after login.cgi has been called
                         this.init_generic()
