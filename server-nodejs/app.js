@@ -414,13 +414,11 @@ function handleRequest(request, response) {
     }
 
     if ('/state' == requestPath) {
-        const data = state(options)
-        return ok(response, data)
+        return ok(response, state(options))
     }
 
     if ('/version' == requestPath) {
-        const data = version()
-        return ok(response, data)
+        return ok(response, version())
     }
 
     if ('/tasks' == requestPath) {
@@ -432,8 +430,7 @@ function handleRequest(request, response) {
     }
 
     if ('/folders' == requestPath) {
-        const data = listFolders(options)
-        return ok(response, data)
+        return ok(response, listFolders(options))
     }
 
     if ('/log' == requestPath) {
@@ -446,8 +443,7 @@ function handleRequest(request, response) {
     }
 
     if ('/execute' == requestPath) {
-        const data = execute(options)
-        return ok(response, data)
+        return ok(response, execute(options))
     }
 
     if ('/schedule' == requestPath) {
@@ -455,8 +451,7 @@ function handleRequest(request, response) {
     }
 
     if ('/kill' == requestPath) {
-        const data = kill(options)
-        return ok(response, data)
+        return ok(response, kill(options))
     }
 
     if ('/task' == requestPath) {
