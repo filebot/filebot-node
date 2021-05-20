@@ -27,7 +27,7 @@ const PUBLIC_HTML = CLIENT ? '/' : ''
 const ROUTES = new RegExp('^/[a-z]+$')
 
 const MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'application/json', '.log': 'text/plain; charset=utf-8'}
-const SYSTEM_FILES = /^([.@].+|bin|initrd|opt|sbin|var|dev|lib|lib32|lib64|config|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr|home|homes|external|rpc|new_root|hd_root_tmp|CACHEDEV[0-9]+_DATA|HD[A-Z]+_DATA|System.Volume.Information)$/
+const SYSTEM_FILES = /^([.@].+|bin|initrd|opt|sbin|var|dev|lib|lib32|lib64|config|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr|home|homes|external|rpc|\w+_tmp|tmp_\w+|new_\w+|CACHEDEV\w+_DATA|HD\w+_DATA|System.Volume.Information)$/
 const DASHLINE = '------------------------------------------'
 const NEWLINE = '\n'
 const WRAP = '\n\n'
