@@ -158,8 +158,23 @@ Ext.define('FileBot.Node', {
                     }, this)
                 }
 
-                // run normal init code after login.cgi has been called
-                this.init_generic()
+                Ext.Ajax.request({
+                    method: 'GET',
+                    url: this.getServerEndpoint('tasks'),
+                    params: parameters,
+                    useDefaultXhrHeader: false,
+                    cors: true,
+                    disableCaching: true,
+                    success: function (response) {
+                        // run normal init code after login.cgi has been called
+                        this.init_generic()
+                    },
+                    failure: function (response) {
+                        // run normal init code after login.cgi has been called
+                        this.init_generic()
+                    },
+                    scope: this
+                })
             },
             failure: function (response) {
                 Ext.MessageBox.show({
