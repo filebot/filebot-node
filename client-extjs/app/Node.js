@@ -5,6 +5,11 @@ Ext.define('FileBot.Node', {
         FileBot.getApplication().on('auth', function(options) {
             Ext.manifest.server.auth = options.auth
 
+            // init CSRF token for DSM 6.2.4
+            if (options.auth == 'CGI') {
+                this.init_syno()
+            }
+
             // hook up generic configuration
             this.init_generic()
 
@@ -118,6 +123,8 @@ Ext.define('FileBot.Node', {
         })
     },
 
+
+
     init_generic: function() {
         // tell user to call scheduled tasks via curl
         FileBot.getApplication().on('schedule', function(request) {
@@ -134,6 +141,28 @@ Ext.define('FileBot.Node', {
                 icon: Ext.MessageBox.INFO
             }).removeCls('x-unselectable') // HACK TO FIX UNSELECTABLE TEXT
         }, this)
+    },
+
+
+
+    init_syno: function() {
+        // init CSRF token for DSM 6.2.4
+        Ext.Ajax.request({
+            method: 'GET',
+            url: '/webman/login.cgi',
+            disableCaching: false,
+            success: function (response) {
+                const json = Ext.decode(response.responseText)
+                const token = json['SynoToken']
+                // add CSRF token to all subsequent requests
+                if (token) {
+                    Ext.Ajax.on('beforerequest', function(connection, request) {
+                        request.params['SynoToken'] = token
+                    }, this)
+                }
+            },
+            scope: this
+        })
     }
 
 });
