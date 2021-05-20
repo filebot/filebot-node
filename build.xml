@@ -125,7 +125,7 @@
 			<info name="silent_upgrade" value="yes" />
 			<info name="silent_uninstall" value="yes" />
 			<info name="dsmappname" value="FileBot.NodeClient" />
-			<info name="dsmuidir" value="ui" />
+			<info name="dsmuidir" value="client" />
 			<info name="thirdparty" value="yes" />
 			<info name="os_min_ver" value="7.0-40759" />
 
@@ -135,7 +135,7 @@
 			<conf dir="${dir.package}/synology-dsm7/conf" />
 			<scripts dir="${dir.package}/synology-dsm7/scripts" filemode="755" />
 			<package prefix="bin" dir="${dir.package}/synology-dsm7/target/bin" filemode="755" />
-			<package prefix="ui" dir="${dir.package}/synology-dsm7/target/ui" />
+			<package prefix="client" dir="${dir.package}/synology-dsm7/target/client" />
 			<package dir="${dir.dist}/generic" />
 		</syno:spk>
 		<move file="${dir.dist}/${package}-${version}-noarch.spk" tofile="${dir.release}/${package}-${version}-noarch-dsm7.spk" />
