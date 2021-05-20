@@ -161,7 +161,6 @@ Ext.define('FileBot.Node', {
                 Ext.Ajax.request({
                     method: 'GET',
                     url: this.getServerEndpoint('tasks'),
-                    params: parameters,
                     useDefaultXhrHeader: false,
                     cors: true,
                     disableCaching: true,
