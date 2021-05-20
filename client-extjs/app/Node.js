@@ -3,8 +3,6 @@ Ext.define('FileBot.Node', {
 
     init: function() {
         FileBot.getApplication().on('auth', function(options) {
-            Ext.manifest.server.auth = options.auth
-
             // init CSRF token for DSM 6.2.4
             if (options.auth == 'SYNO_CGI') {
                 this.init_syno()
@@ -13,11 +11,14 @@ Ext.define('FileBot.Node', {
             // hook up generic configuration
             this.init_generic()
 
-            // display filebot version output after successful initialization
-            this.requestVersion()
-
-            // restore state
-            this.requestState({})
+            // run startup tasks later
+            const start = new Ext.util.DelayedTask(function() {
+                // restore state
+                this.requestState({})
+                // display filebot version output after successful initialization
+                this.requestVersion()
+            }, this);
+            start.delay(250)
         }, this)
 
         // request auth config
