@@ -19,7 +19,7 @@
      */
     "server": {
         "endpoint": "",
-        "refresh": 2000,
+        "refresh": 1500,
         "form": {
             "input": "",
             "output": ""
