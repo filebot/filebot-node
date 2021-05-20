@@ -6,7 +6,7 @@ Ext.define('FileBot.Node', {
             Ext.manifest.server.auth = options.auth
 
             // init CSRF token for DSM 6.2.4
-            if (options.auth == 'CGI') {
+            if (options.auth == 'SYNO_CGI') {
                 this.init_syno()
             }
 
@@ -25,11 +25,6 @@ Ext.define('FileBot.Node', {
     },
 
     getServerEndpoint: function(path) {
-        // DSM 7 proxy_pass.cgi
-        if (Ext.manifest.server.auth == 'CGI') {
-            return Ext.manifest.server.endpoint + path + '.cgi'
-        }
-        // direct access
         return Ext.manifest.server.endpoint + path
     },
 
@@ -146,6 +141,11 @@ Ext.define('FileBot.Node', {
 
 
     init_syno: function() {
+         // DSM 7 proxy_pass.cgi
+        this.getServerEndpoint = function(path) {
+            return Ext.manifest.server.endpoint + path + '.cgi'
+        }
+
         // init CSRF token for DSM 6.2.4
         Ext.Ajax.request({
             method: 'GET',
