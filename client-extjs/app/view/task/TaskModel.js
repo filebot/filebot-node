@@ -6,6 +6,20 @@ Ext.define('FileBot.view.task.TaskModel', {
 
     alias: 'viewmodel.task',
 
+    stores: {
+        folders: {
+            storeId: 'folders-store',
+            autoLoad: false,
+            pageSize: 0,
+            remoteFilter: false,
+            remoteSort: false,
+
+            fields: [
+                { name: 'path', type: 'string' }
+            ]
+        }
+    },
+
     data: {
         name: 'FileBot'
     }

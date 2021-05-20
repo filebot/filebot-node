@@ -17,6 +17,14 @@ Ext.define('FileBot.view.task.TaskController', {
      * Called when the view is created
      */
     init: function() {
+        FileBot.getApplication().on('auth', function() {
+            const start = new Ext.util.DelayedTask(function() {
+                // start fetching folder data
+                this.getViewModel().getStore('folders').setProxy(FileBot.Node.getDataProxy('folders'))
+            }, this);
+            start.delay(250)
+        }, this)
+
         FileBot.getApplication().on('state', function(json) {
             if (json) {
                 var form = this.getForm()

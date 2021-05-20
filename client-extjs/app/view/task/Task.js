@@ -80,11 +80,9 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Input Folder',
                 emptyText: '/path/to/input',
                 value: Ext.manifest.server.form.input,
-                store: Ext.create('Ext.data.Store', {
-                    fields: ['path'],
-                    proxy: FileBot.Node.getDataProxy('folders'),
-                    pageSize: 0
-                }),
+                bind: {
+                    store: '{folders}'
+                },
                 displayField: 'path',
                 valueField: 'path',
                 minChars: 0, // forcing the query to run every time by setting minChars to 0
@@ -131,11 +129,9 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Output Folder',
                 emptyText: '/path/to/output',
                 value: Ext.manifest.server.form.output,
-                store: Ext.create('Ext.data.Store', {
-                    fields: ['path'],
-                    proxy: FileBot.Node.getDataProxy('folders'),
-                    pageSize: 0
-                }),
+                bind: {
+                    store: '{folders}'
+                },
                 displayField: 'path',
                 valueField: 'path',
                 minChars: 0, // forcing the query to run every time by setting minChars to 0
@@ -395,11 +391,9 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Report Folder',
                 emptyText: '.reports',
                 value: Ext.manifest.server.form.output,
-                store: Ext.create('Ext.data.Store', {
-                    fields: ['path'],
-                    proxy: FileBot.Node.getDataProxy('folders'),
-                    pageSize: 0
-                }),
+                bind: {
+                    store: '{folders}'
+                },
                 displayField: 'path',
                 valueField: 'path',
                 minChars: 0, // forcing the query to run every time by setting minChars to 0
