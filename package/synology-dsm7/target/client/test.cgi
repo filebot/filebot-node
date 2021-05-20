@@ -11,7 +11,9 @@ if /usr/syno/synoman/webman/authenticate.cgi > /dev/null; then
 	echo '----------'
 	id
 	echo '----------'
-	java -version
+	node -v 2>&1
+	echo '----------'
+	java -version 2>&1
 	echo '----------'
 	filebot -script fn:sysinfo 2>&1
 else
