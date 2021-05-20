@@ -3,7 +3,9 @@
 if /usr/syno/synoman/webman/authenticate.cgi > /dev/null; then
 	echo 'Status: 200 OK'
 	echo ''
-	curl --silent --no-buffer "http://127.0.0.1:5452/$1"
+	PROXY_PASS='http://127.0.0.1:5452'
+	PROXY_FILE="$(basename "$SCRIPT_NAME" '.cgi')"
+	curl --silent --no-buffer "$PROXY_PASS/$PROXY_FILE?$QUERY_STRING"
 	exit 0
 else
 	echo 'Status: 401 Unauthorized'
