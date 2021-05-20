@@ -6,19 +6,9 @@ Ext.define('FileBot.Node', {
             // init CSRF token for DSM 6.2.4
             if (options.auth == 'SYNO_CGI') {
                 this.init_syno()
+            } else {
+                this.init_generic()
             }
-
-            // hook up generic configuration
-            this.init_generic()
-
-            // run startup tasks later
-            const start = new Ext.util.DelayedTask(function() {
-                // restore state
-                this.requestState({})
-                // display filebot version output after successful initialization
-                this.requestVersion()
-            }, this);
-            start.delay(250)
         }, this)
 
         // request auth config
@@ -122,6 +112,11 @@ Ext.define('FileBot.Node', {
 
 
     init_generic: function() {
+        // restore state
+        this.requestState({})
+        // display filebot version output after successful initialization
+        this.requestVersion()
+
         // tell user to call scheduled tasks via curl
         FileBot.getApplication().on('schedule', function(request) {
             const id = request.id
@@ -155,12 +150,24 @@ Ext.define('FileBot.Node', {
             success: function (response) {
                 const json = Ext.decode(response.responseText)
                 const token = json['SynoToken']
+
                 // add CSRF token to all subsequent requests
                 if (token) {
                     Ext.Ajax.on('beforerequest', function(connection, request) {
                         request.params['SynoToken'] = token
                     }, this)
                 }
+
+                // run normal init code after login.cgi has been called
+                this.init_generic()
+            },
+            failure: function (response) {
+                Ext.MessageBox.show({
+                    title: 'Login Error',
+                    msg: response.responseText ? response.responseText : Ext.encode(response),
+                    buttons: Ext.MessageBox.OK,
+                    icon: Ext.MessageBox.ERROR
+                })
             },
             scope: this
         })
