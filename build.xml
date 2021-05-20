@@ -129,8 +129,8 @@
 			<info name="thirdparty" value="yes" />
 			<info name="os_min_ver" value="7.0-40759" />
 
-			<icon file="${dir.package}/synology-dsm7/target/ui/images/filebot_node_64.png" />
-			<icon size="256" file="${dir.package}/synology-dsm7/target/ui/images/filebot_node_256.png" />
+			<icon file="${dir.package}/synology-dsm7/target/client/images/filebot_node_64.png" />
+			<icon size="256" file="${dir.package}/synology-dsm7/target/client/images/filebot_node_256.png" />
 
 			<conf dir="${dir.package}/synology-dsm7/conf" />
 			<scripts dir="${dir.package}/synology-dsm7/scripts" filemode="755" />
