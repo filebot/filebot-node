@@ -381,14 +381,14 @@ function listLogs() {
 }
 
 function handleRequest(request, response) {
-    var requestParameters = url.parse(request.url)
-    var requestPath = requestParameters.pathname
-    var options = querystring.parse(requestParameters.query)
+    const requestParameters = url.parse(request.url)
+    const requestPath = requestParameters.pathname
+    const options = querystring.parse(requestParameters.query)
 
     if (PUBLIC_HTML && !ROUTES.test(requestPath) && requestPath.indexOf(PUBLIC_HTML) == 0) {
-        var requestedFile = requestPath == PUBLIC_HTML ? 'index.html' : requestPath.substring(PUBLIC_HTML.length)
-        var ext = path.extname(requestedFile)
-        var contentType = MIME_TYPES[ext]
+        const requestedFile = requestPath == PUBLIC_HTML ? 'index.html' : requestPath.substring(PUBLIC_HTML.length)
+        const ext = path.extname(requestedFile)
+        const contentType = MIME_TYPES[ext]
 
         if (contentType) {
             return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true, false) // resolve against CLIENT folder
@@ -398,7 +398,7 @@ function handleRequest(request, response) {
     }
 
     // require user authentication for all handlers below
-    const user = auth(request, response)
+    const user = auth(request, response, options)
 
     if ('/auth' == requestPath) {
         if (user === undefined) {
@@ -414,12 +414,12 @@ function handleRequest(request, response) {
     }
 
     if ('/state' == requestPath) {
-        var data = state(options)
+        const data = state(options)
         return ok(response, data)
     }
 
     if ('/version' == requestPath) {
-        var data = version()
+        const data = version()
         return ok(response, data)
     }
 
@@ -432,12 +432,12 @@ function handleRequest(request, response) {
     }
 
     if ('/folders' == requestPath) {
-        var data = listFolders(options)
+        const data = listFolders(options)
         return ok(response, data)
     }
 
     if ('/log' == requestPath) {
-        var id = options.id
+        const id = options.id
         if (id) {
             return file(request, response, getLogFile(id), MIME_TYPES['.log'], false, false)
         } else {
@@ -446,7 +446,7 @@ function handleRequest(request, response) {
     }
 
     if ('/execute' == requestPath) {
-        var data = execute(options)
+        const data = execute(options)
         return ok(response, data)
     }
 
@@ -455,7 +455,7 @@ function handleRequest(request, response) {
     }
 
     if ('/kill' == requestPath) {
-        var data = kill(options)
+        const data = kill(options)
         return ok(response, data)
     }
 
@@ -546,10 +546,10 @@ function error(response, exception) {
     response.end(JSON.stringify(result))
 }
 
-function auth(request, response) {
+function auth(request, response, options) {
     switch (AUTH) {
         case 'SYNO':
-            return auth_syno(request, response)
+            return auth_syno(request, response, options)
         case 'QNAP':
             return auth_qnap(request, response)
         case 'BASIC':
@@ -587,7 +587,7 @@ function auth_basic_env(request, response) {
     return null // REQUEST FAIL
 }
 
-function auth_syno(request, response) {
+function auth_syno(request, response, options) {
     const cookie = auth_cookie(request)
 
     if (!cookie) {
@@ -613,6 +613,11 @@ function auth_syno(request, response) {
         'REMOTE_ADDR': remoteAddress
     }
 
+    // SynoToken for DSM 6.2.4
+    if (options.SynoToken) {
+        env['HTTP_X_SYNO_TOKEN'] = options.SynoToken
+    }
+
     console.log(cmd)
     console.log(env)
 
@@ -623,13 +628,11 @@ function auth_syno(request, response) {
         }
     )
 
-    // 0 ... OK; 7 ... OK except SynoToken
-    if (pd.status == 0 || pd.status == 7) {
+    if (pd.status == 0) {
         const result = pd.stdout.trim()
         console.log(result)
 
-        // 200 ... OK; 207 ... OK except SynoToken
-        AUTH_CACHE[cookie] = 200 + pd.status
+        AUTH_CACHE[cookie] = 200
         console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
 
         return result
