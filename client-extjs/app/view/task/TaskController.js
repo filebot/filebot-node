@@ -20,7 +20,7 @@ Ext.define('FileBot.view.task.TaskController', {
         FileBot.getApplication().on('init', function() {
             // start fetching folder data
             this.getViewModel().getStore('folders').setProxy(FileBot.Node.getDataProxy('folders'))
-        }
+        }, this)
 
         FileBot.getApplication().on('state', function(json) {
             // restore form fields
