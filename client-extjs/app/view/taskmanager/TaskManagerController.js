@@ -13,39 +13,40 @@ Ext.define('FileBot.view.taskmanager.TaskManagerController', {
      * Called when the view is created
      */
     init: function() {
-        var store = this.getViewModel().getStore('tasks')
+        const store = this.getViewModel().getStore('tasks')
 
-        // refresh task state every few seconds
-        Ext.util.TaskManager.start({
-            run: this.refresh,
-            interval: Ext.manifest.server.refresh,
-            scope: this
-        })
+        FileBot.getApplication().on('auth', function() {
+            const start = new Ext.util.DelayedTask(function() {
+                // start fetching task data
+                store.setProxy(FileBot.Node.getDataProxy('tasks'))
+                // refresh task state every few seconds
+                Ext.util.TaskManager.start({
+                    run: store.reload,
+                    interval: Ext.manifest.server.refresh,
+                    scope: store
+                })
+            }, this);
+            start.delay(250)
+        }, this)
 
         // immediately refresh data when new tasks are executed
         FileBot.getApplication().on('execute', function() {
-            this.refresh()
-
             // auto-select first row after new rows have been loaded and rendered
             this.selectFirstRowOnUpdate = true
+            store.reload()
         }, this)
 
         // same for filebot --license calls
         FileBot.getApplication().on('license', function() {
-            this.refresh()
-
             // auto-select first row after new rows have been loaded and rendered
             this.selectFirstRowOnUpdate = true
+            store.reload()
         }, this)
 
         // auto-select newly added tasks (on 'add' event doesn't work for grid)
         store.on('datachanged', this.updateFirstRowSelection, this)
     },
 
-    refresh: function() {
-        var store = this.getViewModel().getStore('tasks')
-        store.reload()
-    },
 
     selectFirstRowOnUpdate: false,
     updateFirstRowSelection: function() {

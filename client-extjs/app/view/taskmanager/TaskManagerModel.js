@@ -25,9 +25,7 @@ Ext.define('FileBot.view.taskmanager.TaskManagerModel', {
             sorters: [{
                 property: 'date',
                 direction: 'DESC'
-            }],
-
-            proxy: FileBot.Node.getDataProxy('tasks')
+            }]
         }
     },
 
