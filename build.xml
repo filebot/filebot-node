@@ -82,17 +82,17 @@
 			<info name="silent_upgrade" value="yes" />
 			<info name="silent_uninstall" value="yes" />
 			<info name="dsmappname" value="FileBot.NodeClient" />
-			<info name="dsmuidir" value="ui" />
+			<info name="dsmuidir" value="client" />
 			<info name="thirdparty" value="yes" />
 			<info name="os_min_ver" value="6.2.4" />
 
-			<icon file="${dir.package}/synology/target/ui/images/filebot_node_64.png" />
-			<icon size="256" file="${dir.package}/synology/target/ui/images/filebot_node_256.png" />
+			<icon file="${dir.package}/synology/target/client/images/filebot_node_64.png" />
+			<icon size="256" file="${dir.package}/synology/target/client/images/filebot_node_256.png" />
 
 			<conf dir="${dir.package}/synology/conf" />
 			<scripts dir="${dir.package}/synology/scripts" filemode="755" />
-			<package prefix="bin" dir="${dir.package}/synology/target/bin" filemode="755" />
-			<package prefix="ui" dir="${dir.package}/synology/target/ui" />
+			<package dir="${dir.package}/synology/target" includes="bin/*, client/*.cgi" filemode="755" />
+			<package dir="${dir.package}/synology/target" excludes="bin/*, client/*.cgi" />
 			<package dir="${dir.dist}/generic" />
 		</syno:spk>
 	</target>
