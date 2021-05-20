@@ -209,16 +209,16 @@ function getExitStatus(code) {
 }
 
 function spawnChildProcess(command, arguments) {
-    var id = new Date().toISOString().replace(/\W/g, '-')
-    var logFile = getLogFile(id)
+    const id = Date.now()
+    const logFile = getLogFile(id)
 
-    var pd = { id: id, date: Date.now(), status: null }
+    const pd = { id: id, date: Date.now(), status: null }
 
     // each log contains the original command (as JSON) in the first line
     fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + WRAP + DASHLINE + WRAP)
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
-    var child = child_process.spawn(command, arguments, {
+    const child = child_process.spawn(command, arguments, {
             stdio: ['ignore', fs.openSync(logFile, 'a'), fs.openSync(logFile, 'a')],
             env: process.env,
             cwd: FILEBOT_CMD_CWD,
