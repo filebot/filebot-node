@@ -134,8 +134,8 @@
 
 			<conf dir="${dir.package}/synology-dsm7/conf" />
 			<scripts dir="${dir.package}/synology-dsm7/scripts" filemode="755" />
-			<package prefix="bin" dir="${dir.package}/synology-dsm7/target/bin" filemode="755" />
-			<package prefix="client" dir="${dir.package}/synology-dsm7/target/client" />
+			<package dir="${dir.package}/synology-dsm7/target" includes="bin/*, client/*.cgi" filemode="755" />
+			<package dir="${dir.package}/synology-dsm7/target" excludes="bin/*, client/*.cgi" />
 			<package dir="${dir.dist}/generic" />
 		</syno:spk>
 		<move file="${dir.dist}/${package}-${version}-noarch.spk" tofile="${dir.release}/${package}-${version}-noarch-dsm7.spk" />

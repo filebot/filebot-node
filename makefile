@@ -18,6 +18,9 @@ resolve:
 spk:
 	$(ANT) spk
 
+spk-dsm7:
+	$(ANT) spk-dsm7
+
 qpkg:
 	$(ANT) qpkg
 
