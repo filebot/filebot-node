@@ -18,8 +18,6 @@ export FILEBOT_CMD_CWD="/volume1"
 export FILEBOT_CMD_UID=$(id -u)
 export FILEBOT_CMD_GID=$(id -g)
 
-export FILEBOT_NODE_CLIENT="client"
-
 # set working dir
 cd "/var/packages/filebot-node/target"
 
