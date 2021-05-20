@@ -15,18 +15,15 @@ Ext.define('FileBot.view.taskmanager.TaskManagerController', {
     init: function() {
         const store = this.getViewModel().getStore('tasks')
 
-        FileBot.getApplication().on('auth', function() {
-            const start = new Ext.util.DelayedTask(function() {
-                // start fetching task data
-                store.setProxy(FileBot.Node.getDataProxy('tasks'))
-                // refresh task state every few seconds
-                Ext.util.TaskManager.start({
-                    run: store.reload,
-                    interval: Ext.manifest.server.refresh,
-                    scope: store
-                })
-            }, this);
-            start.delay(250)
+        FileBot.getApplication().on('state', function() {
+            // start fetching task data
+            store.setProxy(FileBot.Node.getDataProxy('tasks'))
+            // refresh task state every few seconds
+            Ext.util.TaskManager.start({
+                run: store.reload,
+                interval: Ext.manifest.server.refresh,
+                scope: store
+            })
         }, this)
 
         // immediately refresh data when new tasks are executed
