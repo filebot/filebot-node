@@ -72,7 +72,7 @@ Ext.define('FileBot.Node', {
             params: parameters,
             useDefaultXhrHeader: false,
             cors: true,
-            noCache: true,
+            disableCaching: true,
             success: function (response) {
                 // broadcast response as application event
                 const data = Ext.JSON.decode(response.responseText).data
@@ -98,7 +98,7 @@ Ext.define('FileBot.Node', {
             useDefaultXhrHeader: false,
             withCredentials: false,
             cors: true,
-            noCache: false,
+            disableCaching: false,
             success: responseHandler,
             failure: responseHandler
         })
