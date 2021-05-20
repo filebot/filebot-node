@@ -118,9 +118,6 @@ Ext.define('FileBot.Node', {
         // restore state
         this.requestState({})
 
-        // display filebot version output after successful initialization
-        this.requestVersion()
-
         // tell user to call scheduled tasks via curl
         FileBot.getApplication().on('schedule', function(request) {
             const id = request.id
@@ -136,6 +133,13 @@ Ext.define('FileBot.Node', {
                 icon: Ext.MessageBox.INFO
             }).removeCls('x-unselectable') // HACK TO FIX UNSELECTABLE TEXT
         }, this)
+
+        // display filebot version output after successful initialization
+        const version = new Ext.util.DelayedTask(function() {
+            // start fetching task data
+            this.requestVersion()
+        }, this)
+        version.delay(250)
     },
 
 
