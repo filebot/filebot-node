@@ -1,0 +1,20 @@
+#!/bin/sh
+FILEBOT_NODE_DATA="/var/packages/filebot-node/var"
+
+
+case "$1" in
+	start)
+		"$SYNOPKG_PKGDEST/bin/filebot-node-start" > "$FILEBOT_NODE_DATA/filebot-node.log" 2>&1 &
+		exit 0
+	;;
+
+	stop)
+		killall "filebot-node"
+		exit 0
+	;;
+
+	status)
+		ps -u "$(id -u)" | grep "filebot-node"
+		exit $?
+	;;
+esac

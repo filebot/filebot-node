@@ -1,0 +1,27 @@
+#!/bin/sh
+
+export FILEBOT_NODE_HOST="127.0.0.1" # bind to local nginx reverse proxy
+export FILEBOT_NODE_AUTH="NONE"
+
+export FILEBOT_NODE_HTTP="YES"
+export FILEBOT_NODE_HTTP_PORT="5452"
+
+export JAVA_OPTS=$(awk '/MemTotal:/ { xmx = ($2*0.8)/1024; if (xmx < 1024) { printf "-Xmx%dm", xmx }; exit}' /proc/meminfo)  # set -Xmx to 0.8 of physical memory (on low-memory devices)
+
+export FILEBOT_NODE_DATA="/var/packages/filebot-node/var"
+
+export FILEBOT_TASK_CMD="filebot-node-task"
+
+export FILEBOT_CMD="filebot"
+export FILEBOT_CMD_CWD="/volume1"
+
+export FILEBOT_CMD_UID=$(id -u)
+export FILEBOT_CMD_GID=$(id -g)
+
+export FILEBOT_NODE_CLIENT="client"
+
+# set working dir
+cd "/var/packages/filebot-node/target"
+
+# --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
+node --optimize_for_size "server/app.js"
