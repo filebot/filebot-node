@@ -112,8 +112,12 @@ Ext.define('FileBot.Node', {
 
 
     init_generic: function() {
+        // run startup code
+        FileBot.getApplication().fireEvent('init')
+
         // restore state
         this.requestState({})
+
         // display filebot version output after successful initialization
         this.requestVersion()
 

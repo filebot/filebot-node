@@ -17,10 +17,12 @@ Ext.define('FileBot.view.task.TaskController', {
      * Called when the view is created
      */
     init: function() {
-        FileBot.getApplication().on('state', function(json) {
+        FileBot.getApplication().on('init', function() {
             // start fetching folder data
             this.getViewModel().getStore('folders').setProxy(FileBot.Node.getDataProxy('folders'))
+        }
 
+        FileBot.getApplication().on('state', function(json) {
             // restore form fields
             if (json) {
                 var form = this.getForm()

@@ -15,7 +15,7 @@ Ext.define('FileBot.view.taskmanager.TaskManagerController', {
     init: function() {
         const store = this.getViewModel().getStore('tasks')
 
-        FileBot.getApplication().on('state', function() {
+        FileBot.getApplication().on('init', function() {
             // start fetching task data
             store.setProxy(FileBot.Node.getDataProxy('tasks'))
             // refresh task state every few seconds
