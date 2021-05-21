@@ -398,7 +398,7 @@ function handleRequest(request, response) {
     }
 
     // require user authentication for all handlers below
-    const user = auth(request, response)
+    const user = auth(request, response, options)
 
     if ('/auth' == requestPath) {
         if (user === undefined) {
@@ -541,10 +541,10 @@ function error(response, exception) {
     response.end(JSON.stringify(result))
 }
 
-function auth(request, response) {
+function auth(request, response, options) {
     switch (AUTH) {
         case 'SYNO':
-            return auth_syno(request, response)
+            return auth_syno(request, response, options)
         case 'QNAP':
             return auth_qnap(request, response)
         case 'BASIC':
@@ -556,14 +556,22 @@ function auth(request, response) {
     }
 }
 
-function auth_header(request) {
+function auth_header(request, options) {
     try {
         switch (AUTH) {
             case 'SYNO': 
-                return {
-                    'cookie': request.headers['cookie'].match(/\b(id=[^;]+)/)[1],
-                    'X-Syno-Token': request.headers['x-syno-token']
+                if (options.SynoToken) {
+                    return {
+                        'cookie': request.headers['cookie'].match(/\b(id=[^;]+)/)[1],
+                        'X-Syno-Token': options.SynoToken
+                    }
+                } else {
+                    return {
+                        'cookie': request.headers['cookie'].match(/\b(id=[^;]+)/)[1],
+                        'X-Syno-Token': request.headers['x-syno-token']
+                    }
                 }
+
             case 'QNAP':
                 return {
                     'cookie': request.headers['cookie'].match(/\b(NAS_SID=[^;]+)/)[1]
@@ -587,8 +595,8 @@ function auth_basic_env(request, response) {
     return null // REQUEST FAIL
 }
 
-function auth_syno(request, response) {
-    const auth = auth_header(request)
+function auth_syno(request, response, options) {
+    const auth = auth_header(request, options)
     if (!auth) {
         return null
     }
@@ -694,24 +702,24 @@ function schedule(request, response, options) {
     const command = prepareScheduledTask(options)
     const id = command.split(/\s/).pop()
 
-    const curl = prepareCurlCommand(request)
+    const curl = prepareCurlCommand(request, options)
 
     const clientSideRequest = { id: id, command: command, curl: curl }
     return ok(response, clientSideRequest)
 }
 
 
-function prepareCurlCommand(request) {
+function prepareCurlCommand(request, options) {
     switch (AUTH) {
         case 'SYNO':
-            const syno = auth_header(request)
+            const syno = auth_header(request, options)
             if (syno['X-Syno-Token']) {
                 return 'curl --header "X-Syno-Token: '+ syno['X-Syno-Token'] +'" --cookie "' + syno.cookie + '"'    
             } else {
                 return 'curl --cookie "' + syno.cookie + '"'    
             }
         case 'QNAP':
-            const qnap = auth_header(request)
+            const qnap = auth_header(request, options)
             return 'curl --cookie "' + qnap.cookie + '"'
         case 'BASIC':
             const user = httpBasicAuth(request)
