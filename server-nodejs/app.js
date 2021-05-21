@@ -253,7 +253,7 @@ function spawnChildProcess(command, arguments) {
 }
 
 function version() {
-    var child = child_process.spawnSync(getCommand(), ['-version'], {
+    const child = child_process.spawnSync(getCommand(), ['-version'], {
             stdio: ['ignore', 'pipe', 'pipe'],
             encoding: 'UTF-8',
             env: process.env,
@@ -627,7 +627,7 @@ function auth_syno(request, response, options) {
         const result = pd.stdout.trim()
         console.log(result)
 
-        AUTH_CACHE[cookie] = 200
+        AUTH_CACHE[cookie] = result
         console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
 
         return result
