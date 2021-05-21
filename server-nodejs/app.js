@@ -687,7 +687,7 @@ function auth_qnap(request, response) {
             if (dom && dom.QDocRoot && dom.QDocRoot.authPassed == "1") {
                 const result = dom.QDocRoot.user
 
-                AUTH_CACHE[cookie] = result
+                AUTH_CACHE[key] = result
                 console.log(AUTH_CACHE)
 
                 return result
