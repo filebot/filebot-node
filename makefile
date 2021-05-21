@@ -12,20 +12,14 @@ run-server:
 publish: clean build-production
 	$(ANT) tar spk-dsm7 syno-repo-dsm7 spk syno-repo qpkg
 
-publish-spk:
-	$(ANT) clean build spk-dsm7 spk
-
 resolve:
 	$(ANT) resolve
 
 spk:
-	$(ANT) spk
-
-spk-dsm7:
-	$(ANT) spk-dsm7
+	$(ANT) clean build spk-dsm7 spk
 
 qpkg:
-	$(ANT) qpkg
+	$(ANT) clean build qpkg
 
 clean:
 	-rm -rv build dist release
