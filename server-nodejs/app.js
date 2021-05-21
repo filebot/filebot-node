@@ -637,7 +637,7 @@ function auth_syno(request, response, options) {
         console.log(result)
 
         AUTH_CACHE[key] = result
-        console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
+        console.log(AUTH_CACHE)
 
         return result
     }
