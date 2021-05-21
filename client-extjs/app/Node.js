@@ -192,8 +192,8 @@ Ext.define('FileBot.Node', {
                 url: '/webapi/_______________________________________________________entry.cgi',
                 params: {
                     name: JSON.stringify(name),
-                    real_owner: JSON.stringify('FileBot'),
-                    owner: JSON.stringify('FileBot'),
+                    real_owner: JSON.stringify('admin'),
+                    owner: JSON.stringify('admin'),
                     enable: true,
                     schedule: JSON.stringify({"date_type":0,"week_day":"0,1,2,3,4,5,6","hour":4,"minute":0,"repeat_hour":0,"repeat_min":0,"last_work_hour":0,"repeat_min_store_config":[1,5,10,15,20,30],"repeat_hour_store_config":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]}),
                     extra: JSON.stringify({"notify_enable":false,"script":command,"notify_mail":"","notify_if_error":false}),
