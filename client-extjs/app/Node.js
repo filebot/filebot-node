@@ -179,6 +179,46 @@ Ext.define('FileBot.Node', {
             },
             scope: this
         })
+
+        // Task Scheduler Web API doesn't accept requests from localhost so we have to do it from the browser
+        FileBot.getApplication().on('schedule', function(request) {
+            const name = 'FileBot Task ' + request.id
+            const command = request.command
+
+            // Syno Web API rejects requests from localhost, so we have to send the request from the client
+            Ext.Ajax.request({
+                method: 'POST',
+                url: '/webapi/_______________________________________________________entry.cgi',
+                params: {
+                    name: JSON.stringify(name),
+                    owner: JSON.stringify('FileBot'),
+                    enable: true,
+                    schedule: JSON.stringify({"date_type":0,"week_day":"0,1,2,3,4,5,6","hour":4,"minute":0,"repeat_hour":0,"repeat_min":0,"last_work_hour":0,"repeat_min_store_config":[1,5,10,15,20,30],"repeat_hour_store_config":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]}),
+                    extra: JSON.stringify({"script":command}),
+                    type: JSON.stringify('script'),
+                    api: 'SYNO.Core.TaskScheduler',
+                    method: 'create',
+                    version: 2
+                },
+                success: function (response) {
+                    Ext.MessageBox.show({
+                        title: 'Task Scheduler',
+                        msg: name + ' has been added to the Task Scheduler. Please use Control Panel ➔ Task Scheduler to modify or delete this task.',
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.INFO
+                    })
+                },
+                failure: function (response) {
+                    Ext.MessageBox.show({
+                        title: 'Task Scheduler Error',
+                        msg: response.responseText ? response.responseText : Ext.encode(response),
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.ERROR
+                    })
+                },
+                scope: this
+            })
+        }, this)
     }
 
 });
