@@ -173,10 +173,9 @@ Ext.define('FileBot.Node', {
                     Ext.Ajax.setDefaultHeaders({
                         'X-SYNO-TOKEN': token
                     })
-                    this.openEndpoint = function(path, parameters) {
+                    this.getPostEndpoint = function(path, parameters) {
                         parameters['SynoToken'] = token
-                        const url = new URL(this.getPostEndpoint(path, parameters), window.location)
-                        window.open(url.href, '_blank')
+                        return this.getServerEndpoint(path) + '?' + Ext.Object.toQueryString(parameters)
                     }
                 }
 
@@ -216,24 +215,20 @@ Ext.define('FileBot.Node', {
                     version: 3
                 },
                 success: function (response) {
-                    Ext.create('Ext.window.MessageBox', {
-                        // set closeAction to 'destroy' if this instance is not
-                        // intended to be reused by the application
-                        closeAction: 'destroy'
-                    }).show({
-                        title: 'Task Scheduler',
-                        msg: '<i>' + name + '</i> has been added to the Task Scheduler. Please use Control Panel ➔ Task Scheduler to modify or delete this task.',
-                        buttons: Ext.MessageBox.OK,
-                        icon: Ext.MessageBox.INFO
-                    })
-                },
-                failure: function (response) {
-                    Ext.MessageBox.show({
-                        title: 'Task Scheduler Error',
-                        msg: response.responseText ? response.responseText : Ext.encode(response),
-                        buttons: Ext.MessageBox.OK,
-                        icon: Ext.MessageBox.ERROR
-                    })
+                    // e.g. {"error":{"code":104},"success":false}
+                    const data = Ext.JSON.decode(response.responseText).data
+                    if (data.success) {
+                        Ext.create('Ext.window.MessageBox', {
+                            // set closeAction to 'destroy' if this instance is not
+                            // intended to be reused by the application
+                            closeAction: 'destroy'
+                        }).show({
+                            title: 'Task Scheduler',
+                            msg: '<i>' + name + '</i> has been added to the Task Scheduler. Please use Control Panel ➔ Task Scheduler to modify or delete this task.',
+                            buttons: Ext.MessageBox.OK,
+                            icon: Ext.MessageBox.INFO
+                        })
+                    }
                 },
                 scope: this
             })
