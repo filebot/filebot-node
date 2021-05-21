@@ -19,8 +19,7 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
     tools: [{
         type: 'print',
         callback: function() {
-            var url = FileBot.Node.getPostEndpoint('log', {})
-            window.open(url, '_blank')
+            FileBot.Node.openEndpoint('log', {})
         }
     }],
 
@@ -98,8 +97,7 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
                     FileBot.Node.requestKill({id: rec.get('id')})
                 }
                 else if (val == '1000') {
-                    var url = new URL(FileBot.Node.getPostEndpoint("task", {id: rec.get('id')}), window.location)
-                    window.open(url.href, '_blank')
+                    FileBot.Node.openEndpoint("task", {id: rec.get('id')})
                 }
             }
         }]

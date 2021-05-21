@@ -28,6 +28,11 @@ Ext.define('FileBot.Node', {
         }
     },
 
+    openEndpoint: function(path, parameters) {
+        const url = new URL(this.getPostEndpoint(path, parameters), window.location)
+        window.open(url.href, '_blank')
+    },
+
     requestAuth: function() {
         this.dispatchRequest('auth', {})
     },
@@ -164,9 +169,10 @@ Ext.define('FileBot.Node', {
                     Ext.Ajax.setDefaultHeaders({
                         'X-SYNO-TOKEN': token
                     })
-                    this.getPostEndpoint = function(path, parameters) {
+                    this.openEndpoint = function(path, parameters) {
                         parameters['SynoToken'] = token
-                        return this.getServerEndpoint(path) + '?' + Ext.Object.toQueryString(parameters)
+                        const url = new URL(this.getPostEndpoint(path, parameters), window.location)
+                        window.open(url.href, '_blank')
                     }
                 }
 
