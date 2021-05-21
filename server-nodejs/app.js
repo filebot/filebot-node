@@ -646,19 +646,19 @@ function auth_syno(request, response, options) {
 }
 
 function auth_qnap(request, response) {
-    const cookie = auth_cookie(request)
-
-    if (!cookie) {
+    const auth = auth_header(request)
+    if (!auth) {
         return null
     }
 
-    const user = AUTH_CACHE[cookie]
+    const key = JSON.stringify(auth)
+    const user = AUTH_CACHE[key]
     if (user) {
         return user
     }
 
     // authLogin.cgi requires QUERY_STRING sid=<auth cookie>
-    const sid = cookie.split(/=/).pop()
+    const sid = auth.cookie.split(/=/).pop()
 
     const cmd = '/home/httpd/cgi-bin/authLogin.cgi'
     const env = {
@@ -688,7 +688,7 @@ function auth_qnap(request, response) {
                 const result = dom.QDocRoot.user
 
                 AUTH_CACHE[cookie] = result
-                console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
+                console.log(AUTH_CACHE)
 
                 return result
             }
