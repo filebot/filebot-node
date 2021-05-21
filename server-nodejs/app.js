@@ -561,9 +561,19 @@ function auth_cookie(request, options) {
         switch (AUTH) {
             case 'SYNO':
                 const cookie = request.headers['cookie'].match(/\b(id=[^;]+)/)[1]
-                const synoToken = options.SynoToken
+                var synoToken = options.SynoToken
+                if (!synoToken) {
+                    const m = request.headers['cookie'].match(/\b(SynoToken=[^;]+)/)
+                    if (m) {
+                        synoToken = m[1]
+                    }
+                }
                 // include CSRF token in auth cache key
-                return synoToken ? cookie + "; SynoToken=" + synoToken : cookie
+                if (synoToken) {
+                    return synoToken ? cookie + "; SynoToken=" + synoToken : cookie
+                } else {
+                    return cookie
+                }
             case 'QNAP':
                 return request.headers['cookie'].match(/\b(NAS_SID=[^;]+)/)[1]
         }
