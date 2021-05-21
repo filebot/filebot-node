@@ -161,6 +161,7 @@ Ext.define('FileBot.Node', {
 
                 // add CSRF token to all subsequent requests
                 if (token) {
+                    Ext.manifest.server.SynoToken = token
                     Ext.Ajax.on('beforerequest', function(connection, request) {
                         request.params['SynoToken'] = token
                     }, this)
@@ -191,14 +192,18 @@ Ext.define('FileBot.Node', {
                 url: '/webapi/_______________________________________________________entry.cgi',
                 params: {
                     name: JSON.stringify(name),
+                    real_owner: JSON.stringify('FileBot'),
                     owner: JSON.stringify('FileBot'),
                     enable: true,
                     schedule: JSON.stringify({"date_type":0,"week_day":"0,1,2,3,4,5,6","hour":4,"minute":0,"repeat_hour":0,"repeat_min":0,"last_work_hour":0,"repeat_min_store_config":[1,5,10,15,20,30],"repeat_hour_store_config":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]}),
-                    extra: JSON.stringify({"script":command}),
+                    extra: JSON.stringify({"notify_enable":false,"script":command,"notify_mail":"","notify_if_error":false}),
                     type: JSON.stringify('script'),
                     api: 'SYNO.Core.TaskScheduler',
                     method: 'create',
-                    version: 2
+                    version: 3
+                },
+                headers: {
+                    'X-SYNO-TOKEN': Ext.manifest.server.SynoToken
                 },
                 success: function (response) {
                     Ext.MessageBox.show({
