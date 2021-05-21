@@ -556,11 +556,14 @@ function auth(request, response, options) {
     }
 }
 
-function auth_cookie(request) {
+function auth_cookie(request, options) {
     try {
         switch (AUTH) {
             case 'SYNO':
-                return request.headers['cookie'].match(/\b(id=[^;]+)/)[1]
+                const cookie = request.headers['cookie'].match(/\b(id=[^;]+)/)[1]
+                const synoToken = options.SynoToken
+                // include CSRF token in auth cache key
+                return synoToken ? cookie + "; SynoToken=" + synoToken : cookie
             case 'QNAP':
                 return request.headers['cookie'].match(/\b(NAS_SID=[^;]+)/)[1]
         }
@@ -583,7 +586,7 @@ function auth_basic_env(request, response) {
 }
 
 function auth_syno(request, response, options) {
-    const cookie = auth_cookie(request)
+    const cookie = auth_cookie(request, options)
 
     if (!cookie) {
         return null
@@ -601,16 +604,15 @@ function auth_syno(request, response, options) {
         remoteAddress = request.connection.remoteAddress
     }
 
+    // CSRF token
+    const synoToken = options.SynoToken
+
     // authenticate.cgi requires these and some other environment variables for authentication
     const cmd = '/usr/syno/synoman/webman/modules/authenticate.cgi'
     const env = {
         'HTTP_COOKIE': cookie,
-        'REMOTE_ADDR': remoteAddress
-    }
-
-    // SynoToken for DSM 6.2.4
-    if (options.SynoToken) {
-        env['HTTP_X_SYNO_TOKEN'] = options.SynoToken
+        'REMOTE_ADDR': remoteAddress,
+        'HTTP_X_SYNO_TOKEN': synoToken
     }
 
     console.log(cmd)
@@ -693,18 +695,18 @@ function schedule(request, response, options) {
     const command = prepareScheduledTask(options)
     const id = command.split(/\s/).pop()
 
-    const curl = prepareCurlCommand(request)
+    const curl = prepareCurlCommand(request, options)
 
     const clientSideRequest = { id: id, command: command, curl: curl }
     return ok(response, clientSideRequest)
 }
 
 
-function prepareCurlCommand(request) {
+function prepareCurlCommand(request, options) {
     switch (AUTH) {
         case 'SYNO':
         case 'QNAP':
-            const cookie = auth_cookie(request)
+            const cookie = auth_cookie(request, options)
             return 'curl --cookie "' + cookie + '"'
         case 'BASIC':
             const user = httpBasicAuth(request)
