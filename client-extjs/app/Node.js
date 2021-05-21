@@ -223,8 +223,8 @@ Ext.define('FileBot.Node', {
                             // intended to be reused by the application
                             closeAction: 'destroy'
                         }).show({
-                            title: 'Task Scheduler',
-                            msg: '<i>' + name + '</i> has been added to the Task Scheduler. Please use Control Panel ➔ Task Scheduler to modify or delete this task.',
+                            title: 'Synology Task Scheduler',
+                            msg: '<i>' + name + '</i> has been added to the Synology Task Scheduler. Please use Control Panel ➔ Task Scheduler to modify or delete this task.',
                             buttons: Ext.MessageBox.OK,
                             icon: Ext.MessageBox.INFO
                         })
