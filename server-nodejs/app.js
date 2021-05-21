@@ -560,17 +560,17 @@ function auth_cookie(request, options) {
     try {
         switch (AUTH) {
             case 'SYNO':
-                const cookie = request.headers['cookie'].match(/\b(id=[^;]+)/)[1]
+                var cookie = request.headers['cookie'].match(/\b(id=[^;]+)/)[1]
                 var synoToken = options.SynoToken
                 if (!synoToken) {
-                    const m = request.headers['cookie'].match(/\b(SynoToken=[^;]+)/)
+                    const m = request.headers['cookie'].match(/\bSynoToken=([^;]+)/)
                     if (m) {
                         synoToken = m[1]
                     }
                 }
                 // include CSRF token in auth cache key
                 if (synoToken) {
-                    return synoToken ? cookie + "; " + synoToken : cookie
+                    return synoToken ? cookie + "; SynoToken=" + synoToken : cookie
                 } else {
                     return cookie
                 }
