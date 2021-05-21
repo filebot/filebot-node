@@ -202,9 +202,6 @@ Ext.define('FileBot.Node', {
                     method: 'create',
                     version: 3
                 },
-                headers: {
-                    'X-SYNO-TOKEN': Ext.manifest.server.SynoToken
-                },
                 success: function (response) {
                     Ext.MessageBox.show({
                         title: 'Task Scheduler',
