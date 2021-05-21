@@ -161,9 +161,9 @@ Ext.define('FileBot.Node', {
 
                 // add CSRF token to all subsequent requests
                 if (token) {
-                    Ext.Ajax.on('beforerequest', function(connection, request) {
-                        request.headers['X-SYNO-TOKEN'] = token
-                    }, this)
+                    Ext.Ajax.setDefaultHeaders({
+                        'X-SYNO-TOKEN': token
+                    })
                 }
 
                 // run normal init code after login.cgi has been called
