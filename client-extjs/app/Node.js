@@ -161,9 +161,8 @@ Ext.define('FileBot.Node', {
 
                 // add CSRF token to all subsequent requests
                 if (token) {
-                    Ext.manifest.server.SynoToken = token
                     Ext.Ajax.on('beforerequest', function(connection, request) {
-                        request.params['SynoToken'] = token
+                        request.headers['X-SYNO-TOKEN'] = token
                     }, this)
                 }
 

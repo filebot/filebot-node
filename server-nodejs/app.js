@@ -398,7 +398,7 @@ function handleRequest(request, response) {
     }
 
     // require user authentication for all handlers below
-    const user = auth(request, response, options)
+    const user = auth(request, response)
 
     if ('/auth' == requestPath) {
         if (user === undefined) {
@@ -541,10 +541,10 @@ function error(response, exception) {
     response.end(JSON.stringify(result))
 }
 
-function auth(request, response, options) {
+function auth(request, response) {
     switch (AUTH) {
         case 'SYNO':
-            return auth_syno(request, response, options)
+            return auth_syno(request, response)
         case 'QNAP':
             return auth_qnap(request, response)
         case 'BASIC':
@@ -556,26 +556,18 @@ function auth(request, response, options) {
     }
 }
 
-function auth_cookie(request, options) {
+function auth_header(request) {
     try {
         switch (AUTH) {
-            case 'SYNO':
-                var cookie = request.headers['cookie'].match(/\b(id=[^;]+)/)[1]
-                var synoToken = options.SynoToken
-                if (!synoToken) {
-                    const m = request.headers['cookie'].match(/\bSynoToken=([^;]+)/)
-                    if (m) {
-                        synoToken = m[1]
-                    }
-                }
-                // include CSRF token in auth cache key
-                if (synoToken) {
-                    return synoToken ? cookie + "; SynoToken=" + synoToken : cookie
-                } else {
-                    return cookie
+            case 'SYNO': 
+                return {
+                    'cookie': request.headers['cookie'].match(/\b(id=[^;]+)/)[1],
+                    'X-Syno-Token': request.headers['x-syno-token']
                 }
             case 'QNAP':
-                return request.headers['cookie'].match(/\b(NAS_SID=[^;]+)/)[1]
+                return {
+                    'cookie': request.headers['cookie'].match(/\b(NAS_SID=[^;]+)/)[1]
+                }
         }
     } catch(e) {
         // ignore invalid cookies
@@ -595,14 +587,14 @@ function auth_basic_env(request, response) {
     return null // REQUEST FAIL
 }
 
-function auth_syno(request, response, options) {
-    const cookie = auth_cookie(request, options)
-
-    if (!cookie) {
+function auth_syno(request, response) {
+    const auth = auth_header(request)
+    if (!auth) {
         return null
     }
 
-    const user = AUTH_CACHE[cookie]
+    const key = JSON.stringify(auth)
+    const user = AUTH_CACHE[key]
     if (user) {
         return user
     }
@@ -614,15 +606,12 @@ function auth_syno(request, response, options) {
         remoteAddress = request.connection.remoteAddress
     }
 
-    // CSRF token
-    const synoToken = options.SynoToken
-
     // authenticate.cgi requires these and some other environment variables for authentication
-    const cmd = '/usr/syno/synoman/webman/modules/authenticate.cgi'
+    const cmd = '/usr/syno/synoman/webman/authenticate.cgi'
     const env = {
-        'HTTP_COOKIE': cookie,
+        'HTTP_COOKIE': auth['cookie'],
         'REMOTE_ADDR': remoteAddress,
-        'HTTP_X_SYNO_TOKEN': synoToken
+        'HTTP_X_SYNO_TOKEN': auth['X-Syno-Token']
     }
 
     console.log(cmd)
@@ -639,7 +628,7 @@ function auth_syno(request, response, options) {
         const result = pd.stdout.trim()
         console.log(result)
 
-        AUTH_CACHE[cookie] = result
+        AUTH_CACHE[key] = result
         console.log('AUTH_CACHE: ' + JSON.stringify(AUTH_CACHE))
 
         return result
@@ -705,19 +694,25 @@ function schedule(request, response, options) {
     const command = prepareScheduledTask(options)
     const id = command.split(/\s/).pop()
 
-    const curl = prepareCurlCommand(request, options)
+    const curl = prepareCurlCommand(request)
 
     const clientSideRequest = { id: id, command: command, curl: curl }
     return ok(response, clientSideRequest)
 }
 
 
-function prepareCurlCommand(request, options) {
+function prepareCurlCommand(request) {
     switch (AUTH) {
         case 'SYNO':
+            const syno = auth_header(request)
+            if (syno['X-Syno-Token']) {
+                return 'curl --header "X-Syno-Token: '+ syno['X-Syno-Token'] +'" --cookie "' + syno.cookie + '"'    
+            } else {
+                return 'curl --cookie "' + syno.cookie + '"'    
+            }
         case 'QNAP':
-            const cookie = auth_cookie(request, options)
-            return 'curl --cookie "' + cookie + '"'
+            const qnap = auth_header(request)
+            return 'curl --cookie "' + qnap.cookie + '"'
         case 'BASIC':
             const user = httpBasicAuth(request)
             return 'curl --user "' + user.name + ':' + user.pass + '"'
