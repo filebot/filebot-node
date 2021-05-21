@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export FILEBOT_NODE_HOST="0.0.0.0"
+export FILEBOT_NODE_HOST="127.0.0.1" # bind to local host
 export FILEBOT_NODE_AUTH="SYNO"
 
 export FILEBOT_NODE_HTTP="YES"
@@ -17,8 +17,6 @@ export FILEBOT_CMD_CWD="/volume1"
 
 export FILEBOT_CMD_UID=$(id -u $SYNOPKG_USERNAME)
 export FILEBOT_CMD_GID=$(id -g $SYNOPKG_USERNAME)
-
-export FILEBOT_NODE_CLIENT="client"
 
 # set working dir
 cd "/var/packages/filebot-node/target"
