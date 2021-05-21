@@ -131,7 +131,11 @@ Ext.define('FileBot.Node', {
             const url = new URL(this.getPostEndpoint("task", {id: id}), window.location).href
             const curl = request.curl + ' "' + url + '"\n'
 
-            Ext.MessageBox.show({
+            Ext.create('Ext.window.MessageBox', {
+                // set closeAction to 'destroy' if this instance is not
+                // intended to be reused by the application
+                closeAction: 'destroy'
+            }).show({
                 title: 'Prepared Task',
                 msg: '<span class="crontab">Prepared Task ' + id + ' can be called via <nobr><code>' + command + '</code></nobr><br/> or <a href="' + url + '" target="_blank">Link</a> or <a href="data:text/plain,' + encodeURIComponent(curl) + '" download="curl.sh">cURL</a>.</span>',
                 buttons: Ext.MessageBox.OK,
@@ -212,9 +216,13 @@ Ext.define('FileBot.Node', {
                     version: 3
                 },
                 success: function (response) {
-                    Ext.MessageBox.show({
+                    Ext.create('Ext.window.MessageBox', {
+                        // set closeAction to 'destroy' if this instance is not
+                        // intended to be reused by the application
+                        closeAction: 'destroy'
+                    }).show({
                         title: 'Task Scheduler',
-                        msg: name + ' has been added to the Task Scheduler. Please use Control Panel ➔ Task Scheduler to modify or delete this task.',
+                        msg: '<br>' + name + '</br> has been added to the Task Scheduler. Please use Control Panel ➔ Task Scheduler to modify or delete this task.',
                         buttons: Ext.MessageBox.OK,
                         icon: Ext.MessageBox.INFO
                     })
