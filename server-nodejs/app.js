@@ -570,7 +570,7 @@ function auth_cookie(request, options) {
                 }
                 // include CSRF token in auth cache key
                 if (synoToken) {
-                    return synoToken ? cookie + "; SynoToken=" + synoToken : cookie
+                    return synoToken ? cookie + "; " + synoToken : cookie
                 } else {
                     return cookie
                 }
