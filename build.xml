@@ -128,6 +128,7 @@
 			<info name="dsmuidir" value="client" />
 			<info name="thirdparty" value="yes" />
 			<info name="os_min_ver" value="7.0-40759" />
+			<info name="beta" value="yes" />
 
 			<icon file="${dir.package}/synology-dsm7/target/client/images/filebot_node_64.png" />
 			<icon size="256" file="${dir.package}/synology-dsm7/target/client/images/filebot_node_256.png" />
