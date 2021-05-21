@@ -167,7 +167,7 @@ Ext.define('FileBot.Node', {
                     this.getPostEndpoint = function(path, parameters) {
                         parameters['SynoToken'] = token
                         return this.getServerEndpoint(path) + '?' + Ext.Object.toQueryString(parameters)
-                    },
+                    }
                 }
 
                 // run normal init code after login.cgi has been called
