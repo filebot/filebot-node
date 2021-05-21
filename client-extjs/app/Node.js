@@ -216,8 +216,8 @@ Ext.define('FileBot.Node', {
                 },
                 success: function (response) {
                     // e.g. {"error":{"code":104},"success":false}
-                    const data = Ext.JSON.decode(response.responseText).data
-                    if (data.success) {
+                    const json = Ext.JSON.decode(response.responseText)
+                    if (json.success) {
                         Ext.create('Ext.window.MessageBox', {
                             // set closeAction to 'destroy' if this instance is not
                             // intended to be reused by the application
