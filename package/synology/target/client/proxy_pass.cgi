@@ -9,6 +9,7 @@ exec -c -a 'proxy_pass.cgi' \
   --silent \
   --no-buffer \
   --header "If-Modified-Since: $HTTP_IF_MODIFIED_SINCE" \
+  --header "X-Syno-Token: $HTTP_X_SYNO_TOKEN" \
   --header "X-Real-IP: $REMOTE_ADDR" \
   --cookie "$HTTP_COOKIE" \
   "$PROXY_PASS/$PROXY_FILE?$QUERY_STRING"
