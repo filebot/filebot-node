@@ -34,7 +34,7 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
     {
         text: 'Date',
         dataIndex: 'date',
-        width: 140,
+        width: 120,
         renderer: function(val) {
             var t = new Date(val)
             var date = Ext.util.Format.date(t, 'd M')

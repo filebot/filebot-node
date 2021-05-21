@@ -500,7 +500,7 @@ Ext.define('FileBot.view.task.Task', {
             headerPosition: 'left',
             collapsible: true,
             floatable: false,
-            overflowY: 'auto',
+            scrollable: 'vertical',
             width: 325
         }, {
             region: 'center',
