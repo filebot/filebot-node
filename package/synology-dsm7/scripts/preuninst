@@ -2,7 +2,7 @@
 FILEBOT_NODE_DATA="/var/packages/filebot-node/var"
 
 # purge user data files
-find "$FILEBOT_NODE_DATA" -type f -delete
+rm -rv "$FILEBOT_NODE_DATA"/*
 
 # return successfully
 exit 0
