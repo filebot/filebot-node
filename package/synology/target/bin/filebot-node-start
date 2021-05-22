@@ -15,8 +15,8 @@ export FILEBOT_TASK_CMD="filebot-node-task"
 export FILEBOT_CMD="filebot"
 export FILEBOT_CMD_CWD="/volume1"
 
-export FILEBOT_CMD_UID=$(id -u $SYNOPKG_USERNAME)
-export FILEBOT_CMD_GID=$(id -g $SYNOPKG_USERNAME)
+export FILEBOT_CMD_UID=$(id -u FileBot)
+export FILEBOT_CMD_GID=$(id -g FileBot)
 
 # set working dir
 cd "/var/packages/filebot-node/target"
