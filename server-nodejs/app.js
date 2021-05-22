@@ -383,21 +383,22 @@ function listLogs() {
 function handleRequest(request, response) {
     const requestParameters = url.parse(request.url)
     const requestPath = requestParameters.pathname
-    const options = querystring.parse(requestParameters.query)
 
-    if (PUBLIC_HTML && !ROUTES.test(requestPath) && requestPath.indexOf(PUBLIC_HTML) == 0) {
-        const requestedFile = requestPath == PUBLIC_HTML ? 'index.html' : requestPath.substring(PUBLIC_HTML.length)
-        const ext = path.extname(requestedFile)
-        const contentType = MIME_TYPES[ext]
-
-        if (contentType) {
-            return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true, false) // resolve against CLIENT folder
-        } else {
-            return unauthorized(response)
+    // serve static resources
+    if (!ROUTES.test(requestPath)) {
+        if (PUBLIC_HTML && requestPath.indexOf(PUBLIC_HTML) == 0) {
+            const requestedFile = requestPath == PUBLIC_HTML ? 'index.html' : requestPath.substring(PUBLIC_HTML.length)
+            const ext = path.extname(requestedFile)
+            const contentType = MIME_TYPES[ext]
+            if (contentType) {
+                return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true, false) // resolve against CLIENT folder
+            }
         }
+        return notFound(response)
     }
 
     // require user authentication for all handlers below
+    const options = querystring.parse(requestParameters.query)
     const user = auth(request, response, options)
 
     if ('/auth' == requestPath) {
