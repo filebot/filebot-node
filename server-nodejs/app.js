@@ -622,9 +622,9 @@ function auth_syno(request, response, options) {
         'HTTP_X_SYNO_TOKEN': auth['X-Syno-Token']
     }
 
-    console.log(cmd)
-    console.log(env)
+    console.log({ 'cmd': cmd, 'env': env })
 
+    // call authenticate.cgi and capture output
     const pd = child_process.spawnSync(cmd , [], {
             stdio: ['ignore', 'pipe', 'inherit'],
             encoding: 'UTF-8',
@@ -633,15 +633,14 @@ function auth_syno(request, response, options) {
     )
 
     if (pd.status == 0) {
-        const result = pd.stdout.trim()
-        console.log(result)
+        const value = pd.stdout.trim()
+        AUTH_CACHE[key] = value
 
-        AUTH_CACHE[key] = result
-        console.log(AUTH_CACHE)
-
-        return result
+        console.log({ 'auth': auth, 'user': value })
+        return value
     }
 
+    console.log({ 'status': pd.status, 'stdout': pd.stdout, 'stderr': pd.stderr })
     return null
 }
 
@@ -665,8 +664,7 @@ function auth_qnap(request, response) {
         'QUERY_STRING': "sid=" + sid
     }
 
-    console.log(cmd)
-    console.log(env)
+    console.log({ 'cmd': cmd, 'env': env })
 
     const pd = child_process.spawnSync(cmd, [], {
             stdio: ['ignore', 'pipe', 'inherit'],
@@ -677,24 +675,23 @@ function auth_qnap(request, response) {
 
     if (pd.status == 0) {
         const cgiResponse = pd.stdout.trim()
-        console.log(cgiResponse)
-
         const xmlStartIndex = cgiResponse.indexOf('<?xml')
+
         if (xmlStartIndex > 0) {
             const xmlResponse = cgiResponse.substring(xmlStartIndex)
             const dom = xmlParser.parse(xmlResponse)
 
             if (dom && dom.QDocRoot && dom.QDocRoot.authPassed == "1") {
-                const result = dom.QDocRoot.user
+                const value = dom.QDocRoot.user
+                AUTH_CACHE[key] = value
 
-                AUTH_CACHE[key] = result
-                console.log(AUTH_CACHE)
-
+                console.log({ 'auth': auth, 'user': value })
                 return result
             }
         }
     }
 
+    console.log({ 'status': pd.status, 'stdout': pd.stdout, 'stderr': pd.stderr })
     return null
 }
 
