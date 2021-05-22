@@ -3,7 +3,7 @@
 	<property file="profile.properties" />
 	<property file="package.properties" />
 
-	<property name="release" value="${package}-${version}" />
+	<property name="release" value="${package}_${version}" />
 
 	<property name="dir.client" location="${basedir}/client-extjs" />
 	<property name="dir.server" location="${basedir}/server-nodejs" />
