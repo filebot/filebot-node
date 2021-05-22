@@ -1,12 +1,6 @@
 #!/bin/sh
 
 
-# require filebot
-if ! which filebot; then
-	echo "<p><strong>FileBot Node</strong> requires <strong>FileBot</strong>. Please install <strong>FileBot</strong> first.</p>" >> "$SYNOPKG_TEMP_LOGFILE"
-	exit 1
-fi
-
 # require node
 if ! which node; then
 	echo "<p><strong>FileBot Node</strong> requires <strong>Node.js</strong>. Please install <strong>Node.js</strong> first.</p>" >> "$SYNOPKG_TEMP_LOGFILE"
