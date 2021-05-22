@@ -687,7 +687,7 @@ function auth_qnap(request, response) {
                 AUTH_CACHE[key] = value
 
                 console.log({ 'auth': auth, 'user': value })
-                return result
+                return value
             }
         }
     }
