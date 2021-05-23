@@ -4,7 +4,7 @@ Ext.define('FileBot.Node', {
     init: function() {
         FileBot.getApplication().on('auth', function(options) {
             // init CSRF token for DSM 6.2.4
-            if (options.auth == 'SYNO_CGI') {
+            if (options.auth == 'SYNO') {
                 this.init_syno()
             } else {
                 this.init_generic()
