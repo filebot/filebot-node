@@ -209,7 +209,8 @@ function getExitStatus(code) {
 }
 
 function spawnChildProcess(command, arguments) {
-    const id = Date.now()
+    // just use current time in millis as process id
+    const id = 'R' + Date.now()
     const logFile = getLogFile(id)
 
     const pd = { id: id, date: Date.now(), status: null }
