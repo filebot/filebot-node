@@ -3,7 +3,7 @@
 
 # require node
 if ! which node; then
-	echo '<p><strong>FileBot Node</strong> requires <strong>Node.js</strong>. Please install <strong>Node.js</strong> first.</p>' >> "$SYNOPKG_TEMP_LOGFILE"
+	echo '<p style="color: #D2042D;"><b>FileBot Node</b> requires <b>Node.js</b>. Please install <b>Node.js</b> first.</p>' >> "$SYNOPKG_TEMP_LOGFILE"
 	exit 1
 fi
 
@@ -12,10 +12,10 @@ fi
 # can no longer be uninstalled by FileBot Node after DSM 6.2.4 (as new default system user)
 if [ -f '/usr/local/etc/nginx/conf.d/dsm.filebot-node.conf' ]; then
 	{
-		echo '<p style="color:#D2042D">Please use <kbd>sudo</kbd> to remove <kbd>dsm.filebot-node.conf</kbd> manually before installing FileBot Node:</p>'
+		echo '<p style="color: #D2042D;">Please use <kbd>sudo</kbd> to remove <kbd>dsm.filebot-node.conf</kbd> manually before installing FileBot Node:</p>'
 		echo '<p><kbd>sudo rm -v /usr/local/etc/nginx/conf.d/dsm.filebot-node.conf</kbd></p>'
-		echo '<p style="color:#0090D9"><small>* The nginx reverse proxy configuration file installed by FileBot Node pre-DSM 6.2.4 (as default root user) can no longer be uninstalled by FileBot Node after DSM 6.2.4 (as new default system user) because the system user does not have root permissions.</small></p>'
-	}  >> "$SYNOPKG_TEMP_LOGFILE"
+		echo '<p style="color: #0090D9;"><small>* The nginx reverse proxy configuration file installed by FileBot Node pre-DSM 6.2.4 (as default root user) can no longer be uninstalled by FileBot Node after DSM 6.2.4 (as new default system user) because the system user does not have root permissions.</small></p>'
+	} >> "$SYNOPKG_TEMP_LOGFILE"
 	exit 1
 fi
 

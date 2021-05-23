@@ -11,12 +11,15 @@ chmod 666 "$FILEBOT_NODE_DATA/filebot.log"
 # print notification
 {
 cat << EOF
-<p style="color:#0090D9">Note: If FileBot Node cannot access your files, please verify that user <strong>FileBot</strong> is granted permission in <strong>Control Panel</strong>.</p><br>
-1. Open <strong>Control Panel</strong> and select <strong>Shared Folder</strong><br>
-2. Select the share that contains your files and click <strong>Edit</strong><br>
-3. Select <strong>Permissions</strong><br>
-4. Change <strong>Local users</strong> to <strong>System internal user</strong><br>
-5. Check <strong>Read/Write</strong> for <strong>FileBot</strong> and click <strong>Save</strong><br>
+<p style="color: #0090D9; text-align: center; font-weight: bold;">NOTE</p>
+<p style="color: #0090D9; margin: 1em 0em;">FileBot Node cannot access your files unless you explicitly grant <b>Read/Write</b> permissions.</p>
+<ol style="list-style-type: decimal; list-style-position: inside;">
+	<li>Open <b>Control Panel</b> and select <b>Shared Folder</b></li>
+	<li>Select the share that contains your files and click <b>Edit</b></li>
+	<li>Select <b>Permissions</b></li>
+	<li>Change <b>Local users</b> to <b>System internal user</b></li>
+	<li>Check <b>Read/Write</b> for <b>FileBot</b> and click <b>Save</b></li>
+</ol>
 EOF
 } >> "$SYNOPKG_TEMP_LOGFILE"
 
