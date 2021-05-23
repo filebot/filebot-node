@@ -10,7 +10,7 @@ run-server:
 	cd server-nodejs && npm start
 
 publish: clean build-production
-	$(ANT) tar spk-dsm7 syno-repo-dsm7 spk syno-repo qpkg
+	$(ANT) tar spk-dsm7 syno-repo-dsm7 spk syno-repo qpkg checksum
 
 resolve:
 	$(ANT) resolve

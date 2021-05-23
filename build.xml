@@ -183,6 +183,13 @@
 	</target>
 
 
+	<target name="checksum" description="Compute SHA-256 hashes">
+		<checksum algorithm="SHA-256" pattern="{0}" fileext=".sha256">
+			<fileset dir="${dir.release}" />
+		</checksum>
+	</target>
+
+
 	<target name="clean">
 		<delete includeEmptyDirs="true" failonerror="false">
 			<fileset defaultexcludes="false" dir="${dir.build}" />
