@@ -1,2 +1,10 @@
 #!/bin/sh
+FILEBOT_NODE_DATA="/var/packages/filebot-node/var"
+
+# purge user data files
+if [ "$SYNOPKG_PKG_STATUS" == "UNINSTALL" ]; then
+	rm -rv "$FILEBOT_NODE_DATA"/*
+fi
+
+# return successfully
 exit 0
