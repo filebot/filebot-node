@@ -77,7 +77,7 @@ if (fs.existsSync(TASK_INDEX)) {
 }
 
 
-// HELPER FUNCTIONS
+/* ------------------------------------------ FileBot Command ------------------------------------------ */
 
 
 function getLogFile(id) {
@@ -252,6 +252,10 @@ function spawnChildProcess(command, arguments) {
     return pd
 }
 
+
+/* ------------------------------------------ Routes ------------------------------------------ */
+
+
 function version() {
     const child = child_process.spawnSync(getCommand(), ['-version'], {
             stdio: ['ignore', 'pipe', 'pipe'],
@@ -323,10 +327,6 @@ function task(request, response, options) {
     })
 }
 
-
-// ROUTES
-
-
 function execute(options) {
     var pd = spawnChildProcess(getCommand(), getCommandArguments(options))
     return pd
@@ -380,21 +380,17 @@ function listLogs() {
     })
 }
 
+
+/* ------------------------------------------ Main ------------------------------------------ */
+
+
 function handleRequest(request, response) {
     const requestParameters = url.parse(request.url)
     const requestPath = requestParameters.pathname
 
     // serve static resources
     if (!ROUTES.test(requestPath)) {
-        if (PUBLIC_HTML && requestPath.indexOf(PUBLIC_HTML) == 0) {
-            const requestedFile = requestPath == PUBLIC_HTML ? 'index.html' : requestPath.substring(PUBLIC_HTML.length)
-            const ext = path.extname(requestedFile)
-            const contentType = MIME_TYPES[ext]
-            if (contentType) {
-                return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true, false) // resolve against CLIENT folder
-            }
-        }
-        return notFound(response)
+        return html(request, response, requestPath)
     }
 
     // require user authentication for all handlers below
@@ -462,6 +458,21 @@ function handleRequest(request, response) {
     return error(response, 'ILLEGAL REQUEST')
 }
 
+
+function html(request, response, requestPath) {
+    if (PUBLIC_HTML && requestPath.indexOf(PUBLIC_HTML) == 0) {
+        const requestedFile = requestPath == PUBLIC_HTML ? 'index.html' : requestPath.substring(PUBLIC_HTML.length)
+        const ext = path.extname(requestedFile)
+        const contentType = MIME_TYPES[ext]
+        if (contentType) {
+            return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true, false) // resolve against CLIENT folder
+        }
+    }
+    return notFound(response)
+}
+
+
+/* ------------------------------------------ HTTP Response ------------------------------------------ */
 
 
 function modifiedSince(request, lastModified) {
@@ -541,6 +552,10 @@ function error(response, exception) {
     response.setHeader('Access-Control-Allow-Origin', '*')
     response.end(JSON.stringify(result))
 }
+
+
+/* ------------------------------------------ Authentication ------------------------------------------ */
+
 
 function auth(request, response, options) {
     switch (AUTH) {
@@ -696,6 +711,10 @@ function auth_qnap(request, response) {
     return null
 }
 
+
+/* ------------------------------------------ Scheduled Task ------------------------------------------ */
+
+
 function schedule(request, response, options) {
     const command = prepareScheduledTask(options)
     const id = command.split(/\s/).pop()
@@ -753,7 +772,7 @@ function prepareScheduledTask(options) {
 }
 
 
-// START SERVER
+/* ------------------------------------------ Start Server ------------------------------------------ */
 
 
 function server(request, response) {
