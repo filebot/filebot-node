@@ -28,27 +28,35 @@ fi
 
 
 # nodejsv8 package comes with broken permissions, so we need to fix them here first
-chmod +x "/usr/local/bin/node"
+chmod +x /usr/local/bin/node
 
-# find node executable
+# check $PATH
 NODE="$(which node)"
 
+# check QNAP packages
 if ! test -x "$NODE"; then
 	NODE="$(find "$QPKG_DEFAULT_VOLUME"/.qpkg/{QDMS,node*} -maxdepth 3 -type f -name node 2> /dev/null | head -n1)"
 	echo "NODE=$NODE"
 fi
 
-# print node version (since we don't know which one we ended up with)
-"$NODE" -v
 
+# node: command not found
 if ! test -x "$NODE"; then
-	echo "Node.js is not installed. Please install Node.js in the App Center."
+	WARN="Node.js is not installed. Please install Node.js in the App Center."
+	# print warning to console log
+	echo "$WARN"
+	# send to QNAP notification center
+	/sbin/log_tool -t2 -uSystem -p127.0.0.1 -mlocalhost -a "[FileBot Node] $WARN"
+	# node: command not found
 	exit 127
 fi
 
 
 # set working dir
 cd "$QPKG_ROOT"
+
+# print node version (since we don't know which one we ended up with)
+"$NODE" -v
 
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
 "$NODE" --optimize_for_size "server/app.js"
