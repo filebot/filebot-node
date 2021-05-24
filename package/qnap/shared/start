@@ -35,7 +35,7 @@ NODE="$(which node)"
 
 # check QNAP packages
 if ! test -x "$NODE"; then
-	NODE="$(find "$QPKG_DEFAULT_VOLUME"/.qpkg/{QDMS,node*} -maxdepth 3 -type f -name node 2> /dev/null | head -n1)"
+	NODE="$(find "$QPKG_DEFAULT_VOLUME"/.qpkg/{QDMS,nodejs*} -maxdepth 3 -type f -name node 2> /dev/null | head -n1)"
 	echo "NODE=$NODE"
 fi
 
