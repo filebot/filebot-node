@@ -28,20 +28,20 @@ fi
 
 
 # nodejsv8 package comes with broken permissions, so we need to fix them here first
-chmod +x /usr/local/bin/node
+find /usr/local/bin -type l -name node -exec echo chmod +x {} +
 
 # check $PATH
 NODE="$(which node)"
 
 # check QNAP packages
-if ! test -x "$NODE"; then
+if [ ! -x "$NODE" ]; then
 	NODE="$(find "$QPKG_DEFAULT_VOLUME"/.qpkg/{QDMS,nodejs*} -maxdepth 3 -type f -name node 2> /dev/null | head -n1)"
 	echo "NODE=$NODE"
 fi
 
 
 # node: command not found
-if ! test -x "$NODE"; then
+if [ ! -x "$NODE" ]; then
 	WARN="Node.js is not installed. Please install Node.js in the App Center."
 	# print warning to console log
 	echo "$WARN"
