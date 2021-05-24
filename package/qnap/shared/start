@@ -28,7 +28,7 @@ fi
 
 
 # nodejsv8 package comes with broken permissions, so we need to fix them here first
-find /usr/local/bin -type l -name node -exec echo chmod +x {} +
+find /usr/local/bin -type l -name node -exec chmod +x {} +
 
 # check $PATH
 NODE="$(which node)"
