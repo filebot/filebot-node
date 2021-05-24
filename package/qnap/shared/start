@@ -27,24 +27,23 @@ if [ -z "$FILEBOT_CMD_UID" ]; then
 fi
 
 
+# nodejsv8 package comes with broken permissions, so we need to fix them here first
+chmod +x "/usr/local/bin/node"
+
 # find node executable
-NODE=$(which node)
+NODE="$(which node)"
 
 if ! test -x "$NODE"; then
-	echo "node not found in $PATH"
-	NODE=$(find "$QPKG_DEFAULT_VOLUME/.qpkg" -type f -name node | head -n1)
-	if ! test -x "$NODE"; then
-		if ! test -z "$NODE"; then
-			echo "$NODE is not executable" && ls -l "$NODE"
-		else
-			echo "node not found in $QPKG_DEFAULT_VOLUME/.qpkg"
-		fi
-	fi
+	NODE="$(find "$QPKG_DEFAULT_VOLUME"/.qpkg/{QDMS,node*} -maxdepth 3 -type f -name node 2> /dev/null | head -n1)"
+	echo "NODE=$NODE"
 fi
+
+# print node version (since we don't know which one we ended up with)
+"$NODE" -v
 
 if ! test -x "$NODE"; then
 	echo "Node.js is not installed. Please install Node.js in the App Center."
-	NODE="node"
+	exit 127
 fi
 
 
