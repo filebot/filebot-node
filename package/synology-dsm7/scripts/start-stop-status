@@ -1,20 +1,24 @@
 #!/bin/sh
-FILEBOT_NODE_DATA="/var/packages/filebot-node/var"
+
+
+echo "$@" >> "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1
+printenv >> "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1
 
 
 case "$1" in
 	start)
-		"$SYNOPKG_PKGDEST/bin/filebot-node-start" > "$FILEBOT_NODE_DATA/filebot-node.log" 2>&1 &
+		"$SYNOPKG_PKGDEST/bin/filebot-node-start" >> "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1 & disown
 		exit $?
 	;;
 
 	stop)
-		killall "filebot-node"
+		killall "node" >> "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1
 		exit $?
 	;;
 
 	status)
-		ps -u "$(id -u)" | grep "filebot-node"
+		ps -u "$(id -u)" >> "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1
+		ps -u "$(id -u)" | grep "node"
 		exit $?
 	;;
 esac
