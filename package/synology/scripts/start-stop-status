@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 case "$1" in
 	start)
 		"$SYNOPKG_PKGDEST/bin/filebot-node-start" > "$SYNOPKG_PKGDEST/filebot-node.log" 2>&1 &
@@ -7,12 +8,12 @@ case "$1" in
 	;;
 
 	stop)
-		killall "filebot-node"
+		kill "$(ps -u "root" -f | grep "filebot-node" | awk '{ print $2 }')"
 		exit $?
 	;;
 
 	status)
-		ps -u "$(id -u)" | grep "filebot-node"
+		ps -u "root" -f | grep "filebot-node"
 		exit $?
 	;;
 esac
