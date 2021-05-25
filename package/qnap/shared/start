@@ -55,8 +55,5 @@ fi
 # set working dir
 cd "$QPKG_ROOT"
 
-# print node version (since we don't know which one we ended up with)
-"$NODE" -v
-
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
 exec "$NODE" --optimize_for_size "server/app.js"
