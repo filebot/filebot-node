@@ -8,12 +8,12 @@ case "$1" in
 	;;
 
 	stop)
-		killall -u "$(id -u)" -- "node"
+		killall -u "FileBot" -- "node"
 		exit $?
 	;;
 
 	status)
-		ps -u "$(id -u)" | grep "node"
+		ps -u "FileBot" | grep "node"
 		exit $?
 	;;
 esac
