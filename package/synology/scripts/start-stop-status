@@ -8,12 +8,17 @@ case "$1" in
 	;;
 
 	stop)
-		kill "$(ps -u "root" -f | grep "filebot-node" | awk '{ print $2 }')"
+		kill "$("$0" pid)"
 		exit $?
 	;;
 
 	status)
-		ps -u "root" -f | grep "filebot-node"
+		test ! -z "$("$0" pid)"
+		exit $?
+	;;
+
+	pid)
+		ps -u "root" -o "pid cmd" | awk '$2 == "filebot-node" { print $1; exit }'
 		exit $?
 	;;
 esac
