@@ -59,4 +59,4 @@ cd "$QPKG_ROOT"
 "$NODE" -v
 
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
-"$NODE" --optimize_for_size "server/app.js"
+exec "$NODE" --optimize_for_size "server/app.js"

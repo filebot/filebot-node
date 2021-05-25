@@ -25,4 +25,4 @@ export FILEBOT_CMD_GID=$(id -g $USER)
 export FILEBOT_NODE_CLIENT="client"
 
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
-node --optimize_for_size "server/app.js"
+exec node --optimize_for_size "server/app.js"

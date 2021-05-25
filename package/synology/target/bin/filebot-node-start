@@ -21,5 +21,8 @@ export FILEBOT_CMD_GID=$(id -g FileBot)
 # set working dir
 cd "/var/packages/filebot-node/target"
 
+# print node version
+node -v
+
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
-node --optimize_for_size "server/app.js"
+exec node --optimize_for_size "server/app.js"
