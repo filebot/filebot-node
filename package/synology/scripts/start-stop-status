@@ -3,12 +3,12 @@
 case "$1" in
 	start)
 		"$SYNOPKG_PKGDEST/bin/filebot-node-start" > "$SYNOPKG_PKGDEST/filebot-node.log" 2>&1 &
-		exit 0
+		exit $?
 	;;
 
 	stop)
 		killall "filebot-node"
-		exit 0
+		exit $?
 	;;
 
 	status)
