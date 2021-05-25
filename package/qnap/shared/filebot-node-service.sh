@@ -30,7 +30,7 @@ case "$1" in
 	restart)
 		$0 stop
 		$0 start
-		exit 0
+		exit $?
 	;;
 
 	*)

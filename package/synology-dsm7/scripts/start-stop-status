@@ -3,7 +3,7 @@
 
 case "$1" in
 	start)
-		"$SYNOPKG_PKGDEST/bin/filebot-node-start" > "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1 & disown
+		"$SYNOPKG_PKGDEST/bin/filebot-node-start" > "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1 &
 		exit $?
 	;;
 
