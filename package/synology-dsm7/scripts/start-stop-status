@@ -1,23 +1,18 @@
 #!/bin/sh
 
 
-echo "$@" >> "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1
-printenv >> "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1
-
-
 case "$1" in
 	start)
-		"$SYNOPKG_PKGDEST/bin/filebot-node-start" >> "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1 & disown
+		"$SYNOPKG_PKGDEST/bin/filebot-node-start" > "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1 & disown
 		exit $?
 	;;
 
 	stop)
-		killall "node" >> "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1
+		killall -u "$(id -u)" -- "node"
 		exit $?
 	;;
 
 	status)
-		ps -u "$(id -u)" >> "$SYNOPKG_PKGVAR/filebot-node.log" 2>&1
 		ps -u "$(id -u)" | grep "node"
 		exit $?
 	;;
