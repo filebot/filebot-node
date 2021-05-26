@@ -23,7 +23,12 @@ case "$1" in
 
 	stop)
 		rm "/opt/$QPKG_NAME"
-		killall "$QPKG_NAME"
+		kill "$("$0" status)"
+		exit $?
+	;;
+
+	status)
+		curl -fs 'http://127.0.0.1:5452/status' | grep -oE '"pid":[0-9]+' | grep -oE '[0-9]+'
 		exit $?
 	;;
 
@@ -34,7 +39,7 @@ case "$1" in
 	;;
 
 	*)
-		echo "Usage: $0 {start|stop|restart}"
+		echo "Usage: $0 {start|stop|status|restart}"
 		exit 1
 	;;
 esac

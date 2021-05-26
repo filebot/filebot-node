@@ -8,17 +8,12 @@ case "$1" in
 	;;
 
 	stop)
-		kill "$("$0" pid)"
+		kill "$("$0" status)"
 		exit $?
 	;;
 
 	status)
-		test ! -z "$("$0" pid)"
-		exit $?
-	;;
-
-	pid)
-		ps -u "root" -o "pid cmd" | awk '$2 == "filebot-node" { print $1; exit }'
+		curl -fs 'http://127.0.0.1:5452/status' | grep -oE '"pid":[0-9]+' | grep -oE '[0-9]+'
 		exit $?
 	;;
 esac
