@@ -381,7 +381,7 @@ function listLogs() {
     })
 }
 
-function ping() {
+function status() {
     return {
         pid: process.pid,
         uptime: process.uptime().toFixed(0),
@@ -403,8 +403,8 @@ function handleRequest(request, response) {
     }
 
     // check if service is running
-    if ('/ping' == requestPath) {
-        return ok(response, ping())
+    if ('/status' == requestPath) {
+        return ok(response, status())
     }
 
     // require user authentication for all handlers below
