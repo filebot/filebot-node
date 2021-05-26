@@ -381,6 +381,14 @@ function listLogs() {
     })
 }
 
+function ping() {
+    return {
+        pid: process.pid,
+        uptime: process.uptime().toFixed(0),
+        node: process.version
+    }
+}
+
 
 /* ------------------------------------------ Main ------------------------------------------ */
 
@@ -392,6 +400,11 @@ function handleRequest(request, response) {
     // serve static resources
     if (!ROUTES.test(requestPath)) {
         return html(request, response, requestPath)
+    }
+
+    // check if service is running
+    if ('/ping' == requestPath) {
+        return ok(response, ping())
     }
 
     // require user authentication for all handlers below
@@ -456,7 +469,7 @@ function handleRequest(request, response) {
         return task(request, response, options)
     }
 
-    return error(response, 'ILLEGAL REQUEST')
+    return error(response, 'BAD ROUTE')
 }
 
 
@@ -601,13 +614,15 @@ function auth_header(request, options) {
 }
 
 function auth_basic_env(request, response) {
-    var user = httpBasicAuth(request)
+    const user = httpBasicAuth(request)
 
-    if (user == undefined)
+    if (user == undefined) {
         return undefined // REQUEST AUTH
+    }
 
-    if (user && user.name == process.env['FILEBOT_NODE_AUTH_USER'] && user.pass == process.env['FILEBOT_NODE_AUTH_PASS'])
+    if (user && user.name == process.env['FILEBOT_NODE_AUTH_USER'] && user.pass == process.env['FILEBOT_NODE_AUTH_PASS']) {
         return user.name // AUTH OK
+    }
 
     return null // REQUEST FAIL
 }
