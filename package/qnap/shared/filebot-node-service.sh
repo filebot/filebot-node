@@ -17,13 +17,13 @@ case "$1" in
 		ln -sf "$QPKG_ROOT" "/opt/$QPKG_NAME"
 
 		# start service
-		"$QPKG_ROOT/start" > "$QPKG_ROOT/$QPKG_NAME.log" 2>&1 &
+		"$QPKG_ROOT/start" >> "$QPKG_ROOT/$QPKG_NAME.log" 2>&1 &
 		exit $?
 	;;
 
 	stop)
 		rm "/opt/$QPKG_NAME"
-		kill "$("$0" status)"
+		kill "$("$0" status)" >> "$QPKG_ROOT/$QPKG_NAME.log" 2>&1
 		exit $?
 	;;
 
