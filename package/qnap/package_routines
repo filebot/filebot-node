@@ -4,6 +4,15 @@
 ######################################################################
 
 pkg_post_install(){
-	mkdir -m 777 "$SYS_QPKG_DIR/data"
-	chown -R admin.administrators "$SYS_QPKG_DIR/data"
+	FILEBOT_NODE_DATA="$SYS_QPKG_DIR/data"
+
+	# prepare application data folder with read permissions for all users
+	mkdir "$FILEBOT_NODE_DATA"
+
+	# prepare log file permissions
+	touch "$FILEBOT_NODE_DATA/filebot.log"
+	chmod 666 "$FILEBOT_NODE_DATA/filebot.log"
+
+	# chown data folder
+	chown -R admin.administrators "$FILEBOT_NODE_DATA"
 }
