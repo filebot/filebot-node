@@ -61,7 +61,7 @@ if (!fs.existsSync(LOG_FOLDER)) {
     fs.chownSync(LOG_FOLDER, FILEBOT_CMD_UID, FILEBOT_CMD_GID)  // FILEBOT USER MUST BE ABLE TO WRITE LOGS
 }
 if (!fs.existsSync(FILEBOT_LOG)) {
-    fs.writeFileSync(FILEBOT_LOG, '# Created on ' + (new Date()) + NEWLINE)
+    fs.writeFileSync(FILEBOT_LOG, '# Created on ' + (new Date().toString()) + NEWLINE)
     fs.chownSync(FILEBOT_LOG, FILEBOT_CMD_UID, FILEBOT_CMD_GID) // FILEBOT USER MUST BE ABLE TO WRITE LOGS
 }
 
@@ -384,8 +384,9 @@ function listLogs() {
 function status() {
     return {
         pid: process.pid,
+        node: process.version,
         uptime: process.uptime().toFixed(0),
-        node: process.version
+        date: new Date().toUTCString()
     }
 }
 
@@ -802,7 +803,8 @@ function server(request, response) {
 
 // LOGGING
 console.log("ENVIRONMENT", process.env)
-console.log("USER", { UID: FILEBOT_CMD_UID, GID: FILEBOT_CMD_GID })
+console.log("STATUS", status())
+console.log("USER", { UID: FILEBOT_CMD_UID,GID: FILEBOT_CMD_GID })
 
 // HTTP
 if ('YES' == process.env['FILEBOT_NODE_HTTP']) {
