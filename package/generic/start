@@ -1,5 +1,11 @@
 #!/bin/sh
 
+
+echo "
+-------------------- Run $0 (PID: $$) -------------------- $(date)
+"
+
+
 export FILEBOT_NODE_HOST="0.0.0.0" # bind to all interfaces
 
 export FILEBOT_NODE_AUTH="BASIC"

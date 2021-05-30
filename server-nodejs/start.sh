@@ -1,5 +1,11 @@
 #!/bin/sh
 
+
+echo "
+-------------------- Run $0 (PID: $$) -------------------- $(date)
+"
+
+
 export FILEBOT_NODE_HOST='127.0.0.1' # use 0.0.0.0 to allow external connections
 export FILEBOT_NODE_AUTH='NONE'
 
@@ -20,4 +26,4 @@ export FILEBOT_NODE_CLIENT='../dist/generic/client'
 export FILEBOT_OPTS='-Djava.awt.headless=true'
 
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
-node --optimize_for_size 'app.js'
+exec node --optimize_for_size 'app.js'

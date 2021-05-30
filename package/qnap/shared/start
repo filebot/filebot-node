@@ -1,5 +1,11 @@
 #!/bin/sh
 
+
+echo "
+-------------------- Run $0 (PID: $$) -------------------- $(date)
+"
+
+
 export FILEBOT_NODE_HOST="127.0.0.1" # bind to local apache reverse proxy
 export FILEBOT_NODE_AUTH="QNAP"
 
