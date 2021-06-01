@@ -50,6 +50,16 @@ Ext.define('FileBot.view.tasklogcat.TaskLogCatController', {
             var val = response.responseText
             var cmp = Ext.getCmp('logcatviewer')
 
+            // detect blocked requests
+            if (!val) {
+                console.log('Bad Response', response)
+                val = 'Invalid Response' 
+                    + '\n└─ url: ' + JSON.stringify(response.request.requestOptions.url)
+                    + '\n└─ status: ' + JSON.stringify(response.status)
+                    + '\n└─ response: ' + JSON.stringify(response.responseText)
+                    + '\n\nPlease disable your Ad Blocker. Check Inspect ➔ Console / Network for details.'
+            }
+
             if (val != cmp.getValue()) {
                 cmp.setValue(val)
 
