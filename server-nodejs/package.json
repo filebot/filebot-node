@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "basic-auth": "^2.0.1",
-    "fast-xml-parser": "^3.17.1",
+    "fast-xml-parser": "^3.19.0",
     "shell-escape": "^0.2.0"
   }
 }
