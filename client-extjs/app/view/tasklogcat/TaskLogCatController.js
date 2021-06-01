@@ -52,8 +52,8 @@ Ext.define('FileBot.view.tasklogcat.TaskLogCatController', {
 
             // detect blocked requests
             if (!val) {
-                console.log('Bad Response', response)
-                val = 'Invalid Response' 
+                console.log('Invalid Response', response)
+                val = 'Invalid Response'
                     + '\n└─ url: ' + JSON.stringify(response.request.requestOptions.url)
                     + '\n└─ status: ' + JSON.stringify(response.status)
                     + '\n└─ response: ' + JSON.stringify(response.responseText)
