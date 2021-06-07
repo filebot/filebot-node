@@ -4,7 +4,7 @@ build-production:
 	$(ANT) clean build
 
 run-client:
-	cd client-extjs && sencha app watch
+	docker run -v '${PWD}/client-extjs:/src' -p 1841:1841 rednoah/sencha-build app watch
 
 run-server:
 	cd server-nodejs && npm start
@@ -26,5 +26,3 @@ clean:
 	git reset --hard
 	git pull
 	git --no-pager log -1
-	# https://forum.sencha.com/forum/showthread.php?471696
-	-rm -v "$(HOME)/Library/Application Support/Sencha/Cmd/Update/app.properties"
