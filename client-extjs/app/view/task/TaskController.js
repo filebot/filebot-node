@@ -94,7 +94,7 @@ Ext.define('FileBot.view.task.TaskController', {
                     fieldCls: 'license',
                     allowBlank: false,
                     emptyText: '-----BEGIN PGP SIGNED MESSAGE-----\n\n\n\n\n\n\n\n\n-----BEGIN PGP SIGNATURE-----\n\n\n\n\n\n\n\n\n\n-----END PGP SIGNATURE-----',
-                    regex: /-----BEGIN PGP SIGNED MESSAGE-----(.+)-----BEGIN PGP SIGNATURE-----(.+)-----END PGP SIGNATURE-----/s,
+                    regex: /-----BEGIN PGP SIGNED MESSAGE-----(.+)-----BEGIN PGP SIGNATURE-----(.+)-----END PGP SIGNATURE-----/,
                     stripCharsRe: /(^\s+|\s+$)/g
                 }],
                 buttons: [
