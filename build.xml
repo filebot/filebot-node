@@ -35,7 +35,8 @@
 		</replace>
 
 		<!-- run sencha app build -->
-		<exec executable="sencha" dir="${dir.build}/client">
+		<exec executable="docker" failonerror="yes">
+			<arg line="run -v '${dir.build}/client:/src' rednoah/sencha-build" />
 			<arg line="app build production" />
 		</exec>
 
