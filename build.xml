@@ -69,7 +69,7 @@
 	</target>
 
 
-	<target name="spk" description="Build Synology Package (DSM 6.2.4)">
+	<target name="spk-dsm6" description="Build Synology Package (DSM 6.2.4)">
 		<syno:spk destdir="${dir.dist}" name="${package}" version="${version}" arch="noarch" compression="xz">
 			<info name="displayname" value="FileBot Node" />
 			<info name="description" value="FileBot Node allows you to execute and schedule filebot calls via Synology DSM. FileBot Node requires Node.js and FileBot." />
@@ -97,14 +97,14 @@
 			<package dir="${dir.package}/synology/target" excludes="bin/*, client/*.cgi" />
 			<package dir="${dir.dist}/generic" />
 		</syno:spk>
-		<copy file="${dir.dist}/${package}-${version}-noarch.spk" tofile="${dir.release}/${release}.spk" />
+		<copy file="${dir.dist}/${package}-${version}-noarch.spk" tofile="${dir.release}/${release}-dsm6.spk" />
 	</target>
 
 
-	<target name="syno-repo" description="Update Synology Package Source (DSM 6.2.4)" depends="stats">
+	<target name="syno-repo-dsm6" description="Update Synology Package Source (DSM 6.2.4)" depends="stats">
 		<syno:package-source file="${basedir}/syno.json">
-			<spk file="${dir.release}/${release}.spk">
-				<info name="link" value="https://github.com/filebot/filebot-node/releases/download/${version}/${release}.spk" />
+			<spk file="${dir.release}/${release}-dsm6.spk">
+				<info name="link" value="https://github.com/filebot/filebot-node/releases/download/${version}/${release}-dsm6.spk" />
 				<info name="download_count" value="${download_count}" />
 				<thumbnail url="https://www.filebot.net/syno/filebot-node-thumbnail.png" />
 				<snapshot url="https://www.filebot.net/syno/filebot-node-snapshot.png" />
@@ -113,7 +113,7 @@
 	</target>
 
 
-	<target name="spk-dsm7" description="Build Synology Package (DSM 7)">
+	<target name="spk" description="Build Synology Package">
 		<syno:spk destdir="${dir.dist}" name="${package}" version="${version}" arch="noarch" compression="xz">
 			<info name="displayname" value="FileBot Node" />
 			<info name="description" value="FileBot Node allows you to execute and schedule filebot calls via Synology DSM. FileBot Node requires Node.js and FileBot." />
@@ -130,8 +130,7 @@
 			<info name="dsmappname" value="FileBot.NodeClient" />
 			<info name="dsmuidir" value="client" />
 			<info name="thirdparty" value="yes" />
-			<info name="os_min_ver" value="7.0-40759" />
-			<info name="beta" value="yes" />
+			<info name="os_min_ver" value="7.0-41890" />
 
 			<icon file="${dir.package}/synology-dsm7/target/client/images/filebot_node_64.png" />
 			<icon size="256" file="${dir.package}/synology-dsm7/target/client/images/filebot_node_256.png" />
@@ -142,16 +141,16 @@
 			<package dir="${dir.package}/synology-dsm7/target" excludes="bin/*, client/*.cgi" />
 			<package dir="${dir.dist}/generic" />
 		</syno:spk>
-		<copy file="${dir.dist}/${package}-${version}-noarch.spk" tofile="${dir.release}/${release}-dsm7.spk" />
+		<copy file="${dir.dist}/${package}-${version}-noarch.spk" tofile="${dir.release}/${release}.spk" />
 	</target>
 
 
 
 
-	<target name="syno-repo-dsm7" description="Update Synology Package Source (DSM 7.0)" depends="stats">
-		<syno:package-source file="${basedir}/syno-dsm7.json">
-			<spk file="${dir.release}/${release}-dsm7.spk">
-				<info name="link" value="https://github.com/filebot/filebot-node/releases/download/${version}/${release}-dsm7.spk" />
+	<target name="syno-repo" description="Update Synology Package Source" depends="stats">
+		<syno:package-source file="${basedir}/syno.json">
+			<spk file="${dir.release}/${release}.spk">
+				<info name="link" value="https://github.com/filebot/filebot-node/releases/download/${version}/${release}.spk" />
 				<info name="download_count" value="${download_count}" />
 				<thumbnail url="https://www.filebot.net/syno/filebot-node-thumbnail.png" />
 				<snapshot url="https://www.filebot.net/syno/filebot-node-snapshot.png" />
