@@ -170,7 +170,6 @@ function getCommandArguments(options) {
         args.push('fn:sysinfo')
     } else if (options.fn == 'clear') {
         args.push('-clear-cache')
-        args.push('-clear-prefs')
         args.push('-clear-history')
     } else if (options.fn == 'configure' && options.osdbUser && options.osdbPwd) {
         args.push('-script')
