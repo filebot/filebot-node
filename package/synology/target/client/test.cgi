@@ -16,7 +16,7 @@ if /usr/syno/synoman/webman/authenticate.cgi; then
 	echo '---------- filebot ----------'
 	filebot -script fn:sysinfo 2>&1
 	echo '---------- filebot-node ----------'
-	cat /var/packages/filebot-node/var/filebot-node.log
+	cat /var/packages/filebot-node/target/data/filebot-node.log
 else
 	echo $?
 fi
