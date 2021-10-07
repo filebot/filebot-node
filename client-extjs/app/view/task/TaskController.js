@@ -30,6 +30,9 @@ Ext.define('FileBot.view.task.TaskController', {
                 form.isValid()
             }
         }, this)
+
+        // show current environment
+        FileBot.getApplication().on('environment', this.showEnvironmentForm, this)
     },
 
     restoreState: function() {
@@ -197,6 +200,11 @@ Ext.define('FileBot.view.task.TaskController', {
         FileBot.Node.requestExecute(parameters)
     },
 
+    onEnvironment: function() {
+        var parameters = {}
+        FileBot.Node.requestEnvironment(parameters)
+    },
+
     onHelp: function() {
         window.open(Ext.manifest.server.url.help, '_blank')
     },
@@ -211,6 +219,56 @@ Ext.define('FileBot.view.task.TaskController', {
 
     getForm: function() {
         return this.getView().down('form').getForm()
+    },
+
+    showEnvironmentForm: function(data) {
+        // show status message
+        if (data.message != null) {
+            Ext.create('Ext.window.MessageBox', {
+                // set closeAction to 'destroy' if this instance is not
+                // intended to be reused by the application
+                closeAction: 'destroy'
+            }).show({
+                title: 'Environment',
+                msg: data.message,
+                buttons: Ext.MessageBox.OK,
+                icon: Ext.MessageBox.INFO
+            })
+        }
+
+        // show environment input form
+        if (data.environment != null) {
+            Ext.create('Ext.window.Window', {
+                id: 'environmentWindow',
+                items: [{
+                    xtype: 'form',
+                    id: 'environmentForm',
+                    items: [{
+                        xtype: 'textareafield',
+                        width: 540,
+                        height: 360,
+                        id: 'environmentTextArea',
+                        name: 'environment',
+                        fieldCls: 'environment',
+                        allowBlank: true,
+                        value: data.environment,
+                        emptyText: 'export JAVA_OPTS=-Xmx512m'
+                    }],
+                    buttons: [
+                        { text:'Set Environment', formBind: true, handler: function(btn) {
+                            var environment = Ext.getCmp('environmentForm').getForm().getValues()['environment']
+                            FileBot.Node.requestEnvironment({'environment': environment})
+                            Ext.getCmp('environmentWindow').destroy()
+                        }}
+                    ],
+                }],
+                title: 'Environment',
+                bodyPadding: 10,
+                scrollable: false,
+                resizable: false,
+                closable: true
+            }).show()
+        }
     }
 
 });

@@ -41,6 +41,10 @@ Ext.define('FileBot.Node', {
         this.dispatchRequest('state', parameters)
     },
 
+    requestEnvironment: function(parameters) {
+        this.dispatchRequest('environment', parameters)
+    },
+
     requestExecute: function (parameters) {
         this.dispatchRequest('execute', parameters)
     },

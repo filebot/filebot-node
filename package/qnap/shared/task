@@ -2,13 +2,19 @@
 
 export USER=$(whoami)  # make sure that $USER is set correctly
 
-export DATA="/opt/filebot-node/data"
-export TASK="$1"
+export FILEBOT_NODE_DATA="/opt/filebot-node/data"
+export FILEBOT_NODE_TASK="$1"
 
-export JAVA_OPTS=$(awk '/MemTotal:/ { xmx = ($2*0.8)/1024; if (xmx < 1024) { printf "-Xmx%dm", xmx }; exit}' /proc/meminfo)  # set -Xmx to 0.8 of physical memory (on low-memory devices)
 
-filebot "@$DATA/task/$TASK.args" 2>&1 | tee -a "$DATA/log/$TASK.log"
+# import user environment
+source "$FILEBOT_NODE_DATA/environment.sh"
 
+
+# execute filebot task and record output
+filebot "@$FILEBOT_NODE_DATA/task/$FILEBOT_NODE_TASK.args" 2>&1 | tee -a "$FILEBOT_NODE_DATA/log/$FILEBOT_NODE_TASK.log"
+
+
+# get filebot exit code (and not tee exit code)
 STATUS="${PIPESTATUS[0]}"
 
 # treat ExitCode.NOOP as ExitCode.SUCCESS

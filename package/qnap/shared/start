@@ -6,14 +6,13 @@ echo "
 "
 
 
-export FILEBOT_NODE_HOST="127.0.0.1" # bind to local apache reverse proxy
+export FILEBOT_NODE_HOST="127.0.0.1"  # bind to local apache reverse proxy
 export FILEBOT_NODE_AUTH="QNAP"
 
 export FILEBOT_NODE_HTTP="YES"
 export FILEBOT_NODE_HTTP_PORT="5452"
 
-export USER="admin"                                                                                                          # set admin as filebot user
-export JAVA_OPTS=$(awk '/MemTotal:/ { xmx = ($2*0.8)/1024; if (xmx < 1024) { printf "-Xmx%dm", xmx }; exit}' /proc/meminfo)  # set -Xmx to 0.8 of physical memory (on low-memory devices)
+export USER="admin"  # set admin as filebot user
 
 export FILEBOT_NODE_DATA="/opt/filebot-node/data"
 export FILEBOT_TASK_CMD="/opt/filebot-node/task"
@@ -21,9 +20,17 @@ export FILEBOT_TASK_CMD="/opt/filebot-node/task"
 export FILEBOT_CMD="filebot"
 export FILEBOT_CMD_CWD="$QPKG_DEFAULT_VOLUME"
 export FILEBOT_CMD_UID=$(id -u $USER)
-export FILEBOT_CMD_GID=$(cat /etc/group | grep 'administrators' | cut -d: -f3)                # cannot use `id -u $USER` because the result is 100:users but we need 101:administrators because users don't have execute permissions
+export FILEBOT_CMD_GID=$(cat /etc/group | grep 'administrators' | cut -d: -f3)  # cannot use `id -u $USER` because the result is 100:users but we need 101:administrators because users don't have execute permissions
 
 export FILEBOT_NODE_CLIENT="client"
+
+
+# set working dir
+cd "$QPKG_ROOT"
+
+
+# import user environment
+source "$FILEBOT_NODE_DATA/environment.sh"
 
 
 # sanity check
@@ -57,9 +64,6 @@ if [ ! -x "$NODE" ]; then
 	exit 127
 fi
 
-
-# set working dir
-cd "$QPKG_ROOT"
 
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
 exec "$NODE" --optimize_for_size "server/app.js"

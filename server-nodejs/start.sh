@@ -25,5 +25,8 @@ export FILEBOT_NODE_CLIENT='../dist/generic/client'
 # force headless mode
 export FILEBOT_OPTS='-Djava.awt.headless=true'
 
+# import user environment
+source "$FILEBOT_NODE_DATA/environment.sh"
+
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
 exec node --optimize_for_size 'app.js'

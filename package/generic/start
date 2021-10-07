@@ -30,5 +30,12 @@ export FILEBOT_CMD_GID=$(id -g $USER)
 
 export FILEBOT_NODE_CLIENT="client"
 
+
+# import user environment
+if [ -f "$FILEBOT_NODE_DATA/environment.sh" ]; then
+	source "$FILEBOT_NODE_DATA/environment.sh"
+fi
+
+
 # --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
 exec node --optimize_for_size "server/app.js"

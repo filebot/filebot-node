@@ -61,6 +61,11 @@
 	background-size: contain;
 }
 
+.environment-item {
+	background-image: url('images/environment.png');
+	background-size: contain;
+}
+
 .sysinfo-item {
 	background-image: url('images/info.png');
 	background-size: contain;
@@ -92,6 +97,11 @@
 }
 
 textarea.license {
+	font-family: 'Source Code Pro', monospace	!important;
+	cursor: text								!important;
+}
+
+textarea.environment {
 	font-family: 'Source Code Pro', monospace	!important;
 	cursor: text								!important;
 }

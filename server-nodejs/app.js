@@ -47,6 +47,7 @@ const LOG_FOLDER = path.resolve(DATA_FOLDER, 'log')
 const TASK_FOLDER = path.resolve(DATA_FOLDER, 'task')
 const TASK_INDEX = path.resolve(DATA_FOLDER, 'schedule.ids')
 const STATE_JSON = path.resolve(DATA_FOLDER, 'state.json')
+const ENVIRONMENT_SCRIPT = path.resolve(DATA_FOLDER, 'environment.sh')
 const FILEBOT_LOG = path.resolve(DATA_FOLDER, 'filebot.log')
 
 // create folder if necessary
@@ -286,6 +287,21 @@ function state(options) {
     return null
 }
 
+function environment(options) {
+    // PUT ENV
+    if (options.environment != null) {
+        fs.writeFileSync(ENVIRONMENT_SCRIPT, options.environment)
+        return { environment: null, message: "The environment has been set. Please restart the FileBot Node process to reload the environment." }
+    }
+
+    // GET ENV
+    var environment = ""
+    if (fs.existsSync(ENVIRONMENT_SCRIPT)) {
+        environment = fs.readFileSync(ENVIRONMENT_SCRIPT, {'encoding': 'UTF-8'})
+    }
+    return { environment: environment, message: null }
+}
+
 function task(request, response, options) {
     var id = options.id
 
@@ -424,10 +440,6 @@ function handleRequest(request, response) {
         return unauthorized(response)
     }
 
-    if ('/state' == requestPath) {
-        return ok(response, state(options))
-    }
-
     if ('/version' == requestPath) {
         return ok(response, version())
     }
@@ -461,12 +473,20 @@ function handleRequest(request, response) {
         return schedule(request, response, options)
     }
 
+    if ('/task' == requestPath) {
+        return task(request, response, options)
+    }
+
     if ('/kill' == requestPath) {
         return ok(response, kill(options))
     }
 
-    if ('/task' == requestPath) {
-        return task(request, response, options)
+    if ('/state' == requestPath) {
+        return ok(response, state(options))
+    }
+
+    if ('/environment' == requestPath) {
+        return ok(response, environment(options))
     }
 
     return error(response, 'BAD ROUTE')

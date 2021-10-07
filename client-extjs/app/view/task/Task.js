@@ -462,7 +462,7 @@ Ext.define('FileBot.view.task.Task', {
                     {text: 'Configure', handler: 'onConfigure', iconCls: 'configure-item' },
                     {text: 'Clear Cache', handler: 'onClear', iconCls: 'clear-item' },
                     {text: 'System Info', handler: 'onInfo', iconCls: 'sysinfo-item' },
-                    {text: 'Revert', handler: 'onRevert', iconCls: 'revert-item' },
+                    {text: 'Environment', handler: 'onEnvironment', iconCls: 'environment-item' },
                     {text: 'Help', handler: 'onHelp', iconCls: 'help-item' }
                 ]
             }),
@@ -480,7 +480,8 @@ Ext.define('FileBot.view.task.Task', {
                 items: [
                     // these will render as dropdown menu items when the arrow is clicked:
                     {text: 'Dry Run', handler: 'onTest', iconCls: 'dryrun-item'},
-                    {text: 'Schedule', handler: 'onSchedule', iconCls: 'schedule-item'}
+                    {text: 'Schedule', handler: 'onSchedule', iconCls: 'schedule-item'},
+                    {text: 'Revert', handler: 'onRevert', iconCls: 'revert-item' },
                 ]
             }),
             width: 110,

@@ -13,6 +13,12 @@ pkg_post_install(){
 	touch "$FILEBOT_NODE_DATA/filebot.log"
 	chmod 666 "$FILEBOT_NODE_DATA/filebot.log"
 
+	# set -Xmx to 0.8 of physical memory (on low-memory devices)
+	if [ ! -f "$FILEBOT_NODE_DATA/environment.sh" ]; then
+		JAVA_OPTS=$(awk '/MemTotal:/ { xmx = ($2*0.8)/1024; if (xmx < 1024) { printf "-Xmx%dm", xmx }; exit}' /proc/meminfo)
+		echo "export JAVA_OPTS=$JAVA_OPTS" > "$FILEBOT_NODE_DATA/environment.sh"
+	fi
+
 	# chown data folder
 	chown -R admin.administrators "$FILEBOT_NODE_DATA"
 }
