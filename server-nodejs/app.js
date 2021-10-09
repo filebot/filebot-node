@@ -205,7 +205,7 @@ function getExitStatus(code) {
         // Bad License
         if (code == 2) {
             status += WRAP + '💡 Please use an interactive terminal (i.e. SSH) to evaluate the filebot command-line tool.'
-            status += WRAP + '💡 FileBot Node merely generates filebot commands but cannot itself be used to evaluate the filebot command-line tool.'
+            status += WRAP + '💡 FileBot Node generates and executes filebot commands but cannot itself be used to evaluate the filebot command-line tool.'
         }
     }
     return status + WRAP
