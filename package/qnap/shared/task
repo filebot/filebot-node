@@ -1,4 +1,4 @@
-#!/bin/sh -u
+#!/bin/bash -u
 
 export USER=$(whoami)  # make sure that $USER is set correctly
 
