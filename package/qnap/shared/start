@@ -65,5 +65,4 @@ if [ ! -x "$NODE" ]; then
 fi
 
 
-# --optimize_for_size (Enables optimizations which favor memory size over execution speed.)
-exec "$NODE" --optimize_for_size "server/app.js"
+exec "$NODE" "server/app.js"
