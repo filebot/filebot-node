@@ -18,7 +18,7 @@ export FILEBOT_NODE_DATA="/opt/filebot-node/data"
 export FILEBOT_TASK_CMD="/opt/filebot-node/task"
 
 export FILEBOT_CMD="filebot"
-export FILEBOT_CMD_CWD="$QPKG_DEFAULT_VOLUME"
+export FILEBOT_CMD_CWD="/share"
 export FILEBOT_CMD_UID=$(id -u $USER)
 export FILEBOT_CMD_GID=$(cat /etc/group | grep 'administrators' | cut -d: -f3)  # cannot use `id -u $USER` because the result is 100:users but we need 101:administrators because users don't have execute permissions
 
