@@ -372,7 +372,7 @@ function listFolders(options) {
     var folder = options.q
     var file = null
 
-    folder = folder && folder[0] == '/' ? folder : '/'
+    folder = folder && folder[0] == '/' ? folder : FILEBOT_CMD_CWD
     while(!fs.existsSync(folder)) {
         file = path.basename(folder)
         folder = path.dirname(folder)
