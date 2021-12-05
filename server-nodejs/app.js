@@ -142,6 +142,7 @@ function getCommandArguments(options) {
         if (options.ignore) args.push('ignore=' + options.ignore)
         if (options.minLengthMS) args.push('minLengthMS=' + options.minLengthMS)
         if (options.minFileSize) args.push('minFileSize=' + options.minFileSize)
+        if (options.minFileAge) args.push('minFileAge=' + options.minFileAge)
         if (options.exec) args.push('exec=' + options.exec)
         if (options.plex) args.push('plex=' + options.plex)
         if (options.kodi) args.push('kodi=' + options.kodi)

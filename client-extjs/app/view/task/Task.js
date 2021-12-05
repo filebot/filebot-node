@@ -20,6 +20,7 @@ Ext.define('FileBot.view.task.Task', {
         'FileBot.store.ArchiveOptions',
         'FileBot.store.VideoLengthFilters',
         'FileBot.store.FileSizeFilters',
+        'FileBot.store.FileAgeFilters',
         'FileBot.store.Languages',
         'FileBot.store.ConflictActions',
         'FileBot.store.ScriptSources'
@@ -271,6 +272,18 @@ Ext.define('FileBot.view.task.Task', {
                 value: '',
                 store: {
                     type: 'filesize-filters'
+                },
+                editable: false
+            }, {
+                xtype: 'combobox',
+                name: 'minFileAge',
+                fieldLabel: 'File Age',
+                labelStyle: 'white-space: nowrap; width: 120px;',
+                displayField: 'label',
+                valueField: 'value',
+                value: '',
+                store: {
+                    type: 'fileage-filters'
                 },
                 editable: false
             }, {
