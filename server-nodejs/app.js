@@ -203,10 +203,14 @@ function getExitStatus(code) {
     } else {
         status += '[Process error]'
         status += WRAP + '🔺 Exit Code: ' + code
-        // Bad License
+        // Whoopsies! --action TEST requires a valid license.
         if (code == 2) {
             status += WRAP + '💡 Please use an interactive terminal (i.e. SSH) to evaluate the filebot command-line tool.'
             status += WRAP + '💡 FileBot Node generates and executes filebot commands but cannot itself be used to evaluate the filebot command-line tool.'
+        }
+        // java: command not found
+        if (code == 127) {
+            status += WRAP + '💡 FileBot Node requires FileBot and Java. Please ensure that FileBot and Java are installed.'
         }
     }
     return status + WRAP
