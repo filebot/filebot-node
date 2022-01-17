@@ -8,6 +8,13 @@ if ! which node; then
 fi
 
 
+# require filebot
+if ! which filebot; then
+	echo '<p style="color: #D2042D;"><b>FileBot Node</b> requires <b>FileBot</b>. Please install <b>FileBot</b> first.</p>' >> "$SYNOPKG_TEMP_LOGFILE"
+	exit 1
+fi
+
+
 # nginx reverse proxy configuration installed by FileBot Node pre-DSM 6.2.4 (as default root user)
 # can no longer be uninstalled by FileBot Node after DSM 6.2.4 (as new default system user)
 if [ -f '/usr/local/etc/nginx/conf.d/dsm.filebot-node.conf' ]; then
