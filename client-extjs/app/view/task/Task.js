@@ -377,6 +377,18 @@ Ext.define('FileBot.view.task.Task', {
                 anchor: '100%'
             },
             items: [{
+                xtype: 'checkboxfield',
+                name: 'import',
+                fieldLabel: 'Import Extras',
+                boxLabel: 'copy companion files along from the original folder to the destination folder',
+                checked: false
+            }, {
+                xtype: 'checkboxfield',
+                name: 'metadata',
+                fieldLabel: 'Export Xattr',
+                boxLabel: 'copy xattr metadata into hidden .xattr folders',
+                checked: false
+            }, {
                 name: 'exec',
                 fieldLabel: 'Run Program',
                 emptyText: 'stat {quote f}'

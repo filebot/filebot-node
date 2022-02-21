@@ -160,6 +160,8 @@ function getCommandArguments(options) {
         if (options.unsortedFormat) args.push('unsortedFormat=' + options.unsortedFormat)
         if (options.excludeList) args.push('excludeList=' + options.excludeList)
         args.push('--apply')
+        if (options.import == 'on') args.push('import')
+        if (options.metadata == 'on') args.push('metadata')
         args.push('refresh')
         if (options.probe == 'no') args.push('-no-probe')
         if (options.index == 'no') args.push('-no-index')
