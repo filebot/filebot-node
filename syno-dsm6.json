@@ -19,10 +19,10 @@
             "snapshot": [
                 "https://www.filebot.net/syno/filebot-node-snapshot.png"
             ],
-            "link": "https://github.com/filebot/filebot-node/releases/download/0.4.3/filebot-node_0.4.3.spk",
+            "link": "https://github.com/filebot/filebot-node/releases/download/0.4.3/filebot-node_0.4.3-dsm6.spk",
             "download_count": "56060",
-            "md5": "2937c59ef65648582a8f71c0457ae864",
-            "sha256": "e4733c0022ec21c282ae09904ca7189de404674b83d2e3be026f6d20cab0e587",
+            "md5": "8e62996a4023ff3d4a320486b7785905",
+            "sha256": "0b6be3c3aa8a8bb647a749de180a4e99ed06f39c909a64be829b6450591b24ab",
             "size": 665600
         }
     ]

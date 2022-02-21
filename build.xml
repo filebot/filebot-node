@@ -102,7 +102,7 @@
 
 
 	<target name="syno-repo-dsm6" description="Update Synology Package Source (DSM 6.2.4)" depends="stats">
-		<syno:package-source file="${basedir}/syno.json">
+		<syno:package-source file="${basedir}/syno-dsm6.json">
 			<spk file="${dir.release}/${release}-dsm6.spk">
 				<info name="link" value="https://github.com/filebot/filebot-node/releases/download/${version}/${release}-dsm6.spk" />
 				<info name="download_count" value="${download_count}" />
