@@ -1,29 +1,29 @@
 {
-    "packages":[
+    "packages": [
         {
-            "package":"filebot-node",
-            "version":"0.4.2.1",
-            "dname":"FileBot Node",
-            "desc":"FileBot Node allows you to execute and schedule filebot calls via Synology DSM. FileBot Node requires Node.js and FileBot.",
-            "maintainer":"FileBot",
-            "maintainer_url":"http://www.filebot.net/",
-            "distributor":"FileBot",
-            "distributor_url":"http://www.filebot.net/",
-            "start":true,
-            "qstart":true,
-            "qinst":true,
-            "qupgrade":true,
-            "thumbnail":[
+            "package": "filebot-node",
+            "version": "0.4.3",
+            "dname": "FileBot Node",
+            "desc": "FileBot Node allows you to execute and schedule filebot calls via Synology DSM. FileBot Node requires Node.js and FileBot.",
+            "maintainer": "FileBot",
+            "maintainer_url": "http://www.filebot.net/",
+            "distributor": "FileBot",
+            "distributor_url": "http://www.filebot.net/",
+            "start": true,
+            "qstart": true,
+            "qinst": true,
+            "qupgrade": true,
+            "thumbnail": [
                 "https://www.filebot.net/syno/filebot-node-thumbnail.png"
             ],
-            "snapshot":[
+            "snapshot": [
                 "https://www.filebot.net/syno/filebot-node-snapshot.png"
             ],
-            "link":"https://github.com/filebot/filebot-node/releases/download/0.4.2.1/filebot-node_0.4.2.1.spk",
-            "download_count":"43000",
-            "md5":"558c45f795fcee875066b96b56783d4a",
-            "sha256":"c21ff7ac9f40e70067937cbbe9879f8117525d7772cbf2659a5e347c77765041",
-            "size":665600
+            "link": "https://github.com/filebot/filebot-node/releases/download/0.4.3/filebot-node_0.4.3-dsm6.spk",
+            "download_count": "56058",
+            "md5": "8e62996a4023ff3d4a320486b7785905",
+            "sha256": "0b6be3c3aa8a8bb647a749de180a4e99ed06f39c909a64be829b6450591b24ab",
+            "size": 665600
         }
     ]
 }
