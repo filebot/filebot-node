@@ -23,7 +23,9 @@ Ext.define('FileBot.view.task.Task', {
         'FileBot.store.FileAgeFilters',
         'FileBot.store.Languages',
         'FileBot.store.ConflictActions',
-        'FileBot.store.ScriptSources'
+        'FileBot.store.ScriptSources',
+        'FileBot.store.MovieDatabases',
+        'FileBot.store.SeriesDatabases'
     ],
 
     xtype: 'section-task',
@@ -368,7 +370,7 @@ Ext.define('FileBot.view.task.Task', {
                 emptyText: 'Unsorted/{f.structurePathTail}'
             }]
         }, {
-            title: 'Media Center Options',
+            title: 'Post Processing Options',
             defaults: {
                 allowBlank: true,
                 xtype: 'textfield',
@@ -416,6 +418,53 @@ Ext.define('FileBot.view.task.Task', {
                 forceSelection: false,
                 editable: true,
                 anchor: '100%'
+            }]
+        }, {
+            title: 'Database Options',
+            defaults: {
+                allowBlank: true,
+                forceSelection: true,
+                queryMode: 'local'
+            },
+            items: [{
+                xtype: 'combobox',
+                name: 'movieDB',
+                fieldLabel: 'Movie Database',
+                labelStyle: 'white-space: nowrap; width: 120px;',
+                displayField: 'label',
+                valueField: 'value',
+                value: '',
+                store: {
+                    type: 'movie-databases'
+                },
+                editable: false,
+                minWidth: 320
+            }, {
+                xtype: 'combobox',
+                name: 'seriesDB',
+                fieldLabel: 'Series Database',
+                labelStyle: 'white-space: nowrap; width: 120px;',
+                displayField: 'label',
+                valueField: 'value',
+                value: '',
+                store: {
+                    type: 'series-databases'
+                },
+                editable: false,
+                minWidth: 320
+            }, {
+                xtype: 'combobox',
+                name: 'animeDB',
+                fieldLabel: 'Anime Database',
+                labelStyle: 'white-space: nowrap; width: 120px;',
+                displayField: 'label',
+                valueField: 'value',
+                value: '',
+                store: {
+                    type: 'series-databases'
+                },
+                editable: false,
+                minWidth: 320
             }]
         }, {
             title: 'Developer Options',
