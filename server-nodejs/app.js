@@ -162,6 +162,7 @@ function getCommandArguments(options) {
         args.push('--apply')
         if (options.import == 'on') args.push('import')
         if (options.metadata == 'on') args.push('metadata')
+        if (options.chmod == 'on') args.push('chmod')
         args.push('refresh')
         if (options.probe == 'no') args.push('-no-probe')
         if (options.index == 'no') args.push('-no-index')

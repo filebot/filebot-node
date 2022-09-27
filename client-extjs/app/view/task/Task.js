@@ -389,6 +389,12 @@ Ext.define('FileBot.view.task.Task', {
                 boxLabel: 'copy xattr metadata into hidden .xattr folders',
                 checked: false
             }, {
+                xtype: 'checkboxfield',
+                name: 'chmod',
+                fieldLabel: 'Set Permissions',
+                boxLabel: 'set permissions to all-readable / user-writable (rw-r--r--)',
+                checked: false
+            }, {
                 name: 'exec',
                 fieldLabel: 'Run Program',
                 emptyText: 'stat {quote f}'
