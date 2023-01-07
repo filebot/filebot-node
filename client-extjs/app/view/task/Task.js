@@ -419,6 +419,10 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'PushBullet',
                 emptyText: 'apikey'
             }, {
+                name: 'discord',
+                fieldLabel: 'Discord',
+                emptyText: 'webhook'
+            }, {
                 xtype: 'combobox',
                 name: 'report',
                 fieldLabel: 'Report Folder',

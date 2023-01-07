@@ -149,6 +149,7 @@ function getCommandArguments(options) {
         if (options.emby) args.push('emby=' + options.emby)
         if (options.pushover) args.push('pushover=' + options.pushover)
         if (options.pushbullet) args.push('pushbullet=' + options.pushbullet)
+        if (options.discord) args.push('discord=' + options.discord)
         if (options.report) args.push('storeReport=' + options.report)
         if (options.seriesFormat) args.push('seriesFormat=' + options.seriesFormat)
         if (options.animeFormat) args.push('animeFormat=' + options.animeFormat)
