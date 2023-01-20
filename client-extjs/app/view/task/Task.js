@@ -367,7 +367,7 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Unsorted Format',
                 labelStyle: 'white-space: nowrap; width: 120px;',
                 name: 'unsortedFormat',
-                emptyText: 'Unsorted/{f.structurePathTail}'
+                emptyText: 'Unsorted/{relativeFile}'
             }]
         }, {
             title: 'Post Processing Options',
