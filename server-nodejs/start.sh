@@ -6,7 +6,7 @@ echo "
 "
 
 
-export FILEBOT_NODE_HOST='127.0.0.1' # use 0.0.0.0 to allow external connections
+export FILEBOT_NODE_HOST='0.0.0.0' # use 0.0.0.0 to allow external connections
 export FILEBOT_NODE_AUTH='NONE'
 
 export FILEBOT_NODE_HTTP='YES'

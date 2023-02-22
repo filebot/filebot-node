@@ -36,7 +36,7 @@
 
 		<!-- run sencha app build -->
 		<exec executable="docker" failonerror="yes">
-			<arg line="run --rm --platform linux/amd64 -v '${dir.build}/client:/src' rednoah/sencha-build" />
+			<arg line="run --platform linux/amd64 --rm -v '${dir.build}/client:/src' rednoah/sencha-build" />
 			<arg line="app build production" />
 		</exec>
 

@@ -7,16 +7,16 @@ publish: clean build-production
 	$(ANT) tar spk syno-repo spk-dsm6 syno-repo-dsm6 qpkg checksum
 
 run-client:
-	docker run -v "${PWD}/client-extjs:/src" -p 1841:1841 rednoah/sencha-build app watch
+	docker run --rm -it -v "${PWD}/client-extjs:/src" -p 1841:1841 rednoah/sencha-build app watch
 
 run-server:
-	docker run --rm -it -v "${PWD}/server-nodejs:/src" -p 1841:1841 node:latest start
+	docker run --rm -it -v "${PWD}/server-nodejs:/server-nodejs" -v "${PWD}/dist:/dist" --workdir /server-nodejs -p 5452:5452 node:latest /server-nodejs/start.sh
 
 npm-install:
-	docker run -v "${PWD}/server-nodejs:/src" -p 1841:1841 --workdir /src --entrypoint /usr/local/bin/npm node:latest install
+	docker run --rm -it -v "${PWD}/server-nodejs:/server-nodejs" --workdir /server-nodejs node:latest npm install
 
 resolve: npm-install
-	-rm -rv lib
+	-rm -rvf lib
 	$(ANT) resolve
 
 spk:
@@ -26,7 +26,7 @@ qpkg:
 	$(ANT) clean build qpkg
 
 clean:
-	-rm -rv build dist release
+	-rm -rvf build dist release
 	git reset --hard
 	git pull
 	git --no-pager log -1
