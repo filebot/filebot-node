@@ -15,7 +15,8 @@ run-server:
 npm-install:
 	docker run -v "${PWD}/server-nodejs:/src" -p 1841:1841 --workdir /src --entrypoint /usr/local/bin/npm node:latest install
 
-resolve: clean npm-install
+resolve: npm-install
+	-rm -rv lib
 	$(ANT) resolve
 
 spk:
@@ -25,7 +26,7 @@ qpkg:
 	$(ANT) clean build qpkg
 
 clean:
-	-rm -rv lib build dist release
+	-rm -rv build dist release
 	git reset --hard
 	git pull
 	git --no-pager log -1
