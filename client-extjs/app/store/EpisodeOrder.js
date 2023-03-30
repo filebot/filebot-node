@@ -12,7 +12,8 @@ Ext.define('FileBot.store.EpisodeOrders', {
         [1, 'DVD', 'DVD'],
         [2, 'Absolute', 'Absolute'],
         [3, 'Digital', 'Digital'],
-        [4, 'Production', 'Production'],
-        [5, 'Date', 'Date and Title']
+        [4, 'Story', 'Story Arc'],
+        [5, 'Production', 'Production'],
+        [6, 'Date', 'Date and Title']
     ]
 });
