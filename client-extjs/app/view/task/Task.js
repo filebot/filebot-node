@@ -124,7 +124,7 @@ Ext.define('FileBot.view.task.Task', {
                 store: {
                     type: 'rename-actions'
                 },
-                editable: false,
+                editable: true,
                 minWidth: 280
             }, {
                 xtype: 'combobox',
@@ -214,7 +214,7 @@ Ext.define('FileBot.view.task.Task', {
                 store: {
                     type: 'conflict-actions'
                 },
-                editable: false,
+                editable: true,
                 minWidth: 320
             }, {
                 xtype: 'combobox',
@@ -263,7 +263,7 @@ Ext.define('FileBot.view.task.Task', {
                 store: {
                     type: 'videolength-filters'
                 },
-                editable: false
+                editable: true
             }, {
                 xtype: 'combobox',
                 name: 'minFileSize',
@@ -275,7 +275,7 @@ Ext.define('FileBot.view.task.Task', {
                 store: {
                     type: 'filesize-filters'
                 },
-                editable: false
+                editable: true
             }, {
                 xtype: 'combobox',
                 name: 'minFileAge',
@@ -287,7 +287,7 @@ Ext.define('FileBot.view.task.Task', {
                 store: {
                     type: 'fileage-filters'
                 },
-                editable: false
+                editable: true
             }, {
                 xtype: 'checkboxfield',
                 name: 'excludeLink',
