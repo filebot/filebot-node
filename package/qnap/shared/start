@@ -55,7 +55,7 @@ fi
 
 # node: command not found
 if [ ! -x "$NODE" ]; then
-	WARN="[command not found: node] Please install 'Node.js' or 'Media Streaming Add-on' in the App Center."
+	WARN="[node: command not found] Please install 'Node.js' or 'Media Streaming Add-on' in the App Center."
 	# print warning to console log
 	echo "$WARN"
 	# send to QNAP notification center
