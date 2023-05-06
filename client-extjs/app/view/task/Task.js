@@ -347,27 +347,27 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Movie Format',
                 labelStyle: 'white-space: nowrap; width: 120px;',
                 name: 'movieFormat',
-                emptyText: '{plex}'
+                emptyText: '{ plex.id }'
             }, {
                 fieldLabel: 'Series Format',
                 labelStyle: 'white-space: nowrap; width: 120px;',
                 name: 'seriesFormat',
-                emptyText: '{plex}'
+                emptyText: '{ plex.id }'
             }, {
                 fieldLabel: 'Anime Format',
                 labelStyle: 'white-space: nowrap; width: 120px;',
                 name: 'animeFormat',
-                emptyText: '{plex}'
+                emptyText: 'Anime/{ ~plex.id }'
             }, {
                 fieldLabel: 'Music Format',
                 labelStyle: 'white-space: nowrap; width: 120px;',
                 name: 'musicFormat',
-                emptyText: '{plex}'
+                emptyText: '{ plex.id }'
             }, {
                 fieldLabel: 'Unsorted Format',
                 labelStyle: 'white-space: nowrap; width: 120px;',
                 name: 'unsortedFormat',
-                emptyText: 'Unsorted/{relativeFile}'
+                emptyText: 'Unsorted/{ relativeFile }'
             }]
         }, {
             title: 'Post Processing Options',
