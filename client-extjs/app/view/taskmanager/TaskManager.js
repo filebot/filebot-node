@@ -19,7 +19,7 @@ Ext.define('FileBot.view.taskmanager.TaskManager', {
     tools: [{
         type: 'print',
         callback: function() {
-            FileBot.Node.openEndpoint('log', {})
+            FileBot.Node.openEndpoint('output', {})
         }
     }],
 

@@ -58,7 +58,7 @@ Ext.define('FileBot.Node', {
     },
 
     fetchLog: function(parameters, responseHandler) {
-        this.fetchResource('log', parameters, responseHandler)
+        this.fetchResource('output', parameters, responseHandler)
     },
 
     requestVersion: function () {

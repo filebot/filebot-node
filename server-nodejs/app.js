@@ -471,7 +471,7 @@ function handleRequest(request, response) {
         return ok(response, listFolders(options))
     }
 
-    if ('/log' == requestPath) {
+    if ('/output' == requestPath) {
         const id = options.id
         if (id) {
             return file(request, response, getLogFile(id), MIME_TYPES['.log'], false, false)
