@@ -28,7 +28,9 @@ export FILEBOT_OPTS='-Djava.awt.headless=true'
 
 
 # import user environment
-. "$FILEBOT_NODE_DATA/environment.sh"
+if [ -f "$FILEBOT_NODE_DATA/environment.sh" ]; then
+	source "$FILEBOT_NODE_DATA/environment.sh"
+fi
 
 
 node 'app.js'
