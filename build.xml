@@ -37,7 +37,7 @@
 		<!-- run sencha app build -->
 		<exec executable="docker" failonerror="yes">
 			<arg line="run --rm -v '${dir.build}/client:/src' rednoah/sencha-build" />
-			<arg line="config --file build.properties then app build production" />
+			<arg line="app build production" />
 		</exec>
 
 		<copy todir="${dir.dist}/generic/client">
