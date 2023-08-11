@@ -69,21 +69,6 @@
     ],
 
     /**
-     * Sass configuration properties.
-     */
-    "sass": {
-        /**
-         * The root namespace to use when mapping *.scss files to classes in the
-         * sass/src and sass/var directories. For example, "FileBot.view.Foo" would
-         * map to "sass/src/view/Foo.scss". If we changed this to "FileBot.view" then
-         * it would map to "sass/src/Foo.scss". To style classes outside the app's
-         * root namespace, change this to "". Doing so would change the mapping of
-         * "FileBot.view.Foo" to "sass/src/FileBot/view/Foo.scss".
-         */
-        "namespace": "FileBot"
-    },
-
-    /**
      * List of all JavaScript assets in the right execution order.
      *
      * Each item is an object with the following format:
