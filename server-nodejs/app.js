@@ -165,6 +165,7 @@ function getCommandArguments(options) {
         if (options.metadata == 'on') args.push('metadata')
         if (options.chmod == 'on') args.push('chmod')
         args.push('refresh')
+        if (options.apply) args.push(options.apply)
         if (options.probe == 'no') args.push('-no-probe')
         if (options.index == 'no') args.push('-no-index')
         args.push('--log')

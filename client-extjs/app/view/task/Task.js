@@ -395,8 +395,12 @@ Ext.define('FileBot.view.task.Task', {
                 boxLabel: 'set permissions to all-readable / user-writable (rw-r--r--)',
                 checked: false
             }, {
+                name: 'apply',
+                fieldLabel: 'Run Script',
+                emptyText: '/path/to/apply.groovy'
+            }, {
                 name: 'exec',
-                fieldLabel: 'Run Program',
+                fieldLabel: 'Run Command',
                 emptyText: 'stat {quote f}'
             }, {
                 name: 'plex',
