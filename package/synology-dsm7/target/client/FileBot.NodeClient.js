@@ -33,13 +33,13 @@ Ext.define("FileBot.NodeClient.AppWindow", {
 				}
 			}],
 			tools: [{
-				id:'fullscreen',
+				id: 'fullscreen',
 				qtip: 'Open in New Tab',
 				handler: function(event, element, panel) {
 					window.open('/webman/3rdparty/filebot-node/index.html', '_blank')
 				}
 			}, {
-				id:'help',
+				id: 'help',
 				qtip: 'Open Help',
 				handler: function(event, element, panel) {
 					window.open('https://www.filebot.net/syno/support.html', '_blank')
