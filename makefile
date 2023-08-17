@@ -29,13 +29,15 @@ resolve: npm-install
 	$(ANT) resolve
 
 spk:
-	$(ANT) clean build spk spk
+	$(ANT) clean build spk
 
 qpkg:
 	$(ANT) clean build qpkg
 
 clean:
-	-rm -rvf build dist release
+	rm -rvf build dist release
+
+reset:
 	git reset --hard
 	git pull
 	git --no-pager log -1
