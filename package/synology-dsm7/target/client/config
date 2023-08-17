@@ -1,12 +1,21 @@
 {
-	".url": {
-		"FileBot.NodeClient": {
-			"type": "legacy",
-			"title": "FileBot Node",
-			"desc": "FileBot Node allows you to execute filebot calls via Synology DSM",
+	"FileBot.NodeClient.js": {
+		"FileBot.NodeClient.AppInstance": {
+			"type": "app",
+			"title": "app:name",
+			"desc": "app:description",
 			"icon": "images/filebot_node_{0}.png",
-			"url": "/webman/3rdparty/filebot-node/index.html",
-			"allUsers": true
+			"texts": "texts",
+			"allowMultiInstance": false,
+			"allUsers": true,
+			"appWindow": "FileBot.NodeClient.AppWindow",
+			"depend": ["FileBot.NodeClient.AppWindow"]
+		},
+		"FileBot.NodeClient.AppWindow": {
+			"type": "lib",
+			"title": "app:name",
+			"icon": "images/filebot_node_{0}.png",
+			"texts": "texts"
 		}
 	}
 }

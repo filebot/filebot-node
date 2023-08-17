@@ -1,0 +1,3 @@
+[app]
+name = "FileBot Node"
+description = "FileBot Node allows you to execute, monitor and schedule filebot commands."

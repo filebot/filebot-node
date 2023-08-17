@@ -74,11 +74,11 @@
 			<info name="displayname" value="FileBot Node" />
 			<info name="description" value="FileBot Node allows you to execute and schedule filebot calls via Synology DSM. FileBot Node requires Node.js and FileBot." />
 			<info name="maintainer" value="FileBot" />
-			<info name="maintainer_url" value="http://www.filebot.net/" />
+			<info name="maintainer_url" value="https://www.filebot.net/" />
 			<info name="distributor" value="FileBot" />
-			<info name="distributor_url" value="http://www.filebot.net/" />
+			<info name="distributor_url" value="https://www.filebot.net/" />
 			<info name="support_url" value="https://github.com/filebot/filebot-node/issues" />
-			<info name="helpurl" value="http://www.filebot.net/syno/support.html" />
+			<info name="helpurl" value="https://www.filebot.net/syno/support.html" />
 			<info name="ctl_stop" value="yes" />
 			<info name="silent_install" value="yes" />
 			<info name="silent_upgrade" value="yes" />
@@ -118,16 +118,16 @@
 			<info name="displayname" value="FileBot Node" />
 			<info name="description" value="FileBot Node allows you to execute and schedule filebot calls via Synology DSM. FileBot Node requires Node.js and FileBot." />
 			<info name="maintainer" value="FileBot" />
-			<info name="maintainer_url" value="http://www.filebot.net/" />
+			<info name="maintainer_url" value="https://www.filebot.net/" />
 			<info name="distributor" value="FileBot" />
-			<info name="distributor_url" value="http://www.filebot.net/" />
+			<info name="distributor_url" value="https://www.filebot.net/" />
 			<info name="support_url" value="https://github.com/filebot/filebot-node/issues" />
-			<info name="helpurl" value="http://www.filebot.net/syno/support.html" />
+			<info name="helpurl" value="https://www.filebot.net/syno/support.html" />
 			<info name="ctl_stop" value="yes" />
 			<info name="silent_install" value="yes" />
 			<info name="silent_upgrade" value="yes" />
 			<info name="silent_uninstall" value="yes" />
-			<info name="dsmappname" value="FileBot.NodeClient" />
+			<info name="dsmappname" value="FileBot.NodeClient.AppInstance" />
 			<info name="dsmuidir" value="client" />
 			<info name="thirdparty" value="yes" />
 			<info name="os_min_ver" value="7.0-41890" />
