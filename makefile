@@ -10,7 +10,7 @@ run-client:
 	docker run --rm -it -v "${PWD}/client-extjs:/src" -p 1841:1841 rednoah/sencha-build app watch
 
 run-server:
-	docker run --rm -it -v "${PWD}/server-nodejs:/server-nodejs" -v "${PWD}/dist:/dist" --workdir /server-nodejs -p 5452:5452 node:latest /server-nodejs/start.sh
+	docker run --rm -it -v "${PWD}/server-nodejs:/server-nodejs" -v "${PWD}/dist:/dist" --workdir /server-nodejs -p 5452:5452 --entrypoint /server-nodejs/start.sh rednoah/filebot:node
 
 npm-install:
 	docker run --rm -it -v "${PWD}/server-nodejs:/server-nodejs" --workdir /server-nodejs node:latest npm install
