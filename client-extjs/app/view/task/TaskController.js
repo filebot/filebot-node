@@ -185,6 +185,47 @@ Ext.define('FileBot.view.task.TaskController', {
         }).show()
     },
 
+    onSettings: function() {
+        Ext.create('Ext.window.Window', {
+            id: 'settingsWindow',
+            items: [{
+                xtype: 'form',
+                id: 'settingsForm',
+                items: [{
+                    xtype: 'hidden',
+                    name: 'fn',
+                    value: 'properties'
+                }, {
+                    xtype: 'textfield',
+                    allowBlank: false,
+                    fieldLabel: 'Name',
+                    name: 'name',
+                    emptyText: 'net.filebot.xattr.store'
+                }, {
+                    xtype: 'textfield',
+                    allowBlank: true,
+                    fieldLabel: 'Value',
+                    name: 'value',
+                    emptyText: '.xattr'
+                }],
+                buttons: [
+                    { text:'Set', formBind: true, handler: function(btn) {
+                        var form = Ext.getCmp('settingsForm').getForm()
+                        if (form.isValid()) {
+                            FileBot.Node.requestExecute(form.getValues())
+                            Ext.getCmp('settingsWindow').destroy()
+                        }
+                    }}
+                ],
+            }],
+            title: 'System Properties',
+            bodyPadding: 10,
+            scrollable: false,
+            resizable: false,
+            closable: true
+        }).show()
+    },
+
     onRevert: function() {
         var parameters = {'fn':'revert'}
         FileBot.Node.requestExecute(parameters)

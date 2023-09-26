@@ -546,12 +546,15 @@ Ext.define('FileBot.view.task.Task', {
             menu: new Ext.menu.Menu({
                 items: [
                     // these will render as dropdown menu items when the arrow is clicked:
-                    {text: 'License', handler: 'onLicense', iconCls: 'license-item' },
-                    {text: 'Configure', handler: 'onConfigure', iconCls: 'configure-item' },
-                    {text: 'Clear Cache', handler: 'onClear', iconCls: 'clear-item' },
-                    {text: 'System Info', handler: 'onInfo', iconCls: 'sysinfo-item' },
-                    {text: 'Environment', handler: 'onEnvironment', iconCls: 'environment-item' },
-                    {text: 'Help', handler: 'onHelp', iconCls: 'help-item' }
+                    { text: 'License', handler: 'onLicense', iconCls: 'license-item' },
+                    { xtype: 'menuseparator' },
+                    { text: 'Clear Cache', handler: 'onClear', iconCls: 'clear-item' },
+                    { text: 'System Info', handler: 'onInfo', iconCls: 'sysinfo-item' },
+                    { text: 'System Properties', handler: 'onSettings', iconCls: 'settings-item' },
+                    { text: 'Environment', handler: 'onEnvironment', iconCls: 'environment-item' },
+                    { text: 'Help', handler: 'onHelp', iconCls: 'help-item' },
+                    { xtype: 'menuseparator' },
+                    { text: 'OpenSubtitles', handler: 'onConfigure', iconCls: 'configure-item' }
                 ]
             }),
             width: 80,

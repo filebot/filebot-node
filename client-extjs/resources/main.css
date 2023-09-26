@@ -71,6 +71,11 @@
 	background-size: contain;
 }
 
+.settings-item {
+	background-image: url('images/settings.png');
+	background-size: contain;
+}
+
 .clear-item {
 	background-image: url('images/clear.png');
 	background-size: contain;

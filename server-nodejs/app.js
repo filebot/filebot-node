@@ -181,12 +181,17 @@ function getCommandArguments(options) {
     } else if (options.fn == 'clear') {
         args.push('-clear-cache')
         args.push('-clear-history')
-    } else if (options.fn == 'configure' && options.osdbUser && options.osdbPwd) {
+    } else if (options.fn == 'configure') {
         args.push('-script')
         args.push('fn:configure')
         args.push('--def')
         args.push('osdbUser=' + options.osdbUser)
         args.push('osdbPwd=' + options.osdbPwd)
+    } else if (options.fn == 'properties') {
+        args.push('-script')
+        args.push('fn:properties')
+        args.push('--def')
+        args.push(options.name + '=' + options.value)
     } else {
         throw new Error('Illegal options: ' + JSON.stringify(options))
     }
