@@ -42,7 +42,7 @@ Ext.define("FileBot.NodeClient.AppWindow", {
 				id: 'help',
 				qtip: 'Open Help',
 				handler: function(event, element, panel) {
-					window.open('https://www.filebot.net/syno/support.html', '_blank')
+					window.open('https://www.filebot.net/node.html', '_blank')
 				}
 			}]
 		}, config);
