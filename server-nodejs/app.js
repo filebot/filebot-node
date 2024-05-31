@@ -160,12 +160,16 @@ function getCommandArguments(options) {
         if (options.animeDB) args.push('animeDB=' + options.animeDB)
         if (options.unsortedFormat) args.push('unsortedFormat=' + options.unsortedFormat)
         if (options.excludeList) args.push('excludeList=' + options.excludeList)
-        args.push('--apply')
-        if (options.import == 'on') args.push('import')
-        if (options.metadata == 'on') args.push('metadata')
-        if (options.chmod == 'on') args.push('chmod')
-        args.push('refresh')
-        if (options.apply) args.push(options.apply)
+        var apply = ['--apply']
+        if (options.import == 'on') apply.push('import')
+        if (options.metadata == 'on') apply.push('metadata')
+        if (options.chmod == 'on') apply.push('chmod')
+        if (options.thumbnail == 'on') apply.push('thumbnail')
+        if (options.refresh == 'on') apply.push('refresh')
+        if (options.apply) apply.push(options.apply)
+        if (apply.length > 1) {
+            args = args.concat(apply)
+        }
         if (options.probe == 'no') args.push('-no-probe')
         if (options.index == 'no') args.push('-no-index')
         args.push('--log')
@@ -253,7 +257,7 @@ function spawnChildProcess(command, arguments) {
 
     child.on('error', function (error) {
         console.log(command, error)
-    });
+    })
     child.on('close', function (code) {
         // remove process object reference
         delete ACTIVE_PROCESSES[id]
@@ -264,7 +268,7 @@ function spawnChildProcess(command, arguments) {
         // add status message
         fs.appendFile(logFile, getExitStatus(code), function (error) {
             if (error) console.log(error)
-        });
+        })
     })
 
     ACTIVE_PROCESSES[id] = child

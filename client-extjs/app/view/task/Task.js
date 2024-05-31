@@ -197,6 +197,31 @@ Ext.define('FileBot.view.task.Task', {
                 minWidth: 320
             }]
         }, {
+            title: 'Media Server',
+            collapsible: false,
+            collapsed: false,
+
+            id: 'media-server-options',
+            hidden: true,
+
+            items: [{
+                xtype: 'checkboxfield',
+                name: 'thumbnail',
+                fieldLabel: 'Thumbnails',
+                boxLabel: 'generate thumbnails',
+                inputValue: 'on',
+                uncheckedValue: 'no',
+                checked: false
+            }, {
+                xtype: 'checkboxfield',
+                name: 'refresh',
+                fieldLabel: 'Re-index',
+                boxLabel: 'refresh file services',
+                inputValue: 'on',
+                uncheckedValue: 'no',
+                checked: false
+            }]
+        }, {
             title: 'File Options',
             defaults: {
                 allowBlank: true,

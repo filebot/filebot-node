@@ -22,6 +22,20 @@ Ext.define('FileBot.view.task.TaskController', {
             this.getViewModel().getStore('folders').setProxy(FileBot.Node.getDataProxy('folders'))
         }, this)
 
+        FileBot.getApplication().on('auth', function(options) {
+            var fields = this.getView().down('#media-server-options')
+            if (options.auth == 'SYNO' || options.auth == 'QNAP') {
+                // enable media server options by default
+                fields.query('checkbox').forEach(function(checkbox) {
+                    checkbox.setValue(true)
+                })
+                fields.show()
+            } else {
+                // remove media server options from the form entirely
+                fields.destroy()
+            }
+        }, this)
+
         FileBot.getApplication().on('state', function(json) {
             // restore form fields
             if (json) {
