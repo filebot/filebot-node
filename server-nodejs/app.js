@@ -196,6 +196,12 @@ function getCommandArguments(options) {
         args.push('fn:properties')
         args.push('--def')
         args.push(options.name + '=' + options.value)
+    } else if (options.fn == 'mediainfo') {
+        args.push('-script')
+        args.push('fn:mediainfo')
+        args.push(options.input)
+        args.push('--mode')
+        args.push('raw')
     } else {
         throw new Error('Illegal options: ' + JSON.stringify(options))
     }

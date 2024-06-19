@@ -92,6 +92,14 @@ Ext.define('FileBot.view.task.TaskController', {
         }
     },
 
+    onMediaInfo: function() {
+        var parameters = this.getExecuteParameters()
+        if (parameters) {
+            parameters.fn = 'mediainfo'
+            FileBot.Node.requestExecute(parameters)
+        }
+    },
+
     onLicense: function() {
         Ext.create('Ext.window.Window', {
             id: 'licenseWindow',

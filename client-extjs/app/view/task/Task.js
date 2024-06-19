@@ -579,6 +579,7 @@ Ext.define('FileBot.view.task.Task', {
                     { text: 'Environment', handler: 'onEnvironment', iconCls: 'environment-item' },
                     { text: 'Help', handler: 'onHelp', iconCls: 'help-item' },
                     { xtype: 'menuseparator' },
+                    { text: 'MediaInfo', handler: 'onMediaInfo', iconCls: 'mediainfo-item' },
                     { text: 'OpenSubtitles', handler: 'onConfigure', iconCls: 'configure-item' }
                 ]
             }),

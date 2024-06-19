@@ -71,6 +71,11 @@
 	background-size: contain;
 }
 
+.mediainfo-item {
+	background-image: url('images/mediainfo.png');
+	background-size: contain;
+}
+
 .settings-item {
 	background-image: url('images/settings.png');
 	background-size: contain;
