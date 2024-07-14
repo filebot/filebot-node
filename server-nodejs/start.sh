@@ -29,7 +29,7 @@ export FILEBOT_OPTS='-Djava.awt.headless=true'
 
 # import user environment
 if [ -f "$FILEBOT_NODE_DATA/environment.sh" ]; then
-	source "$FILEBOT_NODE_DATA/environment.sh"
+	. "$FILEBOT_NODE_DATA/environment.sh"
 fi
 
 

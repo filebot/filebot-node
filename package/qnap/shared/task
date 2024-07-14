@@ -14,7 +14,7 @@ fi
 
 
 # import user environment
-source "$FILEBOT_NODE_DATA/environment.sh"
+. "$FILEBOT_NODE_DATA/environment.sh"
 
 
 # execute filebot task and record output

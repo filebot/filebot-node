@@ -27,7 +27,7 @@ cd "/var/packages/filebot-node/target"
 
 
 # import user environment
-source "$FILEBOT_NODE_DATA/environment.sh"
+. "$FILEBOT_NODE_DATA/environment.sh"
 
 
 exec node "server/app.js"

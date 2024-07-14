@@ -30,7 +30,7 @@ cd "$QPKG_ROOT"
 
 
 # import user environment
-source "$FILEBOT_NODE_DATA/environment.sh"
+. "$FILEBOT_NODE_DATA/environment.sh"
 
 
 # sanity check
