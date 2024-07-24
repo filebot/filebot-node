@@ -93,7 +93,7 @@ function getCommandArguments(options) {
     var args = []
     if (options.fn == 'amc') {
         args.push('-script')
-        args.push(options.channel == 'fn' ? 'fn:amc' : 'dev:amc')
+        args.push(options.channel == 'dev' ? 'dev:amc' : 'fn:amc')
         args.push(options.input)
         args.push('--output')
         args.push(options.output)
@@ -198,7 +198,7 @@ function getCommandArguments(options) {
         args.push(options.name + '=' + options.value)
     } else if (options.fn == 'mediainfo') {
         args.push('-script')
-        args.push('fn:mediainfo')
+        args.push(options.channel == 'dev' ? 'dev:mediainfo' : 'fn:mediainfo')
         args.push(options.input)
         args.push('--mode')
         args.push('raw')
