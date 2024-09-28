@@ -17,7 +17,7 @@ export FILEBOT_NODE_DATA="/var/packages/filebot-node/target/data"
 export FILEBOT_TASK_CMD="filebot-node-task"
 
 export FILEBOT_CMD="filebot"
-export FILEBOT_CMD_CWD="/volume1"
+export FILEBOT_CMD_CWD="$SYNOPKG_PKGDEST_VOL"
 
 export FILEBOT_CMD_UID=$(id -u FileBot)
 export FILEBOT_CMD_GID=$(id -g FileBot)
