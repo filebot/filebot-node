@@ -94,11 +94,17 @@ function getCommandArguments(options) {
     if (options.fn == 'amc') {
         args.push('-script')
         args.push(options.channel == 'dev' ? 'dev:amc' : 'fn:amc')
-        args.push(options.input)
-        args.push('--output')
-        args.push(options.output)
-        args.push('--action')
-        args.push(options.action)
+        if (options.input) {
+            args.push(options.input)
+        }
+        if (options.output) {
+            args.push('--output')
+            args.push(options.output)
+        }
+        if (options.action) {
+            args.push('--action')
+            args.push(options.action)
+        }
         if (options.strict != 'no') {
             args.push('-non-strict')
         }
@@ -160,6 +166,7 @@ function getCommandArguments(options) {
         if (options.animeDB) args.push('animeDB=' + options.animeDB)
         if (options.unsortedFormat) args.push('unsortedFormat=' + options.unsortedFormat)
         if (options.excludeList) args.push('excludeList=' + options.excludeList)
+        // --apply options
         var apply = ['--apply']
         if (options.import == 'on') apply.push('import')
         if (options.metadata == 'on') apply.push('metadata')
@@ -172,8 +179,21 @@ function getCommandArguments(options) {
         }
         if (options.probe == 'no') args.push('-no-probe')
         if (options.index == 'no') args.push('-no-index')
-        args.push('--log')
-        args.push(options.log)
+        if (options.log) {
+            args.push('--log')
+            args.push(options.log)
+        }
+        // --def ut_* options for custom commands executed via curl
+        var ut_options = ['--def']
+        if (options.ut_dir) ut_options.push('ut_dir=' + options.ut_dir)
+        if (options.ut_file) ut_options.push('ut_file=' + options.ut_file)
+        if (options.ut_label) ut_options.push('ut_label=' + options.ut_label)
+        if (options.ut_title) ut_options.push('ut_title=' + options.ut_title)
+        if (options.ut_kind) ut_options.push('ut_kind=' + options.ut_kind)
+        if (options.ut_state) ut_options.push('ut_state=' + options.ut_state)
+        if (ut_options.length > 1) {
+            args = args.concat(ut_options)
+        }
     } else if (options.fn == 'license' && options.license) {
         args.push('--license')
         args.push(options.license)
