@@ -270,8 +270,9 @@ function spawnChildProcess(command, arguments) {
     fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + WRAP + DASHLINE + WRAP)
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
+    const out = fs.openSync(logFile, 'a')
     const child = child_process.spawn(command, arguments, {
-            stdio: ['ignore', fs.openSync(logFile, 'a'), fs.openSync(logFile, 'a')],
+            stdio: ['ignore', out, out],
             env: process.env,
             cwd: FILEBOT_CMD_CWD,
             uid: FILEBOT_CMD_UID,
@@ -292,9 +293,8 @@ function spawnChildProcess(command, arguments) {
         TASKS.lastModified = Date.now()
 
         // add status message
-        fs.appendFile(logFile, getExitStatus(code), function (error) {
-            if (error) console.log(error)
-        })
+        fs.writeSync(out, getExitStatus(code))
+        fs.closeSync(out)
     })
 
     ACTIVE_PROCESSES[id] = child
