@@ -440,6 +440,10 @@ Ext.define('FileBot.view.task.Task', {
                 fieldLabel: 'Emby',
                 emptyText: 'host:apikey'
             }, {
+                name: 'jellyfin',
+                fieldLabel: 'Jellyfin',
+                emptyText: 'host:apikey'
+            }, {
                 name: 'pushover',
                 fieldLabel: 'Pushover',
                 emptyText: 'userkey:apikey'

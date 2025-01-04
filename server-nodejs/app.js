@@ -153,6 +153,7 @@ function getCommandArguments(options) {
         if (options.plex) args.push('plex=' + options.plex)
         if (options.kodi) args.push('kodi=' + options.kodi)
         if (options.emby) args.push('emby=' + options.emby)
+        if (options.jellyfin) args.push('jellyfin=' + options.jellyfin)
         if (options.pushover) args.push('pushover=' + options.pushover)
         if (options.pushbullet) args.push('pushbullet=' + options.pushbullet)
         if (options.discord) args.push('discord=' + options.discord)
