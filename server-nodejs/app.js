@@ -411,9 +411,6 @@ function command(request, response) {
     // try to avoid socket timeout
     response.setTimeout(3 * 24 * 60 * 60 * 1000)
 
-    // flush headers
-    response.write(getCommand() + NEWLINE)
-
     // read post body
     var body = ''
     request.on('data', function(data) {
@@ -421,8 +418,8 @@ function command(request, response) {
     })
     request.on('end', function() {
         const args = body.split(/[\r\n]+/g).filter(function(line) { return line.length > 0 })
-        args.forEach(function(argument) { response.write(argument + NEWLINE) })
-        response.write(DASHLINE + WRAP)
+
+        response.write(DASHLINE + WRAP + getCommand() + NEWLINE + args.join(NEWLINE) + WRAP + DASHLINE + WRAP)
 
         var child = child_process.spawn(getCommand(), args, {
                 stdio: ['ignore', 'pipe', 'pipe'],
