@@ -419,6 +419,9 @@ function command(request, response) {
     request.on('end', function() {
         const args = body.split(/[\r\n]+/g).filter(function(line) { return line.length > 0 })
 
+        // require --log-file because otherwise it will default to lock.log anyway
+        args.push('--log-file', FILEBOT_LOG)
+
         response.write(DASHLINE + WRAP + getCommand() + NEWLINE + args.join(NEWLINE) + WRAP + DASHLINE + WRAP)
 
         var child = child_process.spawn(getCommand(), args, {
