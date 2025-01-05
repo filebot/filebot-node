@@ -283,10 +283,10 @@ function spawnChildProcess(command, arguments) {
         }
     )
 
-    child.on('error', function (error) {
+    child.on('error', function(error) {
         console.log(command, error)
     })
-    child.on('close', function (code) {
+    child.on('close', function(code) {
         // remove process object reference
         delete ACTIVE_PROCESSES[id]
         // store exit code
@@ -388,10 +388,60 @@ function task(request, response, options) {
     child.stdout.pipe(response, {end: false})
     child.stderr.pipe(response, {end: false})
 
-    child.on('close', function (code) {
+    child.on('close', function(code) {
         response.write(getExitStatus(code))
         response.addTrailers({ "Exit-Code": code })
         response.end()
+    })
+}
+
+function command(request, response) {
+    response.setHeader('Access-Control-Allow-Origin', '*')
+    response.setHeader('Cache-Control', 'private, max-age=0, no-cache, must-revalidate')
+    response.setHeader('Connection', 'Keep-Alive')
+
+    // disable response caching to display response stream in real time
+    response.setHeader('Content-Type', 'text/plain; charset=UTF-8')
+    response.setHeader('X-Content-Type-Options', 'nosniff')
+
+    // enable HTTP 1.1 Trailer (use curl --raw /task to see Exit-Code trailer value)
+    response.setHeader('Transfer-Encoding', 'chunked')
+    response.setHeader('Trailer', 'Exit-Code')
+
+    // try to avoid socket timeout
+    response.setTimeout(3 * 24 * 60 * 60 * 1000)
+
+    // flush headers
+    response.write(getCommand() + NEWLINE)
+
+    // read post body
+    var body = ''
+    request.on('data', function(data) {
+        body += data;
+    })
+    request.on('end', function() {
+        const args = body.split(/[\r\n]+/g).filter(function(line) { return line.length > 0 })
+        args.forEach(function(argument) { response.write(argument + NEWLINE) })
+        response.write(DASHLINE + WRAP)
+
+        var child = child_process.spawn(getCommand(), args, {
+                stdio: ['ignore', 'pipe', 'pipe'],
+                encoding: 'UTF-8',
+                env: process.env,
+                cwd: FILEBOT_CMD_CWD,
+                uid: FILEBOT_CMD_UID,
+                gid: FILEBOT_CMD_GID
+            }
+        )
+
+        child.stdout.pipe(response, {end: false})
+        child.stderr.pipe(response, {end: false})
+
+        child.on('close', function(code) {
+            response.write(getExitStatus(code))
+            response.addTrailers({ "Exit-Code": code })
+            response.end()
+        })
     })
 }
 
@@ -443,7 +493,7 @@ function listFolders(options) {
 }
 
 function listLogs() {
-    return fs.readdirSync(LOG_FOLDER).map(function (s) {
+    return fs.readdirSync(LOG_FOLDER).map(function(s) {
         return s.substr(0, s.lastIndexOf('.'))
     })
 }
@@ -527,6 +577,10 @@ function handleRequest(request, response) {
 
     if ('/task' == requestPath) {
         return task(request, response, options)
+    }
+
+    if ('/command' == requestPath) {
+        return command(request, response)
     }
 
     if ('/kill' == requestPath) {
