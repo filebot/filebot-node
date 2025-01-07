@@ -417,31 +417,44 @@ function command(request, response) {
         body += data;
     })
     request.on('end', function() {
-        const args = body.split(/[\r\n]+/g).filter(function(line) { return line.length > 0 })
+        try {
+            // read argument list from HTTP POST body
+            const args = []
 
-        // require --log-file because otherwise it will default to lock.log anyway
-        args.push('--log-file', FILEBOT_LOG)
-
-        response.write(DASHLINE + WRAP + getCommand() + NEWLINE + args.join(NEWLINE) + WRAP + DASHLINE + WRAP)
-
-        var child = child_process.spawn(getCommand(), args, {
-                stdio: ['ignore', 'pipe', 'pipe'],
-                encoding: 'UTF-8',
-                env: process.env,
-                cwd: FILEBOT_CMD_CWD,
-                uid: FILEBOT_CMD_UID,
-                gid: FILEBOT_CMD_GID
+            if (request.headers['content-type'] == 'application/json') {
+                // argument list as JSON array
+                JSON.parse(body).forEach(function(argument) { args.push(argument.toString()) })
+            } else {
+                // argument list as line-by-line plain text
+                body.split(/[\r\n]+/g).forEach(function(line) { if (line.length > 0) args.push(line) })
             }
-        )
 
-        child.stdout.pipe(response, {end: false})
-        child.stderr.pipe(response, {end: false})
+            // require --log-file because otherwise it will default to lock.log anyway
+            args.push('--log-file', FILEBOT_LOG)
 
-        child.on('close', function(code) {
-            response.write(getExitStatus(code))
-            response.addTrailers({ "Exit-Code": code })
-            response.end()
-        })
+            response.write(DASHLINE + WRAP + getCommand() + NEWLINE + args.join(NEWLINE) + WRAP + DASHLINE + WRAP)
+
+            var child = child_process.spawn(getCommand(), args, {
+                    stdio: ['ignore', 'pipe', 'pipe'],
+                    encoding: 'UTF-8',
+                    env: process.env,
+                    cwd: FILEBOT_CMD_CWD,
+                    uid: FILEBOT_CMD_UID,
+                    gid: FILEBOT_CMD_GID
+                }
+            )
+
+            child.stdout.pipe(response, {end: false})
+            child.stderr.pipe(response, {end: false})
+
+            child.on('close', function(code) {
+                response.write(getExitStatus(code))
+                response.addTrailers({ "Exit-Code": code })
+                response.end()
+            })
+        } catch(e) {
+            return error(response, e)
+        }
     })
 }
 
@@ -686,8 +699,8 @@ function unauthorized(response, authenticate) {
 }
 
 function error(response, exception) {
-    var result = {success: false, error: exception.toString()}
-    response.statusCode = 500
+    const result = {success: false, error: exception.toString()}
+    response.statusCode = 400
     response.setHeader('Content-Type', 'application/json')
     response.setHeader('Access-Control-Allow-Origin', '*')
     response.end(JSON.stringify(result))
