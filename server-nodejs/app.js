@@ -426,7 +426,7 @@ function command(request, response) {
                 JSON.parse(body).forEach(function(argument) { args.push(argument.toString()) })
             } else if (request.headers['content-type'] == 'text/csv') {
                 // argument list as CSV line
-                const delimiter = body.match(/[|;,\t]/)
+                const delimiter = body.match(/[\s]*[|;,\t][\s]*/)
                 if (delimiter) {
                     body.split(delimiter[0]).forEach(function(line) { if (line.length > 0) args.push(line) })
                 } else {
