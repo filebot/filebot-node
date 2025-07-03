@@ -424,6 +424,9 @@ function command(request, response) {
             if (request.headers['content-type'] == 'application/json') {
                 // argument list as JSON array
                 JSON.parse(body).forEach(function(argument) { args.push(argument.toString()) })
+            } else if (request.headers['content-type'] == 'text/csv') {
+                // argument list as CSV line (allow | or , or TAB as separator)
+                body.split(/[|,\t]+/g).forEach(function(line) { if (line.length > 0) args.push(line) })
             } else {
                 // argument list as line-by-line plain text
                 body.split(/[\r\n]+/g).forEach(function(line) { if (line.length > 0) args.push(line) })
