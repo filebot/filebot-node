@@ -425,8 +425,13 @@ function command(request, response) {
                 // argument list as JSON array
                 JSON.parse(body).forEach(function(argument) { args.push(argument.toString()) })
             } else if (request.headers['content-type'] == 'text/csv') {
-                // argument list as CSV line (allow | or , or TAB as separator)
-                body.split(/[|,\t]+/g).forEach(function(line) { if (line.length > 0) args.push(line) })
+                // argument list as CSV line
+                const delimiter = body.match(/[|;,\t]/)
+                if (delimiter) {
+                    body.split(delimiter[0]).forEach(function(line) { if (line.length > 0) args.push(line) })
+                } else {
+                    return error(response, 'Expected delimiter: | or ; or , or \t')
+                }
             } else {
                 // argument list as line-by-line plain text
                 body.split(/[\r\n]+/g).forEach(function(line) { if (line.length > 0) args.push(line) })
