@@ -4,7 +4,7 @@ import groovy.json.*
 def json = new JsonSlurper().parse(new URL('https://api.github.com/repos/filebot/filebot-node/releases'))
 
 def stats = [
-	download_count: json.assets.download_count.flatten().sum() ?: 0
+	download_count: json.assets.flatten().findAll{ it.name =~ /[.]spk$/ }.download_count.sum() ?: 0
 ]
 
 println stats
