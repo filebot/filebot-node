@@ -208,7 +208,7 @@ Ext.define('FileBot.view.task.Task', {
                 xtype: 'checkboxfield',
                 name: 'thumbnail',
                 fieldLabel: 'Thumbnails',
-                boxLabel: 'generate thumbnails',
+                boxLabel: 'fetch thumbnails',
                 inputValue: 'on',
                 uncheckedValue: 'no',
                 checked: false
