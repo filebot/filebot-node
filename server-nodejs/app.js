@@ -357,7 +357,6 @@ function environment(options) {
 function task(request, response, options) {
     var id = options.id
 
-    response.setHeader('Access-Control-Allow-Origin', '*')
     response.setHeader('Cache-Control', 'private, max-age=0, no-cache, must-revalidate')
     response.setHeader('Connection', 'Keep-Alive')
 
@@ -396,7 +395,10 @@ function task(request, response, options) {
 }
 
 function command(request, response) {
-    response.setHeader('Access-Control-Allow-Origin', '*')
+    if (request.method != 'POST') {
+        return error(response, 'Expected HTTP request method: POST')
+    }
+
     response.setHeader('Cache-Control', 'private, max-age=0, no-cache, must-revalidate')
     response.setHeader('Connection', 'Keep-Alive')
 
@@ -588,32 +590,34 @@ function handleRequest(request, response) {
         }
     }
 
-    if ('/execute' == requestPath) {
-        return ok(response, execute(options))
-    }
-
-    if ('/schedule' == requestPath) {
-        return schedule(request, response, options)
-    }
-
-    if ('/task' == requestPath) {
-        return task(request, response, options)
-    }
-
-    if ('/command' == requestPath) {
-        return command(request, response)
+    if ('/state' == requestPath) {
+        return ok(response, state(options))
     }
 
     if ('/kill' == requestPath) {
         return ok(response, kill(options))
     }
 
-    if ('/state' == requestPath) {
-        return ok(response, state(options))
+    // WEB CLIENT EXECUTE END POINTS
+    if ('/execute' == requestPath) {
+        return ok(response, execute(options))
     }
 
     if ('/environment' == requestPath) {
         return ok(response, environment(options))
+    }
+
+    if ('/task' == requestPath) {
+        return task(request, response, options)
+    }
+
+    if ('/schedule' == requestPath) {
+        return schedule(request, response, options)
+    }
+
+    // REMOTE EXECUTE END POINT
+    if ('/command' == requestPath) {
+        return command(request, response)
     }
 
     return error(response, 'BAD ROUTE')
@@ -626,7 +630,11 @@ function html(request, response, requestPath) {
         const ext = path.extname(requestedFile)
         const contentType = MIME_TYPES[ext]
         if (contentType) {
-            return file(request, response, path.resolve(CLIENT, requestedFile), contentType, true, false) // resolve against CLIENT folder
+            const root = path.resolve(CLIENT)
+            const localPath = path.resolve(root, requestedFile)
+            if (localPath.startsWith(root + path.sep)) {
+                return file(request, response, localPath, contentType, true, false) // resolve against CLIENT folder
+            }
         }
     }
     return notFound(response)
@@ -651,7 +659,6 @@ function ok(response, data, lastModified) {
 
     response.statusCode = 200
     response.setHeader('Content-Type', 'application/json')
-    response.setHeader('Access-Control-Allow-Origin', '*')
     if (lastModified > 0) {
         response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
         response.setHeader('Last-Modified', new Date(lastModified).toUTCString())
@@ -673,7 +680,6 @@ function file(request, response, file, contentType, cacheable, attachment) {
                 if (attachment) response.setHeader('Content-Disposition', 'attachment; filename="' + path.basename(file) +'"')
                 if (!cacheable) response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
                 response.setHeader('Last-Modified', stats.mtime.toUTCString())
-                response.setHeader('Access-Control-Allow-Origin', '*')
                 readStream.pipe(response) // response.end() is called automatically
             })
             readStream.on('error', function(err) {
@@ -687,13 +693,11 @@ function file(request, response, file, contentType, cacheable, attachment) {
 
 function notModified(response) {
     response.statusCode = 304
-    response.setHeader('Access-Control-Allow-Origin', '*')
     response.end()
 }
 
 function notFound(response) {
     response.statusCode = 404
-    response.setHeader('Access-Control-Allow-Origin', '*')
     response.end('Not Found')
 }
 
@@ -702,7 +706,6 @@ function unauthorized(response, authenticate) {
     if (authenticate) {
         response.setHeader('WWW-Authenticate', 'Basic realm="filebot-node"')
     }
-    response.setHeader('Access-Control-Allow-Origin', '*')
     response.end('Unauthorized')
 }
 
@@ -710,7 +713,6 @@ function error(response, exception) {
     const result = {success: false, error: exception.toString()}
     response.statusCode = 400
     response.setHeader('Content-Type', 'application/json')
-    response.setHeader('Access-Control-Allow-Origin', '*')
     response.end(JSON.stringify(result))
 }
 
@@ -719,18 +721,24 @@ function error(response, exception) {
 
 
 function auth(request, response, options) {
-    switch (AUTH) {
-        case 'SYNO':
-            return auth_syno(request, response, options)
-        case 'QNAP':
-            return auth_qnap(request, response)
-        case 'BASIC':
-            return auth_basic_env(request, response)
-        case 'NONE':
-            return 'NONE'
-        default:
-            return null
+    if (auth_fetch_site(request)) {
+        switch (AUTH) {
+            case 'SYNO':
+                return auth_syno(request, response, options)
+            case 'QNAP':
+                return auth_qnap(request, response)
+            case 'BASIC':
+                return auth_basic_env(request, response)
+            case 'NONE':
+                return 'NONE'
+        }
     }
+    return null
+}
+
+function auth_fetch_site(request) {
+    const site = request.headers['sec-fetch-site']
+    return site != 'cross-site' && site != 'same-site'
 }
 
 function auth_header(request, options) {
