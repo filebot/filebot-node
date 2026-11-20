@@ -100,6 +100,22 @@ Ext.define('FileBot.view.task.TaskController', {
         }
     },
 
+    onFetchThumbnails: function() {
+        var parameters = this.getExecuteParameters()
+        if (parameters) {
+            parameters.fn = 'thumbnail'
+            FileBot.Node.requestExecute(parameters)
+        }
+    },
+
+    onRefreshIndex: function() {
+        var parameters = this.getExecuteParameters()
+        if (parameters) {
+            parameters.fn = 'reindex'
+            FileBot.Node.requestExecute(parameters)
+        }
+    },
+
     onLicense: function() {
         Ext.create('Ext.window.Window', {
             id: 'licenseWindow',

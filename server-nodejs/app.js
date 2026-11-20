@@ -27,7 +27,7 @@ const PUBLIC_HTML = CLIENT ? '/' : ''
 const ROUTES = new RegExp('^/[a-z]+$')
 
 const MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'application/json', '.log': 'text/plain; charset=utf-8'}
-const SYSTEM_FILES = /^([.@#].+|bin|initrd|opt|sbin|var|dev|lib|lib32|lib64|config|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr|home|homes|external|rpc|.+[.]backupbundle|NetBackup|\w+_tmp|tmp_\w+|new_\w+|CACHEDEV\w+_DATA|HD\w+_DATA|System.Volume.Information)$/
+const SYSTEM_FILES = /^([.@#].+|boot|srv|bin|initrd|opt|sbin|var|dev|lib|lib32|lib64|config|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr|home|homes|external|rpc|.+[.]backupbundle|NetBackup|\w+_tmp|tmp_\w+|new_\w+|CACHEDEV\w+_DATA|HD\w+_DATA|System.Volume.Information)$/
 const DASHLINE = '------------------------------------------'
 const NEWLINE = '\n'
 const WRAP = '\n\n'
@@ -220,9 +220,23 @@ function getCommandArguments(options) {
     } else if (options.fn == 'mediainfo') {
         args.push('-script')
         args.push(options.channel == 'dev' ? 'dev:mediainfo' : 'fn:mediainfo')
-        args.push(options.input)
+        if (options.input) args.push(options.input)
         args.push('--mode')
         args.push('raw')
+    } else if (options.fn == 'thumbnail') {
+        args.push('-mediainfo')
+        args.push('-r')
+        if (options.input) args.push(options.input)
+        if (options.output) args.push(options.output)
+        args.push('--apply')
+        args.push('thumbnail')
+    } else if (options.fn == 'reindex') {
+        args.push('-mediainfo')
+        args.push('-r')
+        if (options.input) args.push(options.input)
+        if (options.output) args.push(options.output)
+        args.push('--apply')
+        args.push('refresh')
     } else {
         throw new Error('Illegal options: ' + JSON.stringify(options))
     }

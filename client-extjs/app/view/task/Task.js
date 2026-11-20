@@ -584,6 +584,9 @@ Ext.define('FileBot.view.task.Task', {
                     { text: 'Help', handler: 'onHelp', iconCls: 'help-item' },
                     { xtype: 'menuseparator' },
                     { text: 'MediaInfo', handler: 'onMediaInfo', iconCls: 'mediainfo-item' },
+                    { text: 'Fetch Thumbnails', handler: 'onFetchThumbnails', iconCls: 'thumbnail-item' },
+                    { text: 'Refresh Index', handler: 'onRefreshIndex', iconCls: 'reindex-item' },
+                    { xtype: 'menuseparator' },
                     { text: 'OpenSubtitles', handler: 'onConfigure', iconCls: 'configure-item' }
                 ]
             }),

@@ -76,6 +76,16 @@
 	background-size: contain;
 }
 
+.thumbnail-item {
+	background-image: url('images/thumbnail.png');
+	background-size: contain;
+}
+
+.reindex-item {
+	background-image: url('images/reindex.png');
+	background-size: contain;
+}
+
 .settings-item {
 	background-image: url('images/settings.png');
 	background-size: contain;
