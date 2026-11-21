@@ -357,7 +357,7 @@ function environment(options) {
     // PUT ENV
     if (options.environment != null) {
         fs.writeFileSync(ENVIRONMENT_SCRIPT, options.environment)
-        fs.chmodSync(logFile, 0o644)
+        fs.chmodSync(ENVIRONMENT_SCRIPT, 0o644)
         return { environment: null, message: "The environment has been set. Please restart the FileBot Node process to reload the environment." }
     }
 
