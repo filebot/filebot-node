@@ -529,12 +529,6 @@ function listFolders(options) {
     return folders
 }
 
-function listLogs() {
-    return fs.readdirSync(LOG_FOLDER).map(function(s) {
-        return s.substr(0, s.lastIndexOf('.'))
-    })
-}
-
 function status() {
     return {
         pid: process.pid,
