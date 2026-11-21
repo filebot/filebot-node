@@ -275,7 +275,7 @@ function getExitStatus(code) {
     return status + WRAP
 }
 
-function spawnChildProcess(command, arguments) {
+function spawnChildProcess(command, args) {
     // just use current time in millis as process id
     const id = 'R' + Date.now()
     const logFile = getLogFile(id)
@@ -283,11 +283,11 @@ function spawnChildProcess(command, arguments) {
     const pd = { id: id, date: Date.now(), status: null }
 
     // each log contains the original command (as JSON) in the first line
-    fs.writeFileSync(logFile, shellescape([command].concat(arguments)) + WRAP + DASHLINE + WRAP)
+    fs.writeFileSync(logFile, shellescape([command].concat(args)) + WRAP + DASHLINE + WRAP)
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
 
     const out = fs.openSync(logFile, 'a')
-    const child = child_process.spawn(command, arguments, {
+    const child = child_process.spawn(command, args, {
             stdio: ['ignore', out, out],
             env: process.env,
             cwd: FILEBOT_CMD_CWD,
