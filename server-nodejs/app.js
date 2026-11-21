@@ -827,8 +827,6 @@ function auth_syno(request, response, options) {
         'HTTP_X_SYNO_TOKEN': auth['X-Syno-Token']
     }
 
-    console.log({ 'cmd': cmd, 'env': env })
-
     // call authenticate.cgi and capture output
     const pd = child_process.spawnSync(cmd , [], {
             stdio: ['ignore', 'pipe', 'inherit'],
@@ -840,8 +838,6 @@ function auth_syno(request, response, options) {
     if (pd.status == 0) {
         const value = pd.stdout.trim()
         AUTH_CACHE[key] = value
-
-        console.log({ 'auth': auth, 'user': value })
         return value
     }
 
@@ -869,8 +865,6 @@ function auth_qnap(request, response) {
         'QUERY_STRING': "sid=" + sid
     }
 
-    console.log({ 'cmd': cmd, 'env': env })
-
     const pd = child_process.spawnSync(cmd, [], {
             stdio: ['ignore', 'pipe', 'inherit'],
             encoding: 'UTF-8',
@@ -889,8 +883,6 @@ function auth_qnap(request, response) {
             if (dom && dom.QDocRoot && dom.QDocRoot.authPassed == "1") {
                 const value = dom.QDocRoot.user
                 AUTH_CACHE[key] = value
-
-                console.log({ 'auth': auth, 'user': value })
                 return value
             }
         }
