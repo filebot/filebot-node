@@ -357,6 +357,7 @@ function environment(options) {
     // PUT ENV
     if (options.environment != null) {
         fs.writeFileSync(ENVIRONMENT_SCRIPT, options.environment)
+        fs.chmodSync(logFile, 0o644)
         return { environment: null, message: "The environment has been set. Please restart the FileBot Node process to reload the environment." }
     }
 
@@ -943,7 +944,7 @@ function prepareScheduledTask(options) {
     // each log contains the original command (as JSON) in the first line
     fs.writeFileSync(logFile, command + ' # ' + shellescape([getCommand()].concat(args)) + WRAP + DASHLINE + WRAP)
     fs.chownSync(logFile, FILEBOT_CMD_UID, FILEBOT_CMD_GID)
-    fs.chmodSync(logFile, 0o666)
+    fs.chmodSync(logFile, 0o644)
 
     const argsFile = path.resolve(TASK_FOLDER, id + '.args')
     fs.writeFileSync(argsFile, args.join(NEWLINE))
