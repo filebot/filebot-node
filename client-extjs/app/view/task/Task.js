@@ -140,6 +140,11 @@ Ext.define('FileBot.view.task.Task', {
                 bind: {
                     store: '{folders}'
                 },
+                listConfig: {
+                    getInnerTpl: function(value) {
+                        return '{' + value + ':htmlEncode}'
+                    }
+                },
                 displayField: 'path',
                 valueField: 'path',
                 minChars: 0, // forcing the query to run every time by setting minChars to 0
@@ -468,6 +473,11 @@ Ext.define('FileBot.view.task.Task', {
                 value: Ext.manifest.server.form.output,
                 bind: {
                     store: '{folders}'
+                },
+                listConfig: {
+                    getInnerTpl: function(value) {
+                        return '{' + value + ':htmlEncode}'
+                    }
                 },
                 displayField: 'path',
                 valueField: 'path',
