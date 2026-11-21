@@ -69,7 +69,7 @@ if (!fs.existsSync(FILEBOT_LOG)) {
 
 if (fs.existsSync(TASK_INDEX)) {
     fs.readFileSync(TASK_INDEX, {'encoding': 'UTF-8'}).split(/\n/).forEach(function(id) {
-        if (id) {
+        if (ASCII_ALNUM.test(id)) {
             const logFile = getLogFile(id)
             if (fs.existsSync(logFile)) {
                 const stats = fs.statSync(logFile)
