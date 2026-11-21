@@ -370,9 +370,7 @@ function environment(options) {
     return { environment: environment, message: null }
 }
 
-function task(request, response, options) {
-    var id = options.id
-
+function task(request, response, id) {
     response.setHeader('Cache-Control', 'private, max-age=0, no-cache, must-revalidate')
     response.setHeader('Connection', 'Keep-Alive')
 
@@ -626,7 +624,11 @@ function handleRequest(request, response) {
     }
 
     if ('/task' == requestPath) {
-        return task(request, response, options)
+        const id = options.id
+        if (ASCII_ALNUM.test(id)) {
+            return task(request, response, id)
+        }
+        return notFound(response)
     }
 
     if ('/schedule' == requestPath) {
