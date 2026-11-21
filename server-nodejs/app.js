@@ -878,7 +878,7 @@ function auth_qnap(request, response) {
         const cgiResponse = pd.stdout.trim()
         const xmlStartIndex = cgiResponse.indexOf('<?xml')
 
-        if (xmlStartIndex > 0) {
+        if (xmlStartIndex >= 0) {
             const xmlResponse = cgiResponse.substring(xmlStartIndex)
             const dom = xmlParser.parse(xmlResponse)
 
