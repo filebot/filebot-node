@@ -398,6 +398,10 @@ function task(request, response, id) {
         }
     )
 
+    child.on('error', function(error) {
+        console.log(TASK_CMD, error)
+    })
+
     child.stdout.pipe(response, {end: false})
     child.stderr.pipe(response, {end: false})
 
@@ -467,6 +471,10 @@ function command(request, response) {
                     gid: FILEBOT_CMD_GID
                 }
             )
+
+            child.on('error', function(error) {
+                console.log(getCommand(), error)
+            })
 
             child.stdout.pipe(response, {end: false})
             child.stderr.pipe(response, {end: false})
