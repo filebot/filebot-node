@@ -81,7 +81,7 @@ Ext.define('FileBot.Node', {
             failure: function (response) {
                 Ext.MessageBox.show({
                     title: 'Error',
-                    msg: response.responseText ? Ext.htmlEncode(response.responseText) : Ext.encode(response),
+                    msg: Ext.htmlEncode(response.responseText || Ext.encode(response)),
                     buttons: Ext.MessageBox.OK,
                     icon: Ext.MessageBox.ERROR
                 })
@@ -189,7 +189,7 @@ Ext.define('FileBot.Node', {
             failure: function (response) {
                 Ext.MessageBox.show({
                     title: 'Login Error',
-                    msg: response.responseText ? Ext.htmlEncode(response.responseText) : Ext.encode(response),
+                    msg: Ext.htmlEncode(response.responseText || Ext.encode(response)),
                     buttons: Ext.MessageBox.OK,
                     icon: Ext.MessageBox.ERROR
                 })
