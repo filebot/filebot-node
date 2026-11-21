@@ -15,8 +15,6 @@ if /usr/syno/synoman/webman/authenticate.cgi; then
 	java -version 2>&1
 	echo '---------- filebot ----------'
 	filebot -script fn:sysinfo 2>&1
-	echo '---------- filebot-node ----------'
-	cat /var/packages/filebot-node/target/data/filebot-node.log
 else
 	echo $?
 fi
