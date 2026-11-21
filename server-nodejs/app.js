@@ -25,6 +25,7 @@ const FILEBOT_CMD_GID = parseInt(process.env['FILEBOT_CMD_GID'], 10)
 
 const PUBLIC_HTML = CLIENT ? '/' : ''
 const ROUTES = new RegExp('^/[a-z]+$')
+const ASCII_ALNUM = new RegExp('^[a-zA-Z0-9]+$')
 
 const MIME_TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.gif': 'image/gif', '.json': 'application/json', '.log': 'text/plain; charset=utf-8'}
 const SYSTEM_FILES = /^([.@#].+|boot|srv|bin|initrd|opt|sbin|var|dev|lib|lib32|lib64|config|proc|sys|var.defaults|etc|lost.found|root|tmp|etc.defaults|mnt|run|usr|home|homes|external|rpc|.+[.]backupbundle|NetBackup|\w+_tmp|tmp_\w+|new_\w+|CACHEDEV\w+_DATA|HD\w+_DATA|System.Volume.Information|mysql|samba_third_party|tmpRoot)$/
@@ -598,11 +599,13 @@ function handleRequest(request, response) {
 
     if ('/output' == requestPath) {
         const id = options.id
-        if (id) {
-            return file(request, response, getLogFile(id), MIME_TYPES['.log'], false, false)
-        } else {
+        if (id == null) {
             return file(request, response, FILEBOT_LOG, MIME_TYPES['.log'], true, true)
         }
+        if (ASCII_ALNUM.test(id)) {
+            return file(request, response, getLogFile(id), MIME_TYPES['.log'], false, false)
+        }
+        return error(response, 'BAD ID')
     }
 
     if ('/state' == requestPath) {
