@@ -605,7 +605,7 @@ function handleRequest(request, response) {
         if (ASCII_ALNUM.test(id)) {
             return file(request, response, getLogFile(id), MIME_TYPES['.log'], false, false)
         }
-        return error(response, 'BAD ID')
+        return notFound(response)
     }
 
     if ('/state' == requestPath) {
