@@ -70,10 +70,12 @@ if (!fs.existsSync(FILEBOT_LOG)) {
 if (fs.existsSync(TASK_INDEX)) {
     fs.readFileSync(TASK_INDEX, {'encoding': 'UTF-8'}).split(/\n/).forEach(function(id) {
         if (id) {
-            var stats = fs.statSync(getLogFile(id))
-            var mtime = new Date(stats.mtime).getTime()
-
-            TASKS.push({ id: id, date: mtime, status: SCHEDULED_TASK_CODE })
+            const logFile = getLogFile(id)
+            if (fs.existsSync(logFile)) {
+                const stats = fs.statSync(logFile)
+                const mtime = new Date(stats.mtime).getTime()
+                TASKS.push({ id: id, date: mtime, status: SCHEDULED_TASK_CODE })
+            }
         }
     })
 }
