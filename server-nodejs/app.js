@@ -625,7 +625,7 @@ function handleRequest(request, response) {
 
     if ('/task' == requestPath) {
         const id = options.id
-        if (ASCII_ALNUM.test(id)) {
+        if (id && ASCII_ALNUM.test(id)) {
             return task(request, response, id)
         }
         return notFound(response)
