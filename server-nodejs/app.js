@@ -680,7 +680,7 @@ function ok(response, data, lastModified) {
     response.statusCode = 200
     response.setHeader('Content-Type', 'application/json')
     if (lastModified > 0) {
-        response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
+        response.setHeader('Cache-Control', 'private, max-age=0, no-cache, must-revalidate')
         response.setHeader('Last-Modified', new Date(lastModified).toUTCString())
     }
     response.end(JSON.stringify(result))
@@ -698,7 +698,7 @@ function file(request, response, file, contentType, cacheable, attachment) {
                 response.setHeader('Content-Type', contentType)
                 response.setHeader('Content-Length', stats.size)
                 if (attachment) response.setHeader('Content-Disposition', 'attachment; filename="' + path.basename(file) +'"')
-                if (!cacheable) response.setHeader('Cache-Control', 'Cache-Control: private, max-age=0, no-cache, must-revalidate')
+                if (!cacheable) response.setHeader('Cache-Control', 'private, max-age=0, no-cache, must-revalidate')
                 response.setHeader('Last-Modified', stats.mtime.toUTCString())
                 readStream.pipe(response) // response.end() is called automatically
             })
