@@ -16,6 +16,9 @@ Ext.define('FileBot.Application', {
     ],
 
     launch: function() {
+        // use the browser's native JSON.parse/stringify instead of Ext's eval-based fallback
+        Ext.USE_NATIVE_JSON = true
+
         FileBot.Node.init()
     }
 
