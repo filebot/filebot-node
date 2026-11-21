@@ -753,7 +753,7 @@ function auth(request, response, options) {
 
 function auth_fetch_site(request) {
     const site = request.headers['sec-fetch-site']
-    return site != 'cross-site' && site != 'same-site'
+    return site == null || site == '' || site == 'same-origin'
 }
 
 function auth_header(request, options) {
