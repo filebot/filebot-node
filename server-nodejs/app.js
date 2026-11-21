@@ -600,7 +600,7 @@ function handleRequest(request, response) {
     if ('/output' == requestPath) {
         const id = options.id
         if (id == null) {
-            return file(request, response, FILEBOT_LOG, MIME_TYPES['.log'], true, true)
+            return file(request, response, FILEBOT_LOG, MIME_TYPES['.log'], false, true)
         }
         if (ASCII_ALNUM.test(id)) {
             return file(request, response, getLogFile(id), MIME_TYPES['.log'], false, false)
@@ -683,7 +683,7 @@ function ok(response, data, lastModified) {
     response.setHeader('Content-Type', 'application/json')
     if (lastModified > 0) {
         response.setHeader('Cache-Control', 'private, max-age=0, no-cache, must-revalidate')
-        response.setHeader('Last-Modified', new Date(lastModified).toUTCString())
+        response.setHeader('Last-Modified', lastModifiedHeader(lastModified))
     }
     response.end(JSON.stringify(result))
 }
@@ -701,7 +701,7 @@ function file(request, response, file, contentType, cacheable, attachment) {
                 response.setHeader('Content-Length', stats.size)
                 if (attachment) response.setHeader('Content-Disposition', 'attachment; filename="' + path.basename(file) +'"')
                 if (!cacheable) response.setHeader('Cache-Control', 'private, max-age=0, no-cache, must-revalidate')
-                response.setHeader('Last-Modified', stats.mtime.toUTCString())
+                response.setHeader('Last-Modified', lastModifiedHeader(stats.mtime.getTime()))
                 readStream.pipe(response) // response.end() is called automatically
             })
             readStream.on('error', function(err) {
@@ -711,6 +711,15 @@ function file(request, response, file, contentType, cacheable, attachment) {
             return notModified(response)
         }
     })
+}
+
+// HTTP Last-Modified has only one-second precision: never send the current second (since the resource may still change within that second and then never update)
+function lastModifiedHeader(time) {
+    const now = Date.now()
+    if (Math.floor(time / 1000) < Math.floor(now / 1000)) {
+        return new Date(time).toUTCString()
+    }
+    return new Date(now - 1000).toUTCString()
 }
 
 function notModified(response) {
